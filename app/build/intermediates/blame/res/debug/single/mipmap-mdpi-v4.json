@@ -1,0 +1,90 @@
+[
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_rec_stop.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_rec_stop.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_rec_play.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_rec_play.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_share.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_share.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_logo_circle.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_logo_circle.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/bg.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/bg.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_settings.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_settings.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/bg_first_activity.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/bg_first_activity.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_user.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_user.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_rec_pause.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_rec_pause.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_menu.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_menu.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_ok.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_ok.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_rec.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_rec.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_launcher.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_login.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_login.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_edit.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_edit.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_email.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_email.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_key.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_key.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_delete.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_delete.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_map_marker.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_map_marker.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_microphone.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_microphone.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_note.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_note.png"
+    },
+    {
+        "merged": "/Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/res/merged/debug/mipmap-mdpi-v4/ic_password.png",
+        "source": "/Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/res/mipmap-mdpi/ic_password.png"
+    }
+]
