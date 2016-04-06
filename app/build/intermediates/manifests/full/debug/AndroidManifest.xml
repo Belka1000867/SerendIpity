@@ -12,6 +12,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- For Google Map API : to get right gps location coordinates -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- For Google Map API : to connect to location services -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!-- Include required permissions for Google Maps API to run. -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -28,7 +32,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.example.bel.softwarefactory.FirstActivity"
-            android:label="FirstPage"
+            android:label="Serendipity"
             android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +42,7 @@
         </activity>
         <activity
             android:name="com.example.bel.softwarefactory.Login"
-            android:label="Serendipity"
+            android:label="Login"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
@@ -72,6 +76,9 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
+        <service android:name="com.example.bel.softwarefactory.GeofenceTransitionsIntentService" />
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

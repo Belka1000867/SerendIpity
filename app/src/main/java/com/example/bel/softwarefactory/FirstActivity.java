@@ -3,6 +3,7 @@ package com.example.bel.softwarefactory;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -29,10 +30,13 @@ public class FirstActivity extends AppCompatActivity {
         //get reference to local store
         userLocalStore = new UserLocalStore(this);
 
+        isLoggedInUser();
+
         bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Login.class);
+                Intent intent;
+                intent = (userLocalStore.isFacebookLoggedIn() || userLocalStore.isUserLoggedIn()) ? new Intent(getBaseContext(), Menu.class) : new Intent(getBaseContext(), Login.class);
                 startActivity(intent);
             }
         });
@@ -55,19 +59,19 @@ public class FirstActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //measure installs on your mobile app ads
-        //log an app activation event for Facebook
-        //Logs 'install' and 'app activate' App Events
-        AppEventsLogger.activateApp(this);
+    public void isLoggedInUser(){
+        //if the user logged in as serendipity user and want to be remembered in the application
+        boolean serendipityUser = userLocalStore.isUserLoggedIn() && userLocalStore.isRememberMe();
+        //skip this page if user is logged in as facebook user or serendipity
+        if(serendipityUser || userLocalStore.isFacebookLoggedIn()){
+            goToMapActvity();
+        }
+        Log.d("DEBUG", "Serendipity : " + serendipityUser);
+        Log.d("DEBUG", "Facebook: " + userLocalStore.isFacebookLoggedIn());
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //logs 'app deactivate' app event for facebook
-        AppEventsLogger.deactivateApp(this);
+    public void goToMapActvity() {
+        Intent intent = new Intent(getApplicationContext(), Menu.class);
+        startActivity(intent);
     }
 }

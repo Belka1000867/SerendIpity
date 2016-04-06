@@ -20,14 +20,12 @@
         <item>Record ambient sounds</item>
         <item>Recording list</item>
         <item>Show a random place</item>
-        <item>Settings</item>
     </string-array>
     <string-array name="itemDescriptions">
         <item>Explore wonderful places</item>
         <item>Remember surrounding sounds</item>
         <item>Change your vision</item>
         <item>Get new experience</item>
-        <item>configure</item>
     </string-array>
     <string name="drawer_open">Open Navigation Drawer</string>
     <string name="drawer_close">Close Navigation Drawer</string>
@@ -43,4 +41,11 @@
     <string name="changes_password">Change Password</string>
     <string name="logout">Log Out</string>
     <string name="passwordNewConfirm">Confirm New Password</string>
+    <string name="cant_upload_it">File does not exist</string>
+    <string name="edit_record">Edit</string>
+    <string name="upload_record">Save</string>
+    <string name="delete_record">Delete</string>
+    <string name="is_delete_file">Are you sure you want to delete this record?</string>
+    <string name="is_edit_file">Enter new name of record</string>
+    <string name="cancel">Cancel</string>
 </resources>

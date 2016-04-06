@@ -1,165 +1,227 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:1:1-66:12
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:1:1-72:12
 	package
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:2:5-46
-		INJECTED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:2:5-46
+		INJECTED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:1:11-69
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:1:11-69
 	android:versionCode
-		INJECTED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml
 uses-permission#android.permission.INTERNET
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:4:5-66
-MERGED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:21:5-66
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:4:5-66
+MERGED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:21:5-66
+MERGED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:21:5-66
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:4:22-64
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:4:22-64
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:5:5-78
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:5:5-78
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:5:22-76
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:5:22-76
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:6:5-81
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:6:5-81
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:6:22-78
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:6:22-78
 uses-permission#android.permission.RECORD_AUDIO
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:7:5-71
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:7:5-71
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:7:22-68
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:7:22-68
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:11:5-80
+	android:name
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:11:22-78
 application
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:10:5-64:19
-MERGED from [com.android.support:appcompat-v7:23.1.1] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:27:5-20
-MERGED from [com.google.android.gms:play-services-basement:8.4.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:20:5-24:19
-MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:22:5-20
-MERGED from [com.facebook.android:facebook-android-sdk:4.10.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.10.0/AndroidManifest.xml:28:5-20
-MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:cardview-v7:23.2.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.2.0/AndroidManifest.xml:22:5-20
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:14:5-70:19
+MERGED from [com.android.support:appcompat-v7:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:animated-vector-drawable:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.2.0/AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-vector-drawable:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.2.0/AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.2.0/AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:27:5-20
+MERGED from [com.google.android.gms:play-services-basement:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-location:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/8.4.0/AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-basement:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:27:5-20
+MERGED from [com.google.android.gms:play-services-basement:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:22:5-20
+MERGED from [com.facebook.android:facebook-android-sdk:4.9.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.9.0/AndroidManifest.xml:28:5-20
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:cardview-v7:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.2.0/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:appcompat-v7:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:animated-vector-drawable:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.2.0/AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-vector-drawable:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.2.0/AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.2.0/AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:22:5-20
 	android:label
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:13:9-41
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:17:9-41
 	android:supportsRtl
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:14:9-35
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:18:9-35
 	android:allowBackup
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:11:9-35
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:15:9-35
 	android:icon
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:12:9-46
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:16:9-46
 	android:theme
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:15:9-40
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:19:9-40
 activity#com.example.bel.softwarefactory.FirstActivity
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:17:9-24:20
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:21:9-28:20
 	android:label
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:18:13-38
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:22:13-40
 	android:theme
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:19:13-44
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:23:13-44
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:17:19-48
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:21:19-48
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:20:13-23:29
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:24:13-27:29
 action#android.intent.action.MAIN
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:21:17-68
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:25:17-68
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:21:25-66
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:25:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:22:17-76
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:26:17-76
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:22:27-74
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:26:27-74
 activity#com.example.bel.softwarefactory.Login
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:26:9-29:20
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:30:9-33:20
 	android:label
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:27:13-40
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:31:13-34
 	android:theme
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:28:13-44
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:32:13-44
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:26:19-40
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:30:19-40
 activity#com.example.bel.softwarefactory.Register
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:31:9-34:20
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:35:9-38:20
 	android:label
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:32:13-41
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:36:13-41
 	android:theme
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:33:13-44
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:37:13-44
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:31:19-43
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:35:19-43
 activity#com.example.bel.softwarefactory.Menu
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:36:9-40:20
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:40:9-44:20
 	android:label
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:37:13-32
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:41:13-32
 	android:theme
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:38:13-44
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:42:13-44
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:36:19-39
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:40:19-39
 activity#com.example.bel.softwarefactory.Profile
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:42:9-49:20
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:46:9-53:20
 	android:label
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:43:13-36
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:47:13-36
 	android:parentActivityName
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:45:13-47
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:49:13-47
 	android:theme
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:44:13-44
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:48:13-44
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:42:19-42
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:46:19-42
 meta-data#android.support.PARENT_ACTIVITY
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:46:13-48:41
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:50:13-52:41
 	android:value
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:48:17-38
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:52:17-38
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:47:17-63
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:51:17-63
 activity#com.facebook.FacebookActivity
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:50:9-54:48
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:54:9-58:48
 	android:label
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:54:13-45
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:58:13-45
 	android:configChanges
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:51:13-113
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:55:13-113
 	android:theme
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:53:13-72
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:57:13-72
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:50:19-63
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:54:19-63
 meta-data#com.google.android.geo.API_KEY
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:57:9-59:70
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:61:9-63:70
 	android:value
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:59:13-68
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:63:13-68
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:58:13-58
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:62:13-58
 meta-data#com.facebook.sdk.ApplicationId
-ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:61:9-63:54
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:65:9-67:54
 	android:value
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:63:13-52
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:67:13-52
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml:62:13-58
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:66:13-58
+service#com.example.bel.softwarefactory.GeofenceTransitionsIntentService
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:69:9-68
+	android:name
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:69:18-66
 uses-sdk
-INJECTED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-MERGED from [com.android.support:appcompat-v7:23.1.1] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:20:5-43
-MERGED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:26:5-42
-MERGED from [com.google.android.gms:play-services-base:8.4.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/AndroidManifest.xml:18:5-42
-MERGED from [com.google.android.gms:play-services-basement:8.4.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:18:5-42
-MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:20:5-43
-MERGED from [com.facebook.android:facebook-android-sdk:4.10.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.10.0/AndroidManifest.xml:24:5-26:41
-MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:cardview-v7:23.2.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.2.0/AndroidManifest.xml:20:5-43
+INJECTED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [com.android.support:appcompat-v7:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:animated-vector-drawable:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.2.0/AndroidManifest.xml:5:5-44
+MERGED from [com.android.support:support-vector-drawable:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.2.0/AndroidManifest.xml:5:5-43
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-vector-drawable:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.2.0/AndroidManifest.xml:5:5-43
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:26:5-42
+MERGED from [com.google.android.gms:play-services-base:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-basement:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-location:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/8.4.0/AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-base:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-basement:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:26:5-42
+MERGED from [com.google.android.gms:play-services-base:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.4.0/AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-basement:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:20:5-43
+MERGED from [com.facebook.android:facebook-android-sdk:4.9.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.9.0/AndroidManifest.xml:24:5-26:41
+MERGED from [com.android.support:multidex:1.0.1] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/multidex/1.0.1/AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:cardview-v7:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.2.0/AndroidManifest.xml:20:5-43
+MERGED from [com.trello:rxlifecycle:0.5.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.trello/rxlifecycle/0.5.0/AndroidManifest.xml:17:5-44
+MERGED from [com.jakewharton.rxbinding:rxbinding:0.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.jakewharton.rxbinding/rxbinding/0.4.0/AndroidManifest.xml:6:5-44
+MERGED from [io.reactivex:rxandroid:1.1.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/io.reactivex/rxandroid/1.1.0/AndroidManifest.xml:19:5-43
+MERGED from [io.reactivex:rxandroid:1.1.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/io.reactivex/rxandroid/1.1.0/AndroidManifest.xml:19:5-43
+MERGED from [com.trello:rxlifecycle-components:0.5.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.trello/rxlifecycle-components/0.5.0/AndroidManifest.xml:17:5-44
+MERGED from [com.android.support:appcompat-v7:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:animated-vector-drawable:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.2.0/AndroidManifest.xml:5:5-44
+MERGED from [com.android.support:support-vector-drawable:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.2.0/AndroidManifest.xml:5:5-43
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-vector-drawable:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.2.0/AndroidManifest.xml:5:5-43
+MERGED from [com.android.support:support-v4:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/AndroidManifest.xml:20:5-43
+MERGED from [com.trello:rxlifecycle:0.5.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.trello/rxlifecycle/0.5.0/AndroidManifest.xml:17:5-44
+MERGED from [com.jakewharton.rxbinding:rxbinding:0.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.jakewharton.rxbinding/rxbinding/0.4.0/AndroidManifest.xml:6:5-44
+MERGED from [io.reactivex:rxandroid:1.1.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/io.reactivex/rxandroid/1.1.0/AndroidManifest.xml:19:5-43
+	tools:overrideLibrary
+		ADDED from [com.android.support:appcompat-v7:23.2.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/AndroidManifest.xml:23:9-75
 	android:targetSdkVersion
-		INJECTED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/bel/AndroidStudioProjects/aSerendipity/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:20:5-78
+ADDED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:20:5-78
+MERGED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:20:5-78
 	android:name
-		ADDED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:20:22-76
+		ADDED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:20:22-76
 uses-feature#0x00020000
-ADDED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:22:5-24:33
+ADDED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:22:5-24:33
+MERGED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:22:5-24:33
 	android:glEsVersion
-		ADDED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:23:8-40
+		ADDED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:23:8-40
 	android:required
-		ADDED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:24:8-31
+		ADDED from [com.google.android.gms:play-services-maps:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/8.4.0/AndroidManifest.xml:24:8-31
 meta-data#com.google.android.gms.version
-ADDED from [com.google.android.gms:play-services-basement:8.4.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:21:9-23:69
+ADDED from [com.google.android.gms:play-services-basement:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-basement:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:21:9-23:69
+MERGED from [com.google.android.gms:play-services-basement:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:21:9-23:69
 	android:value
-		ADDED from [com.google.android.gms:play-services-basement:8.4.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:23:13-66
+		ADDED from [com.google.android.gms:play-services-basement:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:23:13-66
 	android:name
-		ADDED from [com.google.android.gms:play-services-basement:8.4.0] /Users/bel/AndroidStudioProjects/aSerendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:22:13-58
+		ADDED from [com.google.android.gms:play-services-basement:8.4.0] /Users/bel/AndroidStudioProjects/Serendipity/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.4.0/AndroidManifest.xml:22:13-58

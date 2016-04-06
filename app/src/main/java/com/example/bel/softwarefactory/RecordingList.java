@@ -23,4 +23,14 @@ public class RecordingList extends Fragment {
     public void onPause() {
         super.onPause();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            getActivity().getActionBar().setTitle("Recording list");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

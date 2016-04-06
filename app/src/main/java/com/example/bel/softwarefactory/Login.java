@@ -3,6 +3,8 @@ package com.example.bel.softwarefactory;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -21,45 +23,42 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.URL;
+
 /**
  * Created by Bel on 18.02.2016.
  */
 public class Login extends AppCompatActivity {
 
-    EditText etLogin;
-    EditText etPassword;
-    ImageButton ibLogin;
-    TextView tvForgetPassword;
-    TextView tvRegistration;
-    CheckBox cbRememberMe;
+    private EditText etLogin, etPassword;
+    private ImageButton ibLogin;
+    private TextView tvForgetPassword, tvRegistration;
+    private CheckBox cbRememberMe;
 
-    private LoginButton facebookLoginButton;
+    //facebook button and callback manager
     private CallbackManager facebookCallbackManager;
 
     //user data
-    UserLocalStore userLocalStore;
+    private UserLocalStore userLocalStore;
+
+    private static final String DEBUG_TAG = "Debug_Login";
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        if(userLocalStore.isUserLoggedIn() && userLocalStore.isRememberMe() ){
-            displayUserDetails();
-            cbRememberMe.setChecked(userLocalStore.isRememberMe());
-        }
-    }
-
-    private void displayUserDetails(){
-        User user = userLocalStore.getLoggedInUserData();
-
-        etLogin.setText(user.getEmail());
-        etPassword.setText(user.getPassword());
+//        if(serendipityUser){
+//            displayUserDetails();
+//            cbRememberMe.setChecked(userLocalStore.isRememberMe());
+//        }
     }
 
     @Override
@@ -72,17 +71,18 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.login);
 
         //facebook button initialization
-        facebookLoginButton = (LoginButton)findViewById(R.id.login_button);
+        LoginButton facebookLoginButton = (LoginButton)findViewById(R.id.login_button);
         facebookLoginButton.setReadPermissions("email","public_profile");
 
 
         facebookLoginButton.registerCallback(facebookCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                Log.d(DEBUG_TAG, "Facebook_OnSuccess()");
                 getFacebookUserData();
-                userLocalStore.setFacebookLogin(true);
-                //logUserIn(returnedUser);
-                //goToMapActvity();
+                userLocalStore.setFacebookLoggedIn(true);
+
+                goToMapActvity();
             }
 
             @Override
@@ -119,6 +119,7 @@ public class Login extends AppCompatActivity {
         ibLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(DEBUG_TAG, "LoginOnClick()");
                 String email = etLogin.getText().toString();
                 String password = etPassword.getText().toString();
                 String username = "";
@@ -148,6 +149,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void authenticate(User user){
+        Log.d(DEBUG_TAG, "authenticate()");
         ServerRequests serverRequests = new ServerRequests(this);
         serverRequests.fetchUserDataInBackground(user, new GetUserCallback() {
             @Override
@@ -163,12 +165,14 @@ public class Login extends AppCompatActivity {
     }
 
     private void logUserIn(User returnedUser){
+        Log.d(DEBUG_TAG, "logUserIn()");
         //store loggedIn user data in the class file
         userLocalStore.storeUserData(returnedUser);
         userLocalStore.setUserLoggedIn(true);
     }
 
     private void goToMapActvity(){
+        Log.d(DEBUG_TAG, "goToMapActvity()");
         Intent intent = new Intent(getApplicationContext(), Menu.class);
         startActivity(intent);
     }
@@ -243,33 +247,52 @@ public class Login extends AppCompatActivity {
         GraphRequest graphRequest = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
-                //Log.d("DEBUG", response.toString());
-                //Log.d("DEBUG", object.toString());
+                User userLogging = null;
+                try {
+                    userLogging = new User(object.getString("name"), object.getString("email"), "");
+                    userLocalStore.setFacebookId(object.getLong("id"));
 
-                Bundle bundle = logInAsFacebookUser(object);
-                User user = new User(bundle.getString("name", ""), bundle.getString("email", ""));
-                logUserIn(user);
-                goToMapActvity();
+                    if(object.has("picture")) {
+                        String profilePicUrl = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                        userLocalStore.setProfilePictureUrl(profilePicUrl);
+                        Log.d(DEBUG_TAG, "Profile picture url :  " + userLocalStore.getProfilePictureUrl());
+                    }
+                    Log.d(DEBUG_TAG, "facebook id " + userLocalStore.getFaceboookId());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if(userLogging!=null)
+                    logUserIn(userLogging);
+
+                Log.d(DEBUG_TAG, "getFacebookUserData()" + userLocalStore.isUserLoggedIn());
             }
         });
-
+        /*
+        * 1. Put the string of variables into request
+        * 2. Execute request
+        * */
         Bundle bundle = new Bundle();
-        bundle.putString("fields","first_name, last_name, name, name_format, email");
+        bundle.putString("fields","id, first_name, last_name, name, name_format, email, picture");
         graphRequest.setParameters(bundle);
         graphRequest.executeAsync();
     }
 
-    private Bundle logInAsFacebookUser(JSONObject jsonObject){
-        Bundle bundle = new Bundle();
-
-        try {
-            bundle.putString("name", jsonObject.getString("name"));
-            bundle.putString("email", jsonObject.getString("email"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return bundle;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //measure installs on your mobile app ads
+        //log an app activation event for Facebook
+        //Logs 'install' and 'app activate' App Events
+        AppEventsLogger.activateApp(this);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //logs 'app deactivate' app event for facebook
+        AppEventsLogger.deactivateApp(this);
+    }
+
 }
 

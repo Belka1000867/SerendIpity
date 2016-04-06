@@ -41,7 +41,7 @@ public class ServerRequests {
     public byte[] buffer;
     public int bytesAvailable;
     public int bytesRead;
-    public int maxBufferSize = 100 * 1024 * 1024;
+    public int maxBufferSize = 10 * 1024 * 1024;
 
 
     public ServerRequests(Context context){

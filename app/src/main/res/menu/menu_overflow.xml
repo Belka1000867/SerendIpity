@@ -5,18 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <item
+<!--    <item
         android:id="@+id/overflowItemSettings"
         android:icon="@mipmap/ic_settings"
         android:title="@string/settings"
         app:showAsAction="ifRoom">
-    </item>
-    <item
+    </item>-->
+<!--    <item
         android:id="@+id/overflowItemAbout"
         android:title="@string/about"
         android:icon="@mipmap/ic_settings"
         >
-    </item>
+    </item>-->
     <item
         android:id="@+id/overflowItemLogOut"
         android:title="@string/logout"

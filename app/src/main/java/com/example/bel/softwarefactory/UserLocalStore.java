@@ -3,15 +3,17 @@ package com.example.bel.softwarefactory;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.net.URL;
+
 /**
  * Created by Bel on 21.02.2016.
  */
 public class UserLocalStore {
 
     // sharedp references file 'userData' for user information where we save all settings about the account of loggedIn user
-    public static final String LOCAL_STORE_NAME = "userData";
-    SharedPreferences userLocalDatabase;
-    SharedPreferences.Editor spEditor;
+    private static final String LOCAL_STORE_NAME = "userData";
+    private SharedPreferences userLocalDatabase;
+    private SharedPreferences.Editor spEditor;
 
     public UserLocalStore(Context context){
         userLocalDatabase = context.getSharedPreferences(LOCAL_STORE_NAME, Context.MODE_PRIVATE);
@@ -84,14 +86,55 @@ public class UserLocalStore {
     }
 
 
-    public void setFacebookLogin(boolean facebookLogin){
+    public void setFacebookLoggedIn(boolean facebookLogin){
         spEditor = userLocalDatabase.edit();
         spEditor.putBoolean("facebookLogin", facebookLogin);
         spEditor.apply();
     }
 
-    public boolean isFacebookLogin(){
+    public boolean isFacebookLoggedIn(){
         return userLocalDatabase.getBoolean("facebookLogin", false);
     }
+
+    public void setFacebookId(long id){
+        spEditor = userLocalDatabase.edit();
+        spEditor.putLong("facebookId", id);
+        spEditor.apply();
+    }
+
+    public long getFaceboookId(){
+        return userLocalDatabase.getLong("facebookId", -1);
+    }
+
+    public void setProfilePictureUrl(String url){
+        spEditor = userLocalDatabase.edit();
+        spEditor.putString("profilePictureUrl", url);
+        spEditor.apply();
+    }
+
+    public String getProfilePictureUrl(){
+        return userLocalDatabase.getString("profilePictureUrl", null);
+    }
+
+    public void setLastLatitude(Double latitude){
+        spEditor = userLocalDatabase.edit();
+        spEditor.putString("Latitude", Double.toString(latitude));
+        spEditor.apply();
+    }
+
+    public String getLastLatitude(){
+        return userLocalDatabase.getString("Latitude", null);
+    }
+
+    public void setLastLongitude(Double longitude){
+        spEditor = userLocalDatabase.edit();
+        spEditor.putString("Longitude", Double.toString(longitude));
+        spEditor.apply();
+    }
+
+    public String getLastLongitude(){
+        return userLocalDatabase.getString("Longitude", null);
+    }
+
 }
 
