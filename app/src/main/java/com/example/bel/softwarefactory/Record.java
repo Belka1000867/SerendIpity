@@ -212,7 +212,7 @@ public class Record extends Fragment {
         private class TimerRecord implements Runnable {
             @Override
             public void run() {
-                Log.d(RECORD_TAG, "" + sfRecordButton.getSfStartRecording());
+                Log.d(RECORD_TAG, "TimeRecord run()" + sfRecordButton.getSfStartRecording());
                 while (!sfRecordButton.getSfStartRecording()) {
                     ++curTime;
                     try {
@@ -260,6 +260,7 @@ public class Record extends Fragment {
             super(ctx);
             setImageResource(R.mipmap.ic_rec_play);
             setOnClickListener(clicker);
+            setVisibility(View.GONE);
         }
 
         OnClickListener clicker = new OnClickListener() {
@@ -316,13 +317,15 @@ public class Record extends Fragment {
         }
 
         public void enable() {
-            setEnabled(true);
-            setAlpha(1f);
+            setVisibility(View.VISIBLE);
+            //setEnabled(true);
+            //setAlpha(1f);
         }
 
         public void disable() {
-            setEnabled(false);
-            setAlpha(0.5f);
+            setVisibility(View.GONE);
+            //setEnabled(false);
+            //setAlpha(0.5f);
         }
 
     }
