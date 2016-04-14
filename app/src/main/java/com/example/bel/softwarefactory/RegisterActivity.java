@@ -13,7 +13,7 @@ import android.widget.Toast;
 /**
  * Created by Bel on 19.02.2016.
  */
-public class Register extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     EditText etUsername;
     EditText etEmail;
@@ -77,7 +77,7 @@ public class Register extends AppCompatActivity {
         tvSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Login.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -99,7 +99,7 @@ public class Register extends AppCompatActivity {
         serverRequests.storeUserDataInBackground(user, new GetUserCallback() {
             @Override
             public void done(User returnedUser) {
-                Intent intent = new Intent(Register.this, Login.class);
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
                 showToast("Registration successful. Please, Login.");
             }

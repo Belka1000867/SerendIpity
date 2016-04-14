@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
@@ -19,7 +18,7 @@ import android.widget.TextView;
 /**
  * Created by bel on 09.03.16.
  */
-public class Profile extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     TextView tvUserName;
     EditText etUser, etEmail, etPass, etPassConf;
@@ -83,7 +82,7 @@ public class Profile extends AppCompatActivity {
     }
 
     private void showErrorMessage(String text){
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Profile.this);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ProfileActivity.this);
         //create textview with centralized text
         TextView message = new TextView(this);
         message.setText(text);
@@ -120,9 +119,9 @@ public class Profile extends AppCompatActivity {
 
         if (isNameChanging || isEmailChanging) {
             if (isEmailValid(email)) {
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Profile.this);
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ProfileActivity.this);
                 //create EditText inside of the Alert
-                final EditText input = new EditText(Profile.this);
+                final EditText input = new EditText(ProfileActivity.this);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.MATCH_PARENT);
@@ -142,7 +141,7 @@ public class Profile extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         if (input.getText().toString().equals(userLocalStore.getPassword())) {
 
-                            ServerRequests serverRequests = new ServerRequests(Profile.this);
+                            ServerRequests serverRequests = new ServerRequests(ProfileActivity.this);
                             serverRequests.changeUserData(usernameToChange, emailToChange, previousEmail, new GetUserCallback() {
                                 @Override
                                 public void done(User returnedUser) {
@@ -175,9 +174,9 @@ public class Profile extends AppCompatActivity {
         String passwordConf = etPassConf.getText().toString();
 
         if(password.equals(passwordConf)){
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Profile.this);
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ProfileActivity.this);
             //create EditText inside of the Alert
-            final EditText input = new EditText(Profile.this);
+            final EditText input = new EditText(ProfileActivity.this);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.MATCH_PARENT);
@@ -196,7 +195,7 @@ public class Profile extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     if (input.getText().toString().equals(userLocalStore.getPassword())) {
 
-                        ServerRequests serverRequests = new ServerRequests(Profile.this);
+                        ServerRequests serverRequests = new ServerRequests(ProfileActivity.this);
                         serverRequests.changePassword(userLocalStore.getEmail(), password);
                     }
                     else

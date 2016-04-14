@@ -41,28 +41,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.bel.softwarefactory.Login"
+            android:name="com.example.bel.softwarefactory.LoginActivity"
             android:label="Login"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="com.example.bel.softwarefactory.Register"
+            android:name="com.example.bel.softwarefactory.RegisterActivity"
             android:label="Registration"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="com.example.bel.softwarefactory.Menu"
+            android:name="com.example.bel.softwarefactory.MenuActivity"
             android:label="Map"
             android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name="com.example.bel.softwarefactory.Profile"
+            android:name="com.example.bel.softwarefactory.ProfileActivity"
             android:label="Profile"
-            android:parentActivityName="com.example.bel.softwarefactory.Menu"
+            android:parentActivityName="com.example.bel.softwarefactory.MenuActivity"
             android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Menu" />
+                android:value=".MenuActivity" />
         </activity>
         <activity
             android:name="com.facebook.FacebookActivity"

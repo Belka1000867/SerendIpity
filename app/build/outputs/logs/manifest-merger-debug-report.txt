@@ -91,44 +91,44 @@ category#android.intent.category.LAUNCHER
 ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:26:17-76
 	android:name
 		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:26:27-74
-activity#com.example.bel.softwarefactory.Login
+activity#com.example.bel.softwarefactory.LoginActivity
 ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:30:9-33:20
 	android:label
 		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:31:13-34
 	android:theme
 		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:32:13-44
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:30:19-40
-activity#com.example.bel.softwarefactory.Register
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:30:19-48
+activity#com.example.bel.softwarefactory.RegisterActivity
 ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:35:9-38:20
 	android:label
 		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:36:13-41
 	android:theme
 		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:37:13-44
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:35:19-43
-activity#com.example.bel.softwarefactory.Menu
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:35:19-51
+activity#com.example.bel.softwarefactory.MenuActivity
 ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:40:9-44:20
 	android:label
 		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:41:13-32
 	android:theme
 		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:42:13-44
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:40:19-39
-activity#com.example.bel.softwarefactory.Profile
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:40:19-47
+activity#com.example.bel.softwarefactory.ProfileActivity
 ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:46:9-53:20
 	android:label
 		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:47:13-36
 	android:parentActivityName
-		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:49:13-47
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:49:13-55
 	android:theme
 		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:48:13-44
 	android:name
-		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:46:19-42
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:46:19-50
 meta-data#android.support.PARENT_ACTIVITY
-ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:50:13-52:41
+ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:50:13-52:49
 	android:value
-		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:52:17-38
+		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:52:17-46
 	android:name
 		ADDED from /Users/bel/AndroidStudioProjects/Serendipity/app/src/main/AndroidManifest.xml:51:17-63
 activity#com.facebook.FacebookActivity

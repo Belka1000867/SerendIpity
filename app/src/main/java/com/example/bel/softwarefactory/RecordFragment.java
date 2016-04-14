@@ -33,7 +33,7 @@ import java.util.Calendar;
 /**
  * Created by Bel on 24.02.2016.
  */
-public class Record extends Fragment {
+public class RecordFragment extends Fragment {
 
     private MediaPlayer mediaPlayer;
     private MediaRecorder recorder;
@@ -108,45 +108,53 @@ public class Record extends Fragment {
     }
 
     class RecordButton extends ImageButton {
-        private boolean sfStartRecording;
+        private boolean isRecording;
         private MessageHandler messageHandler = new MessageHandler();
         private int curTime;
+        private boolean isRecordSaved = false;
 
         public RecordButton(Context ctx) {
             super(ctx);
             setImageResource(R.mipmap.ic_rec);
             setOnClickListener(clicker);
-            setSfStartRecording(true);
+            setRecording(true);
+        }
+
+        public void setRecording(boolean recording) {
+            this.isRecording = recording;
+        }
+
+        public boolean getRecording() {
+            return isRecording;
         }
 
         OnClickListener clicker = new OnClickListener() {
             public void onClick(View v) {
                 //function to check recording
-                if (getSfStartRecording()) {
+                if (isRecording) {
+                    setRecording(!isRecording);
                     //change the image to stop
                     setImageResource(R.mipmap.ic_rec_stop);
                     //Start recording the sound
                     StartRecord();
                     sfPlayButton.disable();
-
                 } else {
+                    setRecording(!isRecording);
                     //change image to recording
                     setImageResource(R.mipmap.ic_rec);
                     //function to Stop recording
                     StopRecord();
                     sfPlayButton.enable();
-
-//                    Toast toast = Toast.makeText(getContext(), "Recording successful.", Toast.LENGTH_LONG);
-//                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-//                    toast.show();
                 }
-                setSfStartRecording(!sfStartRecording);
+                Log.d(RECORD_TAG, "RecordButton onClick() isRecording : " + isRecording);
             }
         };
 
         public void StartRecord() {
             ditchMediarecorder();
-
+            /*
+            * Check if there is existing file, then delete
+            * */
             File outputFile = new File(getRecordPath());
             if (outputFile.exists()) {
                 outputFile.delete();
@@ -154,6 +162,9 @@ public class Record extends Fragment {
             //initialize file name of the time when the recording is done
             recordName = getCurrentDate();
 
+            /*
+            * Initialize media recorder and start recording
+            * */
             recorder = new MediaRecorder();
             recorder.setAudioSource(AppConstants.AUDIO_SOURCE);
             recorder.setOutputFormat(AppConstants.OUTPUT_FORMAT);
@@ -186,17 +197,9 @@ public class Record extends Fragment {
 
         public void startTimerCounting() {
             curTime = 0;
-            fillTimer("0", "0", "0");
+            fillTimer("0","0","0");
             Thread thread = new Thread(new TimerRecord());
             thread.start();
-        }
-
-        public void setSfStartRecording(boolean sfStartRecording) {
-            this.sfStartRecording = sfStartRecording;
-        }
-
-        public boolean getSfStartRecording() {
-            return sfStartRecording;
         }
 
         public void enable() {
@@ -212,8 +215,8 @@ public class Record extends Fragment {
         private class TimerRecord implements Runnable {
             @Override
             public void run() {
-                Log.d(RECORD_TAG, "TimeRecord run()" + sfRecordButton.getSfStartRecording());
-                while (!sfRecordButton.getSfStartRecording()) {
+                Log.d(RECORD_TAG, "TimeRecord run() isRecording" + getRecording());
+                while (!getRecording()) {
                     ++curTime;
                     try {
                         Thread.sleep(1000);
@@ -450,19 +453,16 @@ public class Record extends Fragment {
                     String owner = userLocalStore.isFacebookLoggedIn() ? userLocalStore.getFaceboookId()+"" : userLocalStore.getEmail();
                     Log.d(RECORD_TAG, "uploadRecordingToServer for owner " + owner);
 
-
                     /*
                     * Change fragment to map in order to get the location
                     * */
                     FragmentManager mFragmentManager = getFragmentManager();
-                    Fragment map = new Map();
                     mFragmentManager.beginTransaction()
-                            .replace(R.id.frameLayoutMainContent, map, "Map")
+                            .replace(R.id.frameLayoutMainContent, new Map(), "Map")
                             .addToBackStack(null)
                             .commit();
 
                     uploadRecordingToServer(outputFile, owner);
-
                 }
             }
         });

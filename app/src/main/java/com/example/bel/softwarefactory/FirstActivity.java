@@ -7,8 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.facebook.appevents.AppEventsLogger;
-
 /**
  * Created by bel on 09.03.16.
  */
@@ -36,7 +34,7 @@ public class FirstActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent;
-                intent = (userLocalStore.isFacebookLoggedIn() || userLocalStore.isUserLoggedIn()) ? new Intent(getBaseContext(), Menu.class) : new Intent(getBaseContext(), Login.class);
+                intent = (userLocalStore.isFacebookLoggedIn() || userLocalStore.isUserLoggedIn()) ? new Intent(getBaseContext(), MenuActivity.class) : new Intent(getBaseContext(), LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -44,7 +42,7 @@ public class FirstActivity extends AppCompatActivity {
         bRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Register.class);
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(intent);
             }
         });
@@ -53,7 +51,7 @@ public class FirstActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 userLocalStore.setUserLoggedIn(false);
-                Intent intent = new Intent(getApplicationContext(), Menu.class);
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                 startActivity(intent);
             }
         });
@@ -71,7 +69,7 @@ public class FirstActivity extends AppCompatActivity {
     }
 
     public void goToMapActvity() {
-        Intent intent = new Intent(getApplicationContext(), Menu.class);
+        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
         startActivity(intent);
     }
 }

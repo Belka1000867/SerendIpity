@@ -39,7 +39,7 @@ import java.util.ArrayList;
 /**
  * Created by Bel on 22.02.2016.
  */
-public class Menu extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MenuActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -179,7 +179,7 @@ public class Menu extends AppCompatActivity implements AdapterView.OnItemClickLi
             relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), Profile.class);
+                    Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                     startActivity(intent);
                 }
             });
@@ -207,14 +207,14 @@ public class Menu extends AppCompatActivity implements AdapterView.OnItemClickLi
         //SET PARAMS for IMAGE VIEW with USER PROFILE INFO
 
         if(userLocalStore.isFacebookLoggedIn()){
-            //Bitmap profilePicture = getFacebookProfilePicture(userLocalStore.getProfilePictureUrl());
             new GetProfilePicture().execute();
         }
         else {
             ivUserPhoto.setImageResource(R.mipmap.ic_user);
         }
+
         ivUserPhoto.setContentDescription("Profile photo");
-        ivUserPhoto.setBackgroundColor(Color.WHITE);
+        ivUserPhoto.setBackgroundColor(Color.TRANSPARENT);
         RelativeLayout.LayoutParams paramsUserPhoto = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         paramsUserPhoto.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         paramsUserPhoto.addRule(RelativeLayout.CENTER_VERTICAL);
@@ -223,7 +223,6 @@ public class Menu extends AppCompatActivity implements AdapterView.OnItemClickLi
         relativeLayout.addView(ivUserPhoto);
 
         //setting params finished
-
 
         //Add layout to the header
         rlMainMenu.addView(relativeLayout);
@@ -265,7 +264,7 @@ public class Menu extends AppCompatActivity implements AdapterView.OnItemClickLi
                     /*
                     * Check if user logout in record fragment, then go to map fragment
                     * */
-                    Record recordFragment = (Record) getSupportFragmentManager().findFragmentByTag("Record");
+                    RecordFragment recordFragment = (RecordFragment) getSupportFragmentManager().findFragmentByTag("Record");
                     if(recordFragment != null && recordFragment.isVisible()){
                         selectItem(0);
                     }
@@ -314,7 +313,7 @@ public class Menu extends AppCompatActivity implements AdapterView.OnItemClickLi
                     mPrevItem = 0;
                     break;
                 case 1:
-                    menuFragment = new Record();
+                    menuFragment = new RecordFragment();
 
                     if (userLocalStore.isUserLoggedIn()) {
                         menuFragmentManager.beginTransaction()
@@ -333,7 +332,7 @@ public class Menu extends AppCompatActivity implements AdapterView.OnItemClickLi
 
                     break;
                 case 2:
-                    menuFragment = new RecordingList();
+                    menuFragment = new RecordingListFragment();
                     menuFragmentManager.beginTransaction()
                             .replace(R.id.frameLayoutMainContent, menuFragment, "RecordList")
                             .addToBackStack(null)
@@ -357,7 +356,7 @@ public class Menu extends AppCompatActivity implements AdapterView.OnItemClickLi
 
         alertDialog.setPositiveButton("Go to Login", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(getApplicationContext(), Login.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -434,6 +433,8 @@ public class Menu extends AppCompatActivity implements AdapterView.OnItemClickLi
             super.onPostExecute(bitmap);
             if(bitmap!=null)
                 ivUserPhoto.setImageBitmap(bitmap);
+            else
+                ivUserPhoto.setImageResource(R.mipmap.ic_user);
         }
     }
 }

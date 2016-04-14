@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 /**
  * Created by Bel on 25.02.2016.
  */
-public class RecordingList extends Fragment {
+public class RecordingListFragment extends Fragment {
 
     @Nullable
     @Override

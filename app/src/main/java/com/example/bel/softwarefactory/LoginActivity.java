@@ -3,8 +3,6 @@ package com.example.bel.softwarefactory;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -30,13 +28,10 @@ import com.facebook.login.widget.LoginButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.URL;
-
 /**
  * Created by Bel on 18.02.2016.
  */
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private EditText etLogin, etPassword;
     private ImageButton ibLogin;
@@ -135,7 +130,7 @@ public class Login extends AppCompatActivity {
         tvRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Register.class);
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(intent);
             }
         });
@@ -173,12 +168,12 @@ public class Login extends AppCompatActivity {
 
     private void goToMapActvity(){
         Log.d(DEBUG_TAG, "goToMapActvity()");
-        Intent intent = new Intent(getApplicationContext(), Menu.class);
+        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
         startActivity(intent);
     }
 
     private void showErrorMessage(String text){
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Login.this);
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
         //create textview with centralized text
         TextView message = new TextView(this);
         message.setText(text);
@@ -194,7 +189,7 @@ public class Login extends AppCompatActivity {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("Reset Password");
 
-        final EditText input = new EditText(Login.this);
+        final EditText input = new EditText(LoginActivity.this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
@@ -212,7 +207,7 @@ public class Login extends AppCompatActivity {
                 String email = input.getText().toString();
                 if (isEmailValid(email)) {
                     Log.d("DEBUG", "requesting password reset");
-                    ServerRequests serverRequests = new ServerRequests(Login.this);
+                    ServerRequests serverRequests = new ServerRequests(LoginActivity.this);
                     serverRequests.requestPassword(email);
                     showErrorMessage("Password Reset Request sent to email");
                 } else{
