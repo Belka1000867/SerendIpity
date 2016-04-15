@@ -1,4 +1,4 @@
-package com.example.bel.softwarefactory;
+package com.example.bel.softwarefactory.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,29 +7,30 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.bel.softwarefactory.NavItem;
+import com.example.bel.softwarefactory.R;
+
 import java.util.ArrayList;
 
-/**
- * Created by Bel on 24.02.2016.
- */
 public class DrawerListAdapter extends BaseAdapter {
 
-    Context context;
-    ArrayList<NavItem> aNavItems;
+    private Context context;
+    private ArrayList<NavItem> navItems;
 
-    public DrawerListAdapter(Context context, ArrayList<NavItem> aNavItems) {
+    public DrawerListAdapter(Context context, ArrayList<NavItem> navItems) {
         this.context = context;
-        this.aNavItems = aNavItems;
+        this.navItems = navItems;
     }
 
     @Override
     public int getCount() {
-        return aNavItems.size();
+        return navItems.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return aNavItems.get(position);
+        return navItems.get(position);
     }
 
     @Override
@@ -54,9 +55,9 @@ public class DrawerListAdapter extends BaseAdapter {
         TextView subtitleView = (TextView) view.findViewById(R.id.description);
         ImageView iconView = (ImageView) view.findViewById(R.id.icon);
 
-        titleView.setText(aNavItems.get(position).title);
-        subtitleView.setText( aNavItems.get(position).description);
-        iconView.setImageResource(aNavItems.get(position).icon);
+        titleView.setText(navItems.get(position).getTitle());
+        subtitleView.setText( navItems.get(position).getDescription());
+        iconView.setImageResource(navItems.get(position).getIcon());
 
         return view;
     }

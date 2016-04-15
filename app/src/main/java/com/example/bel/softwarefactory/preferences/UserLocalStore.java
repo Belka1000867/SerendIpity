@@ -1,7 +1,9 @@
-package com.example.bel.softwarefactory;
+package com.example.bel.softwarefactory.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.example.bel.softwarefactory.entities.User;
 
 import java.net.URL;
 
@@ -19,7 +21,7 @@ public class UserLocalStore {
         userLocalDatabase = context.getSharedPreferences(LOCAL_STORE_NAME, Context.MODE_PRIVATE);
     }
 
-    public void storeUserData(User user){
+    public void saveUser(User user){
         spEditor = userLocalDatabase.edit();
         spEditor.putString("username", user.getUsername());
         spEditor.putString("email", user.getEmail());
@@ -102,7 +104,7 @@ public class UserLocalStore {
         spEditor.apply();
     }
 
-    public long getFaceboookId(){
+    public long getFacebookId(){
         return userLocalDatabase.getLong("facebookId", -1);
     }
 

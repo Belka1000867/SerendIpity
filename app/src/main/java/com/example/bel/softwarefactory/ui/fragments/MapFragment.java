@@ -1,11 +1,11 @@
-package com.example.bel.softwarefactory;
+package com.example.bel.softwarefactory.ui.fragments;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,10 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.bel.softwarefactory.R;
+import com.example.bel.softwarefactory.preferences.UserLocalStore;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -33,10 +34,7 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-/**
- * Created by Bel on 24.02.2016.
- */
-public class Map extends Fragment implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MapFragment extends BaseFragment implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = "Debug_GoogleMap";
 
     private GoogleMap mGoogleMap;
@@ -79,16 +77,15 @@ public class Map extends Fragment implements OnMapReadyCallback, LocationListene
             }
         }
 
-        if(mRequestingLocationUpdates){
+        if (mRequestingLocationUpdates) {
             startLocationUpdates();
         }
 
     }
 
-    protected void startLocationUpdates(){
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, Map.this);
+    protected void startLocationUpdates() {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, MapFragment.this);
         }
     }
 
@@ -99,7 +96,7 @@ public class Map extends Fragment implements OnMapReadyCallback, LocationListene
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, "onConnectionFailed() connectionResult:" + connectionResult.getErrorMessage());
     }
 
@@ -118,47 +115,36 @@ public class Map extends Fragment implements OnMapReadyCallback, LocationListene
         buildGoogleApiClient();
 
 
-
-
-
-
-
-
-
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
         PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
-        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
-            @Override
-            public void onResult(LocationSettingsResult locationSettingsResult) {
-                final Status status = locationSettingsResult.getStatus();
-                final LocationSettingsStates locationSettingsStates = locationSettingsResult.getLocationSettingsStates();
+        result.setResultCallback(locationSettingsResult -> {
+            final Status status = locationSettingsResult.getStatus();
+            final LocationSettingsStates locationSettingsStates = locationSettingsResult.getLocationSettingsStates();
 
-                switch (status.getStatusCode()) {
-                    case LocationSettingsStatusCodes.SUCCESS:
-                        Log.d(TAG, "Success");
-                        break;
-                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+            switch (status.getStatusCode()) {
+                case LocationSettingsStatusCodes.SUCCESS:
+                    Log.d(TAG, "Success");
+                    break;
+                case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
 
 /*                        try {
-                            status.startResolutionForResult(getActivity(), );
-                        } catch (IntentSender.SendIntentException e) {
-                            e.printStackTrace();
-                        }
-                        */
+                        status.startResolutionForResult(getActivity(), );
+                    } catch (IntentSender.SendIntentException e) {
+                        e.printStackTrace();
+                    }
+                    */
 
-                        break;
-                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                    break;
+                case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
 
-                        break;
-                }
-
+                    break;
             }
+
         });
 
 
-      //  PendingResult<LocationSettingsResult> mRequestingLocationUpdates = LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, Map.this, Map.this, T);
+        //  PendingResult<LocationSettingsResult> mRequestingLocationUpdates = LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, MapFragment.this, MapFragment.this, T);
     }
-
 
 
     @Override
@@ -172,7 +158,7 @@ public class Map extends Fragment implements OnMapReadyCallback, LocationListene
     public void onPause() {
         Log.d(TAG, "onConnected()");
         super.onPause();
-        if(googleApiClient.isConnected()){
+        if (googleApiClient.isConnected()) {
             stopLocationUpdates();
         }
     }
@@ -186,13 +172,13 @@ public class Map extends Fragment implements OnMapReadyCallback, LocationListene
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(googleApiClient.isConnected() && !mRequestingLocationUpdates){
+        if (googleApiClient.isConnected() && !mRequestingLocationUpdates) {
             startLocationUpdates();
         }
     }
 
-    protected void stopLocationUpdates(){
-        LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, Map.this);
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, MapFragment.this);
     }
 
     @Override
@@ -257,7 +243,6 @@ public class Map extends Fragment implements OnMapReadyCallback, LocationListene
         //mUiSettings.setScrollGesturesEnabled(false);
 
 
-
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "PERMISSION_GRANTED");
@@ -291,13 +276,12 @@ public class Map extends Fragment implements OnMapReadyCallback, LocationListene
         Log.d(TAG, "onLocationChanged()");
 
         mLastLocation = location;
-
     }
 
-    protected synchronized void buildGoogleApiClient(){
+    protected synchronized void buildGoogleApiClient() {
         googleApiClient = new GoogleApiClient.Builder(getActivity())
-                .addConnectionCallbacks(Map.this)
-                .addOnConnectionFailedListener(Map.this)
+                .addConnectionCallbacks(MapFragment.this)
+                .addOnConnectionFailedListener(MapFragment.this)
                 .addApi(LocationServices.API)
                 .build();
         createLocationRequest();
@@ -309,7 +293,7 @@ public class Map extends Fragment implements OnMapReadyCallback, LocationListene
     * that you've defined in the app manifest, and a fast update interval of 5000 milliseconds (5 seconds),
     * causes the fused location provider to return location updates that are accurate to within a few feet.
     * */
-    protected void createLocationRequest(){
+    protected void createLocationRequest() {
         locationRequest = new LocationRequest();
         locationRequest.setInterval(10000);
         locationRequest.setFastestInterval(5000);

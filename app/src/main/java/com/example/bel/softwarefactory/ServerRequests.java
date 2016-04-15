@@ -7,7 +7,9 @@ import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 
-import org.json.JSONArray;
+import com.example.bel.softwarefactory.entities.User;
+import com.example.bel.softwarefactory.utils.AppConstants;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,18 +26,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Arrays;
 
-/**
- * Created by Bel on 21.02.2016.
- */
 public class ServerRequests {
 
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
-    public static final String SERVER_ADDRESS = "http://serendipity.netne.net/";
     public static final String ENCODING_FORMAT = "UTF-8";
 
     public byte[] buffer;
@@ -43,50 +41,49 @@ public class ServerRequests {
     public int bytesRead;
     public int maxBufferSize = 10 * 1024 * 1024;
 
-
-    public ServerRequests(Context context){
+    public ServerRequests(Context context) {
         progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(false);
         progressDialog.setTitle("Processing");
         progressDialog.setMessage("Please wait...");
     }
 
-    public void storeUserDataInBackground(User user, GetUserCallback userCallback){
+    public void storeUserDataInBackground(User user, GetUserCallback userCallback) {
         progressDialog.show();
         new StoreUserDataAsyncTask(user, userCallback).execute();
     }
 
-    public void fetchUserDataInBackground(User user, GetUserCallback userCallback){
+    public void fetchUserDataInBackground(User user, GetUserCallback userCallback) {
         progressDialog.show();
         new FetchUserDataAsyncTask(user, userCallback).execute();
     }
 
-    public void uploadRecordingInBackground(String filePath, String fileName, String username){
+    public void uploadRecordingInBackground(String filePath, String fileName, String username) {
         progressDialog.show();
         new UploadRecordingAsyncTask(filePath, fileName, username).execute();
     }
 
-    public void requestPassword(String email){
+    public void requestPassword(String email) {
         progressDialog.show();
         new RequestPassword(email).execute();
     }
 
-    public void changeUserData(String username, String email, String prevEmail, GetUserCallback userCallback){
+    public void changeUserData(String username, String email, String prevEmail, GetUserCallback userCallback) {
         progressDialog.show();
         new ChangeUserDataAsyncTask(username, email, prevEmail, userCallback).execute();
     }
 
-    public void changePassword(String email, String password){
+    public void changePassword(String email, String password) {
         progressDialog.show();
         new ChangePasswordAsyncTask(email, password).execute();
     }
 
-    public class StoreUserDataAsyncTask extends AsyncTask<Void,Void, Void> {
+    public class StoreUserDataAsyncTask extends AsyncTask<Void, Void, Void> {
 
         User user;
         GetUserCallback userCallback;
 
-        public StoreUserDataAsyncTask(User user, GetUserCallback userCallback){
+        public StoreUserDataAsyncTask(User user, GetUserCallback userCallback) {
             this.user = user;
             this.userCallback = userCallback;
         }
@@ -100,8 +97,8 @@ public class ServerRequests {
             try
 
             {
-                URL url = new URL(SERVER_ADDRESS + "Register.php");
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                URL url = new URL(AppConstants.SERVER_ADDRESS + "Register.php");
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 //we past information
                 httpURLConnection.setDoOutput(true);
@@ -126,8 +123,6 @@ public class ServerRequests {
 
                 httpURLConnection.disconnect();
 
-            }catch(MalformedURLException e){
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -143,10 +138,10 @@ public class ServerRequests {
         }
     }
 
-    public class FetchUserDataAsyncTask extends AsyncTask<Void,Void, User> {
+    public class FetchUserDataAsyncTask extends AsyncTask<Void, Void, User> {
 
-        User user;
-        GetUserCallback userCallback;
+        private User user;
+        private GetUserCallback userCallback;
 
         public FetchUserDataAsyncTask(User user, GetUserCallback userCallback) {
             this.user = user;
@@ -156,9 +151,9 @@ public class ServerRequests {
         @Override
         protected User doInBackground(Void... params) {
 
-            try{
-                URL url = new URL(SERVER_ADDRESS + "FetchUserData.php");
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            try {
+                URL url = new URL(AppConstants.SERVER_ADDRESS + "FetchUserData.php");
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 //we past information
                 httpURLConnection.setDoOutput(true);
@@ -181,12 +176,11 @@ public class ServerRequests {
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
 
-                String response ="";
+                String response = "";
                 String line;
 
-                while((line = bufferedReader.readLine()) != null)
-                {
-                    response+=line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    response += line;
                 }
 
                 //decode JsonArray got from response
@@ -194,10 +188,9 @@ public class ServerRequests {
                 User returnedUser;
                 JSONObject jsonObject = new JSONObject(response);
 
-                if(jsonObject.length() == 0 ){
+                if (jsonObject.length() == 0) {
                     returnedUser = null;
-                }
-                else{
+                } else {
                     String username = jsonObject.getString("username");
                     String email = jsonObject.getString("email");
                     String password = jsonObject.getString("password");
@@ -206,7 +199,7 @@ public class ServerRequests {
                     //String city = jsonObject.getString("city");
                     //String country = jsonObject.getString("country");
 
-                    returnedUser = new User(username,email,password);
+                    returnedUser = new User(username, email, password);
                 }
 
                 bufferedReader.close();
@@ -215,11 +208,7 @@ public class ServerRequests {
 
                 return returnedUser;
 
-            }catch(MalformedURLException e){
-                e.printStackTrace();
-            }catch (IOException e) {
-                e.printStackTrace();
-            }catch (JSONException e) {
+            } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
             return null;
@@ -234,12 +223,12 @@ public class ServerRequests {
 
     }
 
-    public class UploadRecordingAsyncTask extends AsyncTask<Void,Void, Void>{
+    public class UploadRecordingAsyncTask extends AsyncTask<Void, Void, Void> {
         String fileName;
         String filePath;
         String username;
 
-        public UploadRecordingAsyncTask(String filePath, String fileName, String username){
+        public UploadRecordingAsyncTask(String filePath, String fileName, String username) {
             this.filePath = filePath;
             this.fileName = fileName;
             this.username = username;
@@ -253,10 +242,10 @@ public class ServerRequests {
         @Override
         protected Void doInBackground(Void... params) {
             Log.d("Record", "do in background");
-            try{
+            try {
                 Log.d("Record", "try loop");
-                URL url = new URL(SERVER_ADDRESS + "upload_file.php");
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                URL url = new URL(AppConstants.SERVER_ADDRESS + "upload_file.php");
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 //we past information
                 httpURLConnection.setDoInput(true);
@@ -278,12 +267,11 @@ public class ServerRequests {
 
                 Log.d("DEBUG", "File path " + filePath);
 
-                String filePathCheck = Environment.getExternalStorageDirectory()+"/audio.3gp";
+                String filePathCheck = Environment.getExternalStorageDirectory() + "/audio.3gp";
 
                 Log.d("DEBUG", "File 2 path " + filePath);
                 //CHECKING FROM HERE
                 FileInputStream fileInputStream = new FileInputStream(new File(filePathCheck));
-
 
 
                 InputStream inputStreamFile = new BufferedInputStream(fileInputStream);
@@ -292,21 +280,21 @@ public class ServerRequests {
 
 
                 bytesAvailable = inputStreamFile.available();
-                Log.d("DEBUG", "bytesAvailable:"+bytesAvailable);
+                Log.d("DEBUG", "bytesAvailable:" + bytesAvailable);
                 int buffersize = Math.min(bytesAvailable, maxBufferSize);
                 Log.d("DEBUG", "BUffersize  " + buffersize);
                 buffer = new byte[buffersize];
-                Log.d("DEBUG", "buffer "+buffer);
+                Log.d("DEBUG", "buffer " + Arrays.toString(buffer));
                 bytesRead = inputStreamFile.read(buffer, 0, buffersize);
-                Log.d("DEBUG", "bytesRead "+bytesRead);
+                Log.d("DEBUG", "bytesRead " + bytesRead);
 
 
-                while (bytesRead>0){
-                    Log.d("DEBUG", "Reading bytesRead "+ bytesRead);
-                    Log.d("DEBUG", "buffer 1 " + buffer);
+                while (bytesRead > 0) {
+                    Log.d("DEBUG", "Reading bytesRead " + bytesRead);
+                    Log.d("DEBUG", "buffer 1 " + Arrays.toString(buffer));
                     outputStream.write(buffer, 0, buffersize);
-                    Log.d("DEBUG", "Reading1 " + buffer);
-                    Log.d("DEBUG", "Reading bytesRead 2"+ bytesRead);
+                    Log.d("DEBUG", "Reading1 " + Arrays.toString(buffer));
+                    Log.d("DEBUG", "Reading bytesRead 2" + bytesRead);
                     Log.d("DEBUG", "bytesAvailable 2 " + bytesAvailable);
                     bytesAvailable = inputStreamFile.available();
                     Log.d("DEBUG", "Reading2 " + bytesAvailable);
@@ -315,7 +303,6 @@ public class ServerRequests {
                     bytesRead = inputStreamFile.read(buffer, 0, buffersize);
                     Log.d("DEBUG", "Finishing");
                 }
-
 
 
                 byte[] audioBytesFile = new byte[numOfBytes];
@@ -342,8 +329,6 @@ public class ServerRequests {
 //                        URLEncoder.encode("encodedfile", ENCODING_FORMAT) + "=" + URLEncoder.encode(audioString, ENCODING_FORMAT) + "&";
 
 
-
-
                 //write data into buffer writer
                 //bufferedWriter.write(data);
                 dos.flush();
@@ -352,11 +337,8 @@ public class ServerRequests {
                 outputStream.close();
 
 
-
                 httpURLConnection.disconnect();
                 Log.d("Record", "disconnect httpURL connection");
-            }catch(MalformedURLException e){
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -372,10 +354,10 @@ public class ServerRequests {
         }
     }
 
-    public class RequestPassword extends AsyncTask<Void,Void, Void>{
+    public class RequestPassword extends AsyncTask<Void, Void, Void> {
         String email;
 
-        public RequestPassword(String email){
+        public RequestPassword(String email) {
             this.email = email;
         }
 
@@ -387,9 +369,9 @@ public class ServerRequests {
         @Override
         protected Void doInBackground(Void... params) {
 
-            try{
-                URL url = new URL(SERVER_ADDRESS + "RequestPassword.php");
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            try {
+                URL url = new URL(AppConstants.SERVER_ADDRESS + "RequestPassword.php");
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 //we past information
                 httpURLConnection.setDoOutput(true);
@@ -402,7 +384,7 @@ public class ServerRequests {
                 Log.d("DEBUG", "Request is sent to the server:" + email);
 
                 //encode data before sending
-                String data = URLEncoder.encode("email", ENCODING_FORMAT) + "=" + URLEncoder.encode(email, ENCODING_FORMAT) + "&" ;
+                String data = URLEncoder.encode("email", ENCODING_FORMAT) + "=" + URLEncoder.encode(email, ENCODING_FORMAT) + "&";
 
                 //write data into buffer writer
                 bufferedWriter.write(data);
@@ -416,8 +398,6 @@ public class ServerRequests {
 
                 httpURLConnection.disconnect();
 
-            }catch(MalformedURLException e){
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -431,11 +411,11 @@ public class ServerRequests {
         }
     }
 
-    public class ChangeUserDataAsyncTask extends AsyncTask<Void,Void, User> {
+    public class ChangeUserDataAsyncTask extends AsyncTask<Void, Void, User> {
         String username, email, prevEmail;
         GetUserCallback userCallback;
 
-        public ChangeUserDataAsyncTask(String username, String email, String prevEmail, GetUserCallback userCallback){
+        public ChangeUserDataAsyncTask(String username, String email, String prevEmail, GetUserCallback userCallback) {
             this.username = username;
             this.email = email;
             this.prevEmail = prevEmail;
@@ -447,10 +427,9 @@ public class ServerRequests {
 
             Log.d("DEBUG:", "doInBackground is running");
 
-            try
-            {
-                URL url = new URL(SERVER_ADDRESS + "ChangeUserData.php");
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            try {
+                URL url = new URL(AppConstants.SERVER_ADDRESS + "ChangeUserData.php");
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 //we past information
                 httpURLConnection.setDoOutput(true);
@@ -475,12 +454,11 @@ public class ServerRequests {
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
 
-                String response ="";
+                String response = "";
                 String line;
 
-                while((line = bufferedReader.readLine()) != null)
-                {
-                    response+=line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    response += line;
                 }
 
                 Log.d("DEBUG:", "Getting data from server : response = " + response);
@@ -491,16 +469,15 @@ public class ServerRequests {
 
                 JSONObject jsonObject = new JSONObject(response);
 
-                if(jsonObject.length() == 0 ){
+                if (jsonObject.length() == 0) {
                     returnedUser = null;
-                }
-                else{
+                } else {
                     String username = jsonObject.getString("username");
                     String email = jsonObject.getString("email");
 
                     Log.d("DEBUG", "username " + username + " email " + email);
 
-                    returnedUser = new User(username,email);
+                    returnedUser = new User(username, email);
                     Log.d("DEBUG", "username " + returnedUser.getUsername() + " email " + returnedUser.getEmail());
                 }
 
@@ -510,11 +487,7 @@ public class ServerRequests {
 
                 return returnedUser;
 
-            }catch(MalformedURLException e){
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
 
@@ -531,20 +504,19 @@ public class ServerRequests {
         }
     }
 
-    public class ChangePasswordAsyncTask extends AsyncTask<Void, Void, Void>{
+    public class ChangePasswordAsyncTask extends AsyncTask<Void, Void, Void> {
         String email, password;
 
-        public ChangePasswordAsyncTask(String email, String password){
+        public ChangePasswordAsyncTask(String email, String password) {
             this.email = email;
             this.password = password;
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            try
-            {
-                URL url = new URL(SERVER_ADDRESS + "ChangePassword.php");
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            try {
+                URL url = new URL(AppConstants.SERVER_ADDRESS + "ChangePassword.php");
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
                 //we past information
                 httpURLConnection.setDoOutput(true);
@@ -554,7 +526,7 @@ public class ServerRequests {
                 //write down information
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, ENCODING_FORMAT));
 
-                Log.d("DEBUG", "email " +  email + "password" + password);
+                Log.d("DEBUG", "email " + email + "password" + password);
                 //encode data before sending
                 String data = URLEncoder.encode("email", ENCODING_FORMAT) + "=" + URLEncoder.encode(email, ENCODING_FORMAT) + "&" +
                         URLEncoder.encode("password", ENCODING_FORMAT) + "=" + URLEncoder.encode(password, ENCODING_FORMAT) + "&";
@@ -568,8 +540,6 @@ public class ServerRequests {
                 InputStream inputStream = httpURLConnection.getInputStream();
                 inputStream.close();
                 httpURLConnection.disconnect();
-            }catch(MalformedURLException e){
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -580,14 +550,6 @@ public class ServerRequests {
         protected void onPostExecute(Void aVoid) {
             progressDialog.dismiss();
             super.onPostExecute(aVoid);
-        }
-    }
-
-    public class ProcessAsyncTask extends  AsyncTask<Void, Void, Void>{
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            return null;
         }
     }
 

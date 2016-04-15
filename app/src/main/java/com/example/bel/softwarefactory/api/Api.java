@@ -1,5 +1,6 @@
-package com.example.bel.softwarefactory;
+package com.example.bel.softwarefactory.api;
 
+import com.example.bel.softwarefactory.utils.AppConstants;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonPrimitive;
@@ -17,10 +18,6 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
-
-/**
- * Created by bel on 30.03.16.
- */
 
 public class Api {
 

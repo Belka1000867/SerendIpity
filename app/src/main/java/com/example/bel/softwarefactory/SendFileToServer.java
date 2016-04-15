@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.example.bel.softwarefactory.api.Api;
 import com.trello.rxlifecycle.components.RxActivity;
 
 import java.io.File;

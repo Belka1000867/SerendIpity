@@ -1,13 +1,10 @@
 package com.example.bel.softwarefactory;
 
-/**
- * Created by Bel on 24.02.2016.
- */
 public class NavItem {
-    public String title;
-    public String description;
-    public int icon;
-    public int id;
+    private String title;
+    private String description;
+    private int icon;
+    private int id;
 
     public NavItem(String title, String description, int icon, int id) {
         this.title = title;
@@ -15,5 +12,22 @@ public class NavItem {
         this.icon = icon;
         this.id = id;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getIcon() {
+        return icon;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
 }
 

@@ -1,14 +1,10 @@
-package com.example.bel.softwarefactory;
+package com.example.bel.softwarefactory.api;
 
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 import rx.Observable;
-
-/**
- * Created by bel on 30.03.16.
- */
 
 public interface RestApi {
 

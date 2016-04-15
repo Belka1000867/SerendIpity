@@ -1,4 +1,4 @@
-package com.example.bel.softwarefactory;
+package com.example.bel.softwarefactory.ui.fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -26,14 +25,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bel.softwarefactory.R;
+import com.example.bel.softwarefactory.SendFileToServer;
+import com.example.bel.softwarefactory.preferences.UserLocalStore;
+import com.example.bel.softwarefactory.utils.AppConstants;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
-/**
- * Created by Bel on 24.02.2016.
- */
-public class RecordFragment extends Fragment {
+public class RecordFragment extends BaseFragment {
 
     private MediaPlayer mediaPlayer;
     private MediaRecorder recorder;
@@ -151,7 +152,7 @@ public class RecordFragment extends Fragment {
         };
 
         public void StartRecord() {
-            ditchMediarecorder();
+            ditchMediaRecorder();
             /*
             * Check if there is existing file, then delete
             * */
@@ -180,7 +181,7 @@ public class RecordFragment extends Fragment {
             lShareEditDelete.setVisibility(View.GONE);
         }
 
-        public void ditchMediarecorder() {
+        public void ditchMediaRecorder() {
             if (recorder != null) recorder.release();
         }
 
@@ -450,7 +451,7 @@ public class RecordFragment extends Fragment {
             public void onClick(View v) {
                 File outputFile = new File(getRecordPath());
                 if (outputFile.exists()){
-                    String owner = userLocalStore.isFacebookLoggedIn() ? userLocalStore.getFaceboookId()+"" : userLocalStore.getEmail();
+                    String owner = userLocalStore.isFacebookLoggedIn() ? userLocalStore.getFacebookId()+"" : userLocalStore.getEmail();
                     Log.d(RECORD_TAG, "uploadRecordingToServer for owner " + owner);
 
                     /*
@@ -458,7 +459,7 @@ public class RecordFragment extends Fragment {
                     * */
                     FragmentManager mFragmentManager = getFragmentManager();
                     mFragmentManager.beginTransaction()
-                            .replace(R.id.frameLayoutMainContent, new Map(), "Map")
+                            .replace(R.id.content_frame, new MapFragment(), "MapFragment")
                             .addToBackStack(null)
                             .commit();
 

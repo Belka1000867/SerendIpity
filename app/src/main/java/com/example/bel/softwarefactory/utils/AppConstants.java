@@ -1,4 +1,4 @@
-package com.example.bel.softwarefactory;
+package com.example.bel.softwarefactory.utils;
 
 import android.media.MediaRecorder;
 

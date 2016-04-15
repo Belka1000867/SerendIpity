@@ -1,5 +1,7 @@
 package com.example.bel.softwarefactory;
 
+import com.example.bel.softwarefactory.entities.User;
+
 /**
  * Created by Bel on 21.02.2016.
  *

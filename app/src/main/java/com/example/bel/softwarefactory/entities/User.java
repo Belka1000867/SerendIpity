@@ -1,10 +1,5 @@
-package com.example.bel.softwarefactory;
+package com.example.bel.softwarefactory.entities;
 
-import java.util.Date;
-
-/**
- * Created by Bel on 21.02.2016.
- */
 public class User {
 
     private String username;
@@ -14,13 +9,12 @@ public class User {
     //private String city;
     //private String country;
 
-    public User(String username, String email){
+    public User(String username, String email) {
         setUsername(username);
         setEmail(email);
     }
 
-
-    public User(String username, String email, String password){
+    public User(String username, String email, String password) {
         setUsername(username);
         setEmail(email);
         setPassword(password);
@@ -29,27 +23,27 @@ public class User {
 //        this.country = null;
     }
 
-    public void setUsername(String username){
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return this.username;
     }
 
-    public void setEmail(String email){
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return this.email;
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getPassword(){
+    public String getPassword() {
         return this.password;
     }
 
