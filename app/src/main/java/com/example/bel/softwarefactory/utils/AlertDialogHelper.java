@@ -7,17 +7,19 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.bel.softwarefactory.R;
 
 import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.RootContext;
 
 @EBean
 public class AlertDialogHelper {
 
-    private final Context context;
-
-    private MaterialDialog dialog;
-
-    public AlertDialogHelper(Context context) {
+    @RootContext
+    void setContext(Context context){
         this.context = context;
     }
+
+    protected Context context;
+
+    private MaterialDialog dialog;
 
     public Dialog showMessage(String message, MaterialDialog.ButtonCallback clickListener) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);

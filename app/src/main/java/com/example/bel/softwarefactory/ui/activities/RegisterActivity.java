@@ -67,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         //get reference to local store
-        UserLocalStore userLocalStore = new UserLocalStore(this);
+//        UserLocalStore userLocalStore = new UserLocalStore(this);
     }
 
     //code from http://stackoverflow.com/questions/6119722/how-to-check-edittexts-text-is-email-address-or-not

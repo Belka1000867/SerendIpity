@@ -112,7 +112,7 @@
             android:text="@string/login" />
 
         <CheckBox
-            android:id="@+id/cbRememberMe"
+            android:id="@+id/rememberMe_checkBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/login_imageButton"

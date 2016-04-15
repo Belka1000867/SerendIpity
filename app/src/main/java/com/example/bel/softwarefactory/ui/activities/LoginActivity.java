@@ -34,50 +34,33 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
 
 @EActivity(R.layout.activity_login)
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
+    private final String TAG = this.getClass().getSimpleName();
 
     @ViewById
     protected TextView forgetPassword_textView;
-
     @ViewById
     protected EditText login_editText;
-
     @ViewById
     protected EditText password_editText;
-
     @ViewById
     protected ImageButton login_imageButton;
-
     @ViewById
     protected TextView registration_textView;
-
     @ViewById
-    protected CheckBox cbRememberMe;
+    protected CheckBox rememberMe_checkBox;
 
     //facebook button and callback manager
-    private CallbackManager facebookCallbackManager;
+    private CallbackManager facebookCallbackManager ;
 
-    //user data
-    private UserLocalStore userLocalStore;
-
-    private static final String DEBUG_TAG = "Debug_Login";
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-//        if(serendipityUser){
-//            displayUserDetails();
-//            cbRememberMe.setChecked(userLocalStore.isRememberMe());
-//        }
-    }
+    @Bean
+    protected UserLocalStore userLocalStore;
 
     @AfterViews
     protected void afterViews() {
-        userLocalStore = new UserLocalStore(LoginActivity.this);
 
-        //facebook sdk initialization and callback instance
-        facebookCallbackManager = new CallbackManager.Factory().create();
+        //facebook sdk callback instance
+        facebookCallbackManager = CallbackManager.Factory.create();
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -91,21 +74,20 @@ public class LoginActivity extends AppCompatActivity {
             loginFacebook_button.registerCallback(facebookCallbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
-                    Log.d(DEBUG_TAG, "Facebook_OnSuccess()");
+                    Log.d(TAG, "Facebook_OnSuccess()");
                     getFacebookUserData();
                     userLocalStore.setFacebookLoggedIn(true);
-
-                    goToMapActivity();
+                    MenuActivity_.intent(LoginActivity.this).start();
                 }
 
                 @Override
                 public void onCancel() {
-                    showErrorMessage("Login attempt canceled.");
+                    showAlert("Login attempt canceled.");
                 }
 
                 @Override
                 public void onError(FacebookException error) {
-                    showErrorMessage("Facebook login failed.");
+                    showAlert("Facebook login failed.");
                 }
             });
         }
@@ -113,14 +95,14 @@ public class LoginActivity extends AppCompatActivity {
 
     @Click(R.id.login_imageButton)
     protected void login_imageButton_click() {
-        Log.d(DEBUG_TAG, "LoginOnClick()");
+        Log.d(TAG, "LoginOnClick()");
         String email = login_editText.getText().toString();
         String password = password_editText.getText().toString();
         String username = "";
 
         User user = new User(username, email, password);
         authenticate(user);
-        userLocalStore.setRememberUser(cbRememberMe.isChecked());
+        userLocalStore.setRememberUser(rememberMe_checkBox.isChecked());
     }
 
     @Click(R.id.registration_textView)
@@ -152,9 +134,9 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("DEBUG", "requesting password reset");
                 ServerRequests serverRequests = new ServerRequests(LoginActivity.this);
                 serverRequests.requestPassword(email);
-                showErrorMessage("Password Reset Request sent to email");
+                showAlert("Password Reset Request sent to email");
             } else {
-                showErrorMessage("Incorrect input");
+                showAlert("Incorrect input");
             }
         });
 
@@ -168,50 +150,30 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void authenticate(User user) {
-        Log.d(DEBUG_TAG, "authenticate()");
+        Log.d(TAG, "authenticate()");
         ServerRequests serverRequests = new ServerRequests(this);
         serverRequests.fetchUserDataInBackground(user, returnedUser -> {
             if (returnedUser == null) {
-                showErrorMessage("Incorrect Email/Password Combination");
+                showAlert("Incorrect Email/Password Combination");
             } else {
                 logUserIn(returnedUser);
-                goToMapActivity();
+                MenuActivity_.intent(LoginActivity.this).start();
             }
         });
     }
 
     private void logUserIn(User returnedUser) {
-        Log.d(DEBUG_TAG, "logUserIn()");
+        Log.d(TAG, "logUserIn()");
         //store loggedIn user data in the class file
         userLocalStore.saveUser(returnedUser);
         userLocalStore.setUserLoggedIn(true);
     }
-
-    private void goToMapActivity() {
-        Log.d(DEBUG_TAG, "goToMapActivity()");
-        MenuActivity_.intent(LoginActivity.this).start();
-    }
-
-    private void showErrorMessage(String text) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(LoginActivity.this);
-        //create textview with centralized text
-        TextView message = new TextView(this);
-        message.setText(text);
-        message.setTextSize(14);
-        message.setGravity(Gravity.CENTER);
-
-        dialogBuilder.setView(message);
-        dialogBuilder.setPositiveButton("Ok", null);
-        dialogBuilder.show();
-    }
-
 
     private boolean isEmailValid(CharSequence email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     //facebook for login start
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
@@ -227,17 +189,18 @@ public class LoginActivity extends AppCompatActivity {
                 if (object.has("picture")) {
                     String profilePicUrl = object.getJSONObject("picture").getJSONObject("data").getString("url");
                     userLocalStore.setProfilePictureUrl(profilePicUrl);
-                    Log.d(DEBUG_TAG, "Profile picture url :  " + userLocalStore.getProfilePictureUrl());
+                    Log.d(TAG, "Profile picture url :  " + userLocalStore.getProfilePictureUrl());
                 }
-                Log.d(DEBUG_TAG, "facebook id " + userLocalStore.getFacebookId());
+                Log.d(TAG, "facebook id " + userLocalStore.getFacebookId());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            if (userLogging != null)
+            if (userLogging != null) {
                 logUserIn(userLogging);
+            }
 
-            Log.d(DEBUG_TAG, "getFacebookUserData()" + userLocalStore.isUserLoggedIn());
+            Log.d(TAG, "getFacebookUserData()" + userLocalStore.isUserLoggedIn());
         });
         /*
         * 1. Put the string of variables into request
@@ -247,22 +210,6 @@ public class LoginActivity extends AppCompatActivity {
         bundle.putString("fields", "id, first_name, last_name, name, name_format, email, picture");
         graphRequest.setParameters(bundle);
         graphRequest.executeAsync();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //measure installs on your mobile app ads
-        //log an app activation event for Facebook
-        //Logs 'install' and 'app activate' App Events
-        AppEventsLogger.activateApp(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //logs 'app deactivate' app event for facebook
-        AppEventsLogger.deactivateApp(this);
     }
 
 }

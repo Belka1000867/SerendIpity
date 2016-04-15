@@ -20,6 +20,7 @@ import com.example.bel.softwarefactory.preferences.UserLocalStore;
 import com.example.bel.softwarefactory.utils.AlertDialogHelper_;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -38,11 +39,12 @@ public class ProfileActivity extends AppCompatActivity {
     @ViewById
     protected EditText passwordConfirmation_editText;
 
-    private UserLocalStore userLocalStore;
+    @Bean
+    protected UserLocalStore userLocalStore;
 
     @AfterViews
     protected void afterViews() {
-        userLocalStore = new UserLocalStore(this);
+//        userLocalStore = new UserLocalStore(this);
 
         userName_textView.setText(userLocalStore.getUsername());
         username_editText.setText(userLocalStore.getUsername());

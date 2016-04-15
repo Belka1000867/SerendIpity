@@ -1,6 +1,5 @@
 package com.example.bel.softwarefactory.ui.activities;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 
@@ -8,13 +7,15 @@ import com.example.bel.softwarefactory.R;
 import com.example.bel.softwarefactory.preferences.UserLocalStore;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.first_activity)
 public class FirstActivity extends BaseActivity {
 
-    private UserLocalStore userLocalStore;
+    @Bean
+    protected UserLocalStore userLocalStore;
 
     @AfterViews
     protected void afterViews() {
@@ -23,17 +24,24 @@ public class FirstActivity extends BaseActivity {
             actionBar.hide();
         }
 
-        //get reference to local store
-        userLocalStore = new UserLocalStore(this);
-
-        isLoggedInUser();
+        boolean serendipityUser = userLocalStore.isUserLoggedIn() && userLocalStore.isRememberMe();
+        //skip this page if user is logged in as facebook user or serendipity
+        if (serendipityUser || userLocalStore.isFacebookLoggedIn()) {
+            MenuActivity_.intent(FirstActivity.this).start();
+            finish();
+        }
+        Log.d("DEBUG", "Serendipity : " + serendipityUser);
+        Log.d("DEBUG", "Facebook: " + userLocalStore.isFacebookLoggedIn());
     }
 
     @Click(R.id.login_button)
     protected void login_button_click() {
-        Intent intent;
-        intent = (userLocalStore.isFacebookLoggedIn() || userLocalStore.isUserLoggedIn()) ? new Intent(getBaseContext(), MenuActivity.class) : new Intent(getBaseContext(), LoginActivity.class);
-        startActivity(intent);
+        if (userLocalStore.isFacebookLoggedIn() || userLocalStore.isUserLoggedIn()) {
+            MenuActivity_.intent(FirstActivity.this).start();
+            finish();
+        } else {
+            LoginActivity_.intent(FirstActivity.this).start();
+        }
     }
 
     @Click(R.id.register_button)
@@ -46,21 +54,6 @@ public class FirstActivity extends BaseActivity {
         userLocalStore.setUserLoggedIn(false);
         MenuActivity_.intent(FirstActivity.this).start();
         finish();
-    }
-
-    public void isLoggedInUser() {
-        //if the user logged in as serendipity user and want to be remembered in the application
-        boolean serendipityUser = userLocalStore.isUserLoggedIn() && userLocalStore.isRememberMe();
-        //skip this page if user is logged in as facebook user or serendipity
-        if (serendipityUser || userLocalStore.isFacebookLoggedIn()) {
-            goToMapActivity();
-        }
-        Log.d("DEBUG", "Serendipity : " + serendipityUser);
-        Log.d("DEBUG", "Facebook: " + userLocalStore.isFacebookLoggedIn());
-    }
-
-    public void goToMapActivity() {
-        MenuActivity_.intent(FirstActivity.this).start();
     }
 
 }

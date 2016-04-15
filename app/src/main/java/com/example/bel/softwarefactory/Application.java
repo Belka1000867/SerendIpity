@@ -1,6 +1,7 @@
 package com.example.bel.softwarefactory;
 
 import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 import org.androidannotations.annotations.EApplication;
 
@@ -12,5 +13,6 @@ public class Application extends android.app.Application {
         super.onCreate();
 
         FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
     }
 }

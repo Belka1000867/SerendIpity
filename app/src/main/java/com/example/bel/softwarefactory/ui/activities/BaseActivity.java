@@ -59,6 +59,11 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         }
     }
 
+    public void handleError(Throwable throwable) {
+        showAlert(throwable.getMessage());
+    }
+
+
     protected void switchFragmentInternal(Fragment fragment, boolean addToBackStack) {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();

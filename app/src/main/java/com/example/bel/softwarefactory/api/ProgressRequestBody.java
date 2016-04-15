@@ -1,8 +1,4 @@
-package com.example.bel.softwarefactory;
-
-/**
- * Created by bel on 24.03.16.
- */
+package com.example.bel.softwarefactory.api;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -20,21 +16,19 @@ import okio.BufferedSink;
 
 public class ProgressRequestBody extends RequestBody {
     private static final int DEFAULT_BUFFER_SIZE = 2048;
-    private File mFile;
-    private UploadCallbacks mListener;
-    private static final String TAG = "Debug_PregressRequest";
+    private File file;
+    private UploadCallbacks uploadCallbacks;
+    private final String TAG = this.getClass().getSimpleName();
 
-    public ProgressRequestBody(final File file, final UploadCallbacks listener) {
-        Log.d(TAG, "ProgressRequestBody()");
-
-        mFile = file;
-        mListener = listener;
+    public ProgressRequestBody(final File file, final UploadCallbacks uploadCallbacks) {
+        this.file = file;
+        this.uploadCallbacks = uploadCallbacks;
     }
 
     @Override
     public MediaType contentType() {
-        Log.d(TAG, "contentType()");
         // I want to upload only audio
+        Log.d(TAG, "contentType() : " + AppConstants.MIME_TYPE);
         return MediaType.parse(AppConstants.MIME_TYPE);
     }
 
@@ -42,11 +36,11 @@ public class ProgressRequestBody extends RequestBody {
     public void writeTo(BufferedSink sink) throws IOException {
         Log.d(TAG, "writeTo()");
 
-        long fileLength = mFile.length();
+        long fileLength = file.length();
         byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
         long uploaded = 0;
 
-        try (FileInputStream in = new FileInputStream(mFile)) {
+        try (FileInputStream in = new FileInputStream(file)) {
             int read;
             Handler handler = new Handler(Looper.getMainLooper());
             while ((read = in.read(buffer)) != -1) {
@@ -75,7 +69,7 @@ public class ProgressRequestBody extends RequestBody {
 
         @Override
         public void run() {
-            mListener.onProgressUpdate((int) (100 * mUploaded / mTotal));
+            uploadCallbacks.onProgressUpdate((int) (100 * mUploaded / mTotal));
         }
     }
 }

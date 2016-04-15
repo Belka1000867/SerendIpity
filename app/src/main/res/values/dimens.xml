@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="offset_small">10dp</dimen>
-    <dimen name="offset_average">28dp</dimen>
-    <dimen name="offset_big">44dp</dimen>
+    <dimen name="offset_average">24dp</dimen>
+    <dimen name="offset_big">42dp</dimen>
+
+    <dimen name="title_margin">100dp</dimen>
 </resources>

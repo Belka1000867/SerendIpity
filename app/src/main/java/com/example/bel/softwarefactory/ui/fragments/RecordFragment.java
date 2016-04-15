@@ -1,8 +1,9 @@
 package com.example.bel.softwarefactory.ui.fragments;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -10,14 +11,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -26,34 +24,134 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bel.softwarefactory.R;
-import com.example.bel.softwarefactory.SendFileToServer;
+import com.example.bel.softwarefactory.api.Api;
+import com.example.bel.softwarefactory.api.ProgressRequestBody;
 import com.example.bel.softwarefactory.preferences.UserLocalStore;
 import com.example.bel.softwarefactory.utils.AppConstants;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
-public class RecordFragment extends BaseFragment {
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+@EFragment(R.layout.fragment_record)
+public class RecordFragment extends BaseFragment implements ProgressRequestBody.UploadCallbacks {
+
+    private final String TAG = this.getClass().getSimpleName();
+    private ProgressDialog progressDialog;
+
+    @ViewById
+    protected RelativeLayout parent_layout;
+    @ViewById
+    protected TextView seconds_textView;
+    @ViewById
+    protected TextView minutes_textView;
+    @ViewById
+    protected TextView hours_textView;
+
+    @ViewById
+    protected LinearLayout shareEditDelete_layout;
 
     private MediaPlayer mediaPlayer;
     private MediaRecorder recorder;
-    private RelativeLayout sfLayout;
     private RecordButton sfRecordButton;
     private PlayRecordingButton sfPlayButton;
-    private LinearLayout lShareEditDelete;
-    //private StopButton sfStopButton;
 
-    private TextView tvSeconds;
-    private TextView tvMinutes;
-    private TextView tvHours;
-
-    private UserLocalStore userLocalStore;
+    @Bean
+    protected UserLocalStore userLocalStore;
 
     private final File EXTERNAL_STORAGE_PATH = Environment.getExternalStorageDirectory();
-    private String recordName = "audio";
+
+    protected String recordName = "audio";
 
     private final String RECORD_TAG = "Debug_Record";
+
+    @AfterViews
+    protected void afterViews() {
+//        userLocalStore = new UserLocalStore(getActivity());
+        ActionBar actionBar = getActivity().getActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("Record ambient sounds");
+        }
+        createLayout();
+    }
+
+    @Click(R.id.deleteRecord_button)
+    protected void deleteRecord_button_click() {
+        //Delete this file
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+        alertBuilder.setTitle(R.string.is_delete_file);
+        alertBuilder.setCancelable(true);
+        alertBuilder.setPositiveButton(R.string.delete_record, (dialog, which) -> {
+            File file = new File(getRecordPath());
+            file.delete();
+            shareEditDelete_layout.setVisibility(View.GONE);
+            fillTimer("0", "0", "0");
+        });
+        alertBuilder.setNegativeButton(R.string.cancel, (dialog, which) -> {
+            dialog.dismiss();
+        });
+        alertBuilder.show();
+    }
+
+    @Click(R.id.shareRecord_button)
+    protected void shareRecord_button_click() {
+        File outputFile = new File(getRecordPath());
+        if (outputFile.exists()) {
+            String owner = userLocalStore.isFacebookLoggedIn() ? userLocalStore.getFacebookId() + "" : userLocalStore.getEmail();
+            Log.d(RECORD_TAG, "uploadRecordingToServer for owner " + owner);
+
+            //Change fragment to map in order to get the location
+            switchFragment(new MapFragment());
+            uploadFile(outputFile, owner);
+        }
+    }
+
+    @Click(R.id.editRecord_button)
+    public void editRecord_button_click() {
+        File file = new File(getRecordPath());
+        Log.d(RECORD_TAG, getRecordPath());
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
+        alertBuilder.setTitle(R.string.is_edit_file);
+        alertBuilder.setCancelable(true);
+
+        final EditText etChangeRecordName = new EditText(getActivity());
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        etChangeRecordName.setLayoutParams(params);
+        etChangeRecordName.setText(file.getName());
+        alertBuilder.setView(etChangeRecordName);
+
+        alertBuilder.setPositiveButton(R.string.edit_record, (dialog, which) -> {
+            String newRecordName = etChangeRecordName.getText().toString();
+            if (newRecordName.isEmpty())
+                dialog.dismiss();
+
+            newRecordName = newRecordName.replace(AppConstants.AUDIO_EXTENSION, "");
+
+            File from = new File(EXTERNAL_STORAGE_PATH, recordName + AppConstants.AUDIO_EXTENSION);
+            File to = new File(EXTERNAL_STORAGE_PATH, newRecordName + AppConstants.AUDIO_EXTENSION);
+
+            if (from.exists()) {
+                from.renameTo(to);
+                recordName = newRecordName;
+            }
+        });
+        alertBuilder.setNegativeButton(R.string.cancel, (dialog, which) -> {
+            dialog.dismiss();
+        });
+        alertBuilder.show();
+    }
 
     //Create buttons and layout
     public void createLayout() {
@@ -73,7 +171,7 @@ public class RecordFragment extends BaseFragment {
         paramsRecord.addRule(RelativeLayout.CENTER_IN_PARENT);
         paramsRecord.addRule(RelativeLayout.BELOW, R.id.Timer);
         //add button for Recording to the layout + parameters
-        sfLayout.addView(sfRecordButton, paramsRecord);
+        parent_layout.addView(sfRecordButton, paramsRecord);
 
 //        //create button with changeable images
 //        sfStopButton = new StopButton(getContext());
@@ -90,7 +188,7 @@ public class RecordFragment extends BaseFragment {
         paramsStop.addRule(RelativeLayout.BELOW, R.id.Timer);
         paramsStop.addRule(RelativeLayout.CENTER_HORIZONTAL);
         //add button for Recording to the layout + parameters
-        //sfLayout.addView(sfStopButton, paramsStop);
+        //parent_layout.addView(sfStopButton, paramsStop);
 
         //create button with changeable images
         sfPlayButton = new PlayRecordingButton(getContext());
@@ -105,7 +203,7 @@ public class RecordFragment extends BaseFragment {
         paramsPlay.addRule(RelativeLayout.BELOW, R.id.Timer);
         paramsPlay.addRule(RelativeLayout.CENTER_HORIZONTAL);
         //add button for Recording to the layout + parameters
-        sfLayout.addView(sfPlayButton, paramsPlay);
+        parent_layout.addView(sfPlayButton, paramsPlay);
     }
 
     class RecordButton extends ImageButton {
@@ -178,7 +276,7 @@ public class RecordFragment extends BaseFragment {
             }
             recorder.start();
             startTimerCounting();
-            lShareEditDelete.setVisibility(View.GONE);
+            shareEditDelete_layout.setVisibility(View.GONE);
         }
 
         public void ditchMediaRecorder() {
@@ -192,13 +290,13 @@ public class RecordFragment extends BaseFragment {
                 recorder = null;
             }
             //show additional menu for editing file
-            lShareEditDelete.setVisibility(View.VISIBLE);
-            editRecordName();
+            shareEditDelete_layout.setVisibility(View.VISIBLE);
+            editRecord_button_click();
         }
 
         public void startTimerCounting() {
             curTime = 0;
-            fillTimer("0","0","0");
+            fillTimer("0", "0", "0");
             Thread thread = new Thread(new TimerRecord());
             thread.start();
         }
@@ -267,29 +365,27 @@ public class RecordFragment extends BaseFragment {
             setVisibility(View.GONE);
         }
 
-        OnClickListener clicker = new OnClickListener() {
-            public void onClick(View v) {
-                //function to check recording
-                if (sfPlayRecording) {
-                    setImageResource(R.mipmap.ic_rec_pause);
-                    try {
-                        PlayRecord();
-                        sfRecordButton.disable();
-                        //sfStopButton.enable();
+        OnClickListener clicker = v -> {
+            //function to check recording
+            if (sfPlayRecording) {
+                setImageResource(R.mipmap.ic_rec_pause);
+                try {
+                    PlayRecord();
+                    sfRecordButton.disable();
+                    //sfStopButton.enable();
 //                        Toast toast = Toast.makeText(getContext(), "Playing the audio...", Toast.LENGTH_LONG);
 //                        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
 //                        toast.show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    setImageResource(R.mipmap.ic_rec_play);
-                    PausePlay();
-                    sfRecordButton.enable();
-                    //sfStopButton.disable();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                sfPlayRecording = !sfPlayRecording;
+            } else {
+                setImageResource(R.mipmap.ic_rec_play);
+                PausePlay();
+                sfRecordButton.enable();
+                //sfStopButton.disable();
             }
+            sfPlayRecording = !sfPlayRecording;
         };
 
         public void PlayRecord() throws IOException {
@@ -376,18 +472,16 @@ public class RecordFragment extends BaseFragment {
 
     // functions for MEDIA RECORDING
 
-
     //finish of MEDIA RECORDING functions
 
     // functions for MEDIA PLAYER
 
-
     //Start timer functions
 
     public void fillTimer(String h, String m, String s) {
-        tvSeconds.setText(s.length() == 1 ? "0" + s : s);
-        tvMinutes.setText(m.length() == 1 ? "0" + m : m);
-        tvHours.setText(h.length() == 1 ? "0" + h : h);
+        seconds_textView.setText(s.length() == 1 ? "0" + s : s);
+        minutes_textView.setText(m.length() == 1 ? "0" + m : m);
+        hours_textView.setText(h.length() == 1 ? "0" + h : h);
     }
 
     //get file duration
@@ -410,177 +504,75 @@ public class RecordFragment extends BaseFragment {
         fillTimer(hours, minutes, seconds);
     }
 
-    // Upload file to server for BUTTON SAVE
-    public void uploadRecordingToServer(File file, String owner) {
-        Log.d(RECORD_TAG, "uploadRecordingToServer()");
-        SendFileToServer sendFileToServer = new SendFileToServer(getContext());
+    //get the path of the record if the name was changed, path for already recorded sound and future changes
+    private String getRecordPath() {
+        return EXTERNAL_STORAGE_PATH + File.separator + recordName + AppConstants.AUDIO_EXTENSION;
+    }
 
-        if(userLocalStore.getLastLatitude().isEmpty() && userLocalStore.getLastLongitude().isEmpty()){
+    private String getCurrentDate() {
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.DAY_OF_MONTH) + "_" + calendar.get(Calendar.MONTH) + "_"
+                + calendar.get(Calendar.YEAR) + "_" + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + ":"
+                + calendar.get(Calendar.SECOND);
+    }
+
+    /* private methods */
+
+    private void uploadFile(File file, String owner) {
+        Log.d(RECORD_TAG, "uploadRecordingToServer");
+        String latitude = userLocalStore.getLastLatitude();
+        String longitude = userLocalStore.getLastLongitude();
+
+        if (latitude.isEmpty() && longitude.isEmpty()) {
             Toast.makeText(getActivity(), "Impossible to save file. Possibly GPS is not enabled.", Toast.LENGTH_LONG).show();
             return;
         }
 
-        sendFileToServer.uploadFile(file, owner, userLocalStore.getLastLatitude(), userLocalStore.getLastLongitude());
+        ProgressRequestBody requestFile = new ProgressRequestBody(file, this);
+
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("file", file.getName(), requestFile)
+                .addFormDataPart("owner", owner)
+                .addFormDataPart("latitude", latitude)
+                .addFormDataPart("longitude", longitude)
+                .build();
+
+        Log.d(TAG, "Owner : " + owner);
+        Log.d(TAG, "Latitude : " + latitude);
+        Log.d(TAG, "Longitude : " + longitude);
+
+        Api api = new Api();
+        api.upload(requestBody)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(bindToLifecycle())
+                .doOnError(this::handleError)
+                .subscribe(this::uploadFinished, this::handleError);
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(RECORD_TAG, "onCreateView()");
-
-        View view = inflater.inflate(R.layout.fragment_record, container, false);
-        sfLayout = (RelativeLayout) view.findViewById(R.id.sfLayout);
-        tvSeconds = (TextView) view.findViewById(R.id.tvTimerSeconds);
-        tvMinutes = (TextView) view.findViewById(R.id.tvTimerMinutes);
-        tvHours = (TextView) view.findViewById(R.id.tvTimerHours);
-        lShareEditDelete = (LinearLayout) view.findViewById(R.id.lShareEditDelete);
-        lShareEditDelete.setVisibility(View.GONE);
-
-        userLocalStore = new UserLocalStore(getActivity());
-/*
-*   @    Create layout with record buttons
-*/
-        createLayout();
-
-/*
-*   @    Share button & function
-*/
-        Button buttonShare = (Button) view.findViewById(R.id.bShareRecord);
-        buttonShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                File outputFile = new File(getRecordPath());
-                if (outputFile.exists()){
-                    String owner = userLocalStore.isFacebookLoggedIn() ? userLocalStore.getFacebookId()+"" : userLocalStore.getEmail();
-                    Log.d(RECORD_TAG, "uploadRecordingToServer for owner " + owner);
-
-                    /*
-                    * Change fragment to map in order to get the location
-                    * */
-                    FragmentManager mFragmentManager = getFragmentManager();
-                    mFragmentManager.beginTransaction()
-                            .replace(R.id.content_frame, new MapFragment(), "MapFragment")
-                            .addToBackStack(null)
-                            .commit();
-
-                    uploadRecordingToServer(outputFile, owner);
-                }
-            }
-        });
-
-/*
-   @     Edit button & function
-*/
-        Button buttonEdit = (Button) view.findViewById(R.id.bEditRecord);
-        buttonEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editRecordName();
-            }
-        });
-
-/*
-  @      Delete button & function
-*/
-        Button buttonDelete = (Button) view.findViewById(R.id.bDeleteRecord);
-        buttonDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Delete this file
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
-                alertBuilder.setTitle(R.string.is_delete_file);
-                alertBuilder.setCancelable(true);
-                alertBuilder.setPositiveButton(R.string.delete_record, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        File file = new File(getRecordPath());
-                        file.delete();
-                        lShareEditDelete.setVisibility(View.GONE);
-                        fillTimer("0","0","0");
-                    }
-                });
-                alertBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                alertBuilder.show();
-            }
-        });
-
-        //file location
-        //OUTPUT_FILE = EXTERNAL_STORAGE_PATH + File.separator + recordName + AppConstants.AUDIO_EXTENSION;
-
-        return view;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        try {
-            getActivity().getActionBar().setTitle("Record ambient sounds");
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void uploadFinished(ResponseBody responseBody) {
+        Log.d(TAG, "uploadFinished()");
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
         }
+        Log.d(TAG, responseBody.toString());
     }
 
-    public void editRecordName(){
-        File file = new File(getRecordPath());
-        Log.d(RECORD_TAG, getRecordPath());
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
-        alertBuilder.setTitle(R.string.is_edit_file);
-        alertBuilder.setCancelable(true);
-
-        final EditText etChangeRecordName = new EditText(getActivity());
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        etChangeRecordName.setLayoutParams(params);
-        etChangeRecordName.setText(file.getName());
-        alertBuilder.setView(etChangeRecordName);
-
-        alertBuilder.setPositiveButton(R.string.edit_record, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String newRecordName = etChangeRecordName.getText().toString();
-                if (newRecordName.isEmpty())
-                    dialog.dismiss();
-
-                newRecordName = newRecordName.replace(AppConstants.AUDIO_EXTENSION, "");
-                //Log.d(RECORD_TAG, newRecordName);
-
-                File from = new File(EXTERNAL_STORAGE_PATH, recordName + AppConstants.AUDIO_EXTENSION);
-                File to = new File(EXTERNAL_STORAGE_PATH, newRecordName + AppConstants.AUDIO_EXTENSION);
-
-                if (from.exists()) {
-                    from.renameTo(to);
-                    recordName = newRecordName;
-                }
-            }
-        });
-        alertBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        alertBuilder.show();
-    }
-
-    //get the path of the record if the name was changed, path for already recorded sound and future changes
-    private String getRecordPath(){
-        return EXTERNAL_STORAGE_PATH + File.separator + recordName + AppConstants.AUDIO_EXTENSION;
-    }
-
-    private String getCurrentDate(){
-        Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.DAY_OF_MONTH) + "_" + calendar.get(Calendar.MONTH) + "_"
-                +  calendar.get(Calendar.YEAR) + "_" + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE) + ":"
-                + calendar.get(Calendar.SECOND);
+    @Override
+    public void onProgressUpdate(int percentage) {
+        Log.d(TAG, "onProgressUpdate()");
+        if (progressDialog != null) {
+            progressDialog.setProgress(percentage);
+        } else {
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setCancelable(false);
+            progressDialog.setMax(100);
+            progressDialog.setProgress(percentage);
+            progressDialog.show();
+        }
     }
 
 }

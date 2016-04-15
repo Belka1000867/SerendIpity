@@ -1,12 +1,10 @@
 package com.example.bel.softwarefactory.ui.activities;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,23 +20,27 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.bel.softwarefactory.NavItem;
 import com.example.bel.softwarefactory.R;
 import com.example.bel.softwarefactory.preferences.UserLocalStore;
 import com.example.bel.softwarefactory.ui.adapters.DrawerListAdapter;
-import com.example.bel.softwarefactory.ui.fragments.MapFragment;
+import com.example.bel.softwarefactory.ui.fragments.MapFragment_;
 import com.example.bel.softwarefactory.ui.fragments.RecordFragment;
+import com.example.bel.softwarefactory.ui.fragments.RecordFragment_;
 import com.example.bel.softwarefactory.ui.fragments.RecordingListFragment_;
 import com.facebook.CallbackManager;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @EActivity(R.layout.activity_menu)
 public class MenuActivity extends BaseActivity implements AdapterView.OnItemClickListener {
@@ -57,33 +59,29 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
     private ActionBar actionBar;
     private ActionBarDrawerToggle drawerToggle;
 
-    //Layout for user information
-    private String[] aTitles;
-    private String[] aDescriptions;
-    private int mPrevItem = 0;
+    @InstanceState
+    protected ArrayList<String> titles;
+    @InstanceState
+    protected ArrayList<String> descriptions;
+    @InstanceState
+    protected int prevItem = 0;
 
-    private UserLocalStore userLocalStore;
+    @Bean
+    protected UserLocalStore userLocalStore;
 
     //facebook call back manager
     private CallbackManager facebookCallbackManager;
 
     @AfterViews
     protected void afterViews() {
-        userLocalStore = new UserLocalStore(MenuActivity.this);
+        facebookCallbackManager = CallbackManager.Factory.create();
 
-        facebookCallbackManager = new CallbackManager.Factory().create();
-
-        //getting arrays
-        aTitles = getResources().getStringArray(R.array.itemTitles);
-        aDescriptions = getResources().getStringArray(R.array.itemDescriptions);
-
-        switchFragment(new MapFragment());
+        switchFragment(MapFragment_.builder().build());
 
         actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            //actionBar.setIcon(R.mipmap.ic_logo_circle);
         }
 
         fillMenu();
@@ -121,10 +119,13 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
 
     public void fillMenu() {
         Log.d(TAG, "fillMenu()");
+        titles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.itemTitles)));
+        descriptions = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.itemDescriptions)));
+
         ArrayList<NavItem> aNavItems = new ArrayList<>();
-        aNavItems.add(new NavItem(aTitles[0], aDescriptions[0], R.mipmap.ic_map_marker, 0));
-        aNavItems.add(new NavItem(aTitles[1], aDescriptions[1], R.mipmap.ic_microphone, 1));
-        aNavItems.add(new NavItem(aTitles[2], aDescriptions[2], R.mipmap.ic_note, 2));
+        aNavItems.add(new NavItem(titles.get(0), descriptions.get(0), R.mipmap.ic_map_marker, 0));
+        aNavItems.add(new NavItem(titles.get(1), descriptions.get(1), R.mipmap.ic_microphone, 1));
+        aNavItems.add(new NavItem(titles.get(2), descriptions.get(2), R.mipmap.ic_note, 2));
 
         listViewMenu.setOnItemClickListener(this);
         DrawerListAdapter adapter = new DrawerListAdapter(this, aNavItems);
@@ -149,7 +150,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
         drawerLayoutMenu.addDrawerListener(drawerToggle);
     }
 
-    public void createUserProfileLayout() {
+    private void createUserProfileLayout() {
         RelativeLayout relativeLayout = new RelativeLayout(this);
         ImageView ivUserPhoto = new ImageView(this);
         TextView tvUserName = new TextView(this);
@@ -210,7 +211,6 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
         paramsUserPhoto.setMarginEnd(20);
         ivUserPhoto.setLayoutParams(paramsUserPhoto);
         relativeLayout.addView(ivUserPhoto);
-
         //setting params finished
 
         //Add layout to the header
@@ -252,7 +252,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
                     /*
                     * Check if user logout in record fragment, then go to map fragment
                     * */
-                    RecordFragment recordFragment = (RecordFragment) getSupportFragmentManager().findFragmentByTag("Record");
+                    RecordFragment recordFragment = (RecordFragment) getSupportFragmentManager().findFragmentByTag("RecordFragment_");
                     if (recordFragment != null && recordFragment.isVisible()) {
                         selectItem(0);
                     }
@@ -272,37 +272,27 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //change HEADER name to the Item name
+        if (actionBar != null) {
+            actionBar.setTitle(titles.get(position));
+        }
         selectItem(position);
     }
 
     public void selectItem(int position) {
-        Fragment menuFragment;
         NavItem currentItem;
-
         listViewMenu.setItemChecked(position, true);
         currentItem = (NavItem) listViewMenu.getItemAtPosition(position);
 
-        if (mPrevItem != currentItem.getId()) {
+        if (prevItem != currentItem.getId()) {
             switch (currentItem.getId()) {
                 case 0:
-                    menuFragment = new MapFragment();
-                    switchFragment(menuFragment);
-                    if (actionBar != null) {
-                        actionBar.setTitle(currentItem.getTitle());
-                    }
-                    mPrevItem = 0;
+                    switchFragment(MapFragment_.builder().build());
+                    prevItem = 0;
                     break;
                 case 1:
-                    menuFragment = new RecordFragment();
-
                     if (userLocalStore.isUserLoggedIn()) {
-                        switchFragment(menuFragment);
-                        if (actionBar != null) {
-                            actionBar.setTitle(currentItem.getTitle());
-                        }
-
-                        mPrevItem = 1;
+                        switchFragment(RecordFragment_.builder().build());
+                        prevItem = 1;
                     } else {
                         showLoginRequestDialog();
                     }
@@ -310,12 +300,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
                     break;
                 case 2:
                     switchFragment(RecordingListFragment_.builder().build());
-                    if (actionBar != null) {
-                        actionBar.setTitle(currentItem.getTitle());
-                    }
-
-                    mPrevItem = 2;
-
+                    prevItem = 2;
                     break;
             }
         }
@@ -323,20 +308,12 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
     }
 
     private void showLoginRequestDialog() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("To use this function you need to Login");
-
-        alertDialog.setPositiveButton("Go to Login", (dialog, which) -> {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
-        });
-
-        // Setting Negative "NO" Button
-        alertDialog.setNegativeButton("Cancel", (dialog, which) -> {
-            dialog.cancel();
-        });
-
-        alertDialog.show();
+        new MaterialDialog.Builder(this)
+                .title("To use this function you need to Login")
+                .positiveText("Go to Login")
+                .negativeText("Cancel")
+                .onPositive((dialog, which) -> LoginActivity_.intent(MenuActivity.this).start())
+        .show();
     }
 
     //facebook methods
@@ -344,36 +321,6 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult()");
         facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG, "onOptionsItemSelected()");
-        //measure installs on your mobile app ads
-        //log an app activation event for Facebook
-        //Logs 'install' and 'app activate' App Events
-        AppEventsLogger.activateApp(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        Log.d(TAG, "onDestroy()");
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onStop() {
-        Log.d(TAG, "onStop()");
-        super.onStop();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onOptionsItemSelected()");
-        //logs 'app deactivate' app event for facebook
-        AppEventsLogger.deactivateApp(this);
     }
 
 }

@@ -2,22 +2,22 @@ package com.example.bel.softwarefactory.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 
 import com.example.bel.softwarefactory.entities.User;
+import com.google.android.gms.maps.model.LatLng;
 
-import java.net.URL;
+import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.RootContext;
 
-/**
- * Created by Bel on 21.02.2016.
- */
+@EBean
 public class UserLocalStore {
-
-    // sharedp references file 'userData' for user information where we save all settings about the account of loggedIn user
     private static final String LOCAL_STORE_NAME = "userData";
     private SharedPreferences userLocalDatabase;
     private SharedPreferences.Editor spEditor;
 
-    public UserLocalStore(Context context){
+    @RootContext
+    void setContext(Context context){
         userLocalDatabase = context.getSharedPreferences(LOCAL_STORE_NAME, Context.MODE_PRIVATE);
     }
 
@@ -118,20 +118,15 @@ public class UserLocalStore {
         return userLocalDatabase.getString("profilePictureUrl", null);
     }
 
-    public void setLastLatitude(Double latitude){
+    public void setLastLatitude(LatLng latLng){
         spEditor = userLocalDatabase.edit();
-        spEditor.putString("Latitude", Double.toString(latitude));
+        spEditor.putString("Latitude", Double.toString(latLng.latitude));
+        spEditor.putString("Longitude", Double.toString(latLng.longitude));
         spEditor.apply();
     }
 
     public String getLastLatitude(){
         return userLocalDatabase.getString("Latitude", null);
-    }
-
-    public void setLastLongitude(Double longitude){
-        spEditor = userLocalDatabase.edit();
-        spEditor.putString("Longitude", Double.toString(longitude));
-        spEditor.apply();
     }
 
     public String getLastLongitude(){
