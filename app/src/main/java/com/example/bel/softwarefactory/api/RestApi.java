@@ -10,4 +10,5 @@ public interface RestApi {
 
     @POST("upload_file.php")
     Observable<ResponseBody> upload(@Body RequestBody file);
+
 }
