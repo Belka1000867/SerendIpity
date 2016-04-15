@@ -21,7 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.bel.softwarefactory.NavItem;
+import com.example.bel.softwarefactory.entities.LeftMenuItem;
 import com.example.bel.softwarefactory.R;
 import com.example.bel.softwarefactory.preferences.UserLocalStore;
 import com.example.bel.softwarefactory.ui.adapters.DrawerListAdapter;
@@ -122,13 +122,13 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
         titles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.itemTitles)));
         descriptions = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.itemDescriptions)));
 
-        ArrayList<NavItem> aNavItems = new ArrayList<>();
-        aNavItems.add(new NavItem(titles.get(0), descriptions.get(0), R.mipmap.ic_map_marker, 0));
-        aNavItems.add(new NavItem(titles.get(1), descriptions.get(1), R.mipmap.ic_microphone, 1));
-        aNavItems.add(new NavItem(titles.get(2), descriptions.get(2), R.mipmap.ic_note, 2));
+        ArrayList<LeftMenuItem> leftMenuItems = new ArrayList<>();
+        leftMenuItems.add(new LeftMenuItem(titles.get(0), descriptions.get(0), R.mipmap.ic_map_marker, 0));
+        leftMenuItems.add(new LeftMenuItem(titles.get(1), descriptions.get(1), R.mipmap.ic_microphone, 1));
+        leftMenuItems.add(new LeftMenuItem(titles.get(2), descriptions.get(2), R.mipmap.ic_note, 2));
 
         listViewMenu.setOnItemClickListener(this);
-        DrawerListAdapter adapter = new DrawerListAdapter(this, aNavItems);
+        DrawerListAdapter adapter = new DrawerListAdapter(this, leftMenuItems);
         listViewMenu.setAdapter(adapter);
 
         Log.d(TAG, "Before Menu Header initialization isLoggedIn: " + userLocalStore.isUserLoggedIn());
@@ -279,9 +279,9 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
     }
 
     public void selectItem(int position) {
-        NavItem currentItem;
+        LeftMenuItem currentItem;
         listViewMenu.setItemChecked(position, true);
-        currentItem = (NavItem) listViewMenu.getItemAtPosition(position);
+        currentItem = (LeftMenuItem) listViewMenu.getItemAtPosition(position);
 
         if (prevItem != currentItem.getId()) {
             switch (currentItem.getId()) {

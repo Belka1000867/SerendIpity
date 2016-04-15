@@ -12,9 +12,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.bel.softwarefactory.GetUserCallback;
+import com.example.bel.softwarefactory.utils.GetUserCallback;
 import com.example.bel.softwarefactory.R;
-import com.example.bel.softwarefactory.ServerRequests;
+import com.example.bel.softwarefactory.utils.ServerRequests;
 import com.example.bel.softwarefactory.entities.User;
 import com.example.bel.softwarefactory.preferences.UserLocalStore;
 import com.example.bel.softwarefactory.utils.AlertDialogHelper_;

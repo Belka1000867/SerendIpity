@@ -1,4 +1,4 @@
-package com.example.bel.softwarefactory;
+package com.example.bel.softwarefactory.utils;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -8,7 +8,6 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.example.bel.softwarefactory.entities.User;
-import com.example.bel.softwarefactory.utils.AppConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;

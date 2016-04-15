@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.bel.softwarefactory.NavItem;
+import com.example.bel.softwarefactory.entities.LeftMenuItem;
 import com.example.bel.softwarefactory.R;
 
 import java.util.ArrayList;
@@ -16,21 +16,21 @@ import java.util.ArrayList;
 public class DrawerListAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<NavItem> navItems;
+    private ArrayList<LeftMenuItem> leftMenuItems;
 
-    public DrawerListAdapter(Context context, ArrayList<NavItem> navItems) {
+    public DrawerListAdapter(Context context, ArrayList<LeftMenuItem> leftMenuItems) {
         this.context = context;
-        this.navItems = navItems;
+        this.leftMenuItems = leftMenuItems;
     }
 
     @Override
     public int getCount() {
-        return navItems.size();
+        return leftMenuItems.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return navItems.get(position);
+        return leftMenuItems.get(position);
     }
 
     @Override
@@ -55,9 +55,9 @@ public class DrawerListAdapter extends BaseAdapter {
         TextView subtitleView = (TextView) view.findViewById(R.id.description);
         ImageView iconView = (ImageView) view.findViewById(R.id.icon);
 
-        titleView.setText(navItems.get(position).getTitle());
-        subtitleView.setText( navItems.get(position).getDescription());
-        iconView.setImageResource(navItems.get(position).getIcon());
+        titleView.setText(leftMenuItems.get(position).getTitle());
+        subtitleView.setText( leftMenuItems.get(position).getDescription());
+        iconView.setImageResource(leftMenuItems.get(position).getIcon());
 
         return view;
     }

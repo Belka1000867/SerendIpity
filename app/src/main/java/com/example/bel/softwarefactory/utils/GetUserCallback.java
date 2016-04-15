@@ -1,4 +1,4 @@
-package com.example.bel.softwarefactory;
+package com.example.bel.softwarefactory.utils;
 
 import com.example.bel.softwarefactory.entities.User;
 
@@ -10,7 +10,5 @@ import com.example.bel.softwarefactory.entities.User;
  * of the Asynchronous tasks
  */
 public interface GetUserCallback {
-
-    public abstract void done(User returnedUser);
-
+    void done(User returnedUser);
 }

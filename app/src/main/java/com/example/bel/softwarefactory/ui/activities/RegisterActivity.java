@@ -8,8 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.bel.softwarefactory.R;
-import com.example.bel.softwarefactory.ServerRequests;
-import com.example.bel.softwarefactory.preferences.UserLocalStore;
+import com.example.bel.softwarefactory.utils.ServerRequests;
 import com.example.bel.softwarefactory.entities.User;
 
 import org.androidannotations.annotations.AfterViews;

@@ -1,12 +1,12 @@
-package com.example.bel.softwarefactory;
+package com.example.bel.softwarefactory.entities;
 
-public class NavItem {
+public class LeftMenuItem {
     private String title;
     private String description;
     private int icon;
     private int id;
 
-    public NavItem(String title, String description, int icon, int id) {
+    public LeftMenuItem(String title, String description, int icon, int id) {
         this.title = title;
         this.description = description;
         this.icon = icon;

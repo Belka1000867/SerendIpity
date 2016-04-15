@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.CheckBox;
@@ -14,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.bel.softwarefactory.R;
-import com.example.bel.softwarefactory.ServerRequests;
+import com.example.bel.softwarefactory.utils.ServerRequests;
 import com.example.bel.softwarefactory.preferences.UserLocalStore;
 import com.example.bel.softwarefactory.entities.User;
 import com.facebook.AccessToken;
@@ -22,7 +21,6 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
