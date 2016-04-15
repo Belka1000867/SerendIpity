@@ -1,6 +1,7 @@
-# Created by .ignore support plugin (hsz.mobi)
+﻿# Created by .ignore support plugin (hsz.mobi)
 .idea
 .gradle
+app/build/
 build/
 *.iml
 *.apk
