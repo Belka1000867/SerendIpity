@@ -2,9 +2,8 @@ package com.example.bel.softwarefactory.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.location.Location;
 
-import com.example.bel.softwarefactory.entities.User;
+import com.example.bel.softwarefactory.entities.UserEntity;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.androidannotations.annotations.EBean;
@@ -21,7 +20,7 @@ public class UserLocalStore {
         userLocalDatabase = context.getSharedPreferences(LOCAL_STORE_NAME, Context.MODE_PRIVATE);
     }
 
-    public void saveUser(User user){
+    public void saveUser(UserEntity user){
         spEditor = userLocalDatabase.edit();
         spEditor.putString("username", user.getUsername());
         spEditor.putString("email", user.getEmail());
@@ -29,10 +28,10 @@ public class UserLocalStore {
         spEditor.apply();
     }
 
-    public User getLoggedInUserData(){
+    public UserEntity getLoggedInUserData(){
         String password = userLocalDatabase.getString("password","");
 
-        return new User(getUsername(),getEmail(),password);
+        return new UserEntity(getUsername(),getEmail(),password);
     }
 
     //GET user data separately

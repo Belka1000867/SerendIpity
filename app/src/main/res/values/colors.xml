@@ -5,4 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="whiteTransparent">#35ffffff</color>
+
+    <color name="media_item_icon_playing">#00B8D4</color>
+    <color name="media_item_icon_not_playing">#ccc</color>
 </resources>

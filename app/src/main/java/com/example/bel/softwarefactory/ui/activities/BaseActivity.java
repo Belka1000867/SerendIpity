@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.example.bel.softwarefactory.R;
 import com.example.bel.softwarefactory.utils.AlertDialogHelper;
 import com.example.bel.softwarefactory.utils.AlertDialogHelper_;
+import com.facebook.appevents.AppEventsLogger;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 public abstract class BaseActivity extends RxAppCompatActivity {
@@ -22,8 +23,15 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        AppEventsLogger.activateApp(this);
         alertDialogHelper = AlertDialogHelper_.getInstance_(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        AppEventsLogger.deactivateApp(this);
     }
 
     public void switchFragment(Fragment fragment) {

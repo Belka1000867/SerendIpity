@@ -1,6 +1,6 @@
 package com.example.bel.softwarefactory.utils;
 
-import com.example.bel.softwarefactory.entities.User;
+import com.example.bel.softwarefactory.entities.UserEntity;
 
 /**
  * Created by Bel on 21.02.2016.
@@ -10,5 +10,5 @@ import com.example.bel.softwarefactory.entities.User;
  * of the Asynchronous tasks
  */
 public interface GetUserCallback {
-    void done(User returnedUser);
+    void done(UserEntity returnedUser);
 }

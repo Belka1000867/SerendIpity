@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.example.bel.softwarefactory.R;
 import com.example.bel.softwarefactory.utils.ServerRequests;
 import com.example.bel.softwarefactory.preferences.UserLocalStore;
-import com.example.bel.softwarefactory.entities.User;
+import com.example.bel.softwarefactory.entities.UserEntity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -98,7 +98,7 @@ public class LoginActivity extends BaseActivity {
         String password = password_editText.getText().toString();
         String username = "";
 
-        User user = new User(username, email, password);
+        UserEntity user = new UserEntity(username, email, password);
         authenticate(user);
         userLocalStore.setRememberUser(rememberMe_checkBox.isChecked());
     }
@@ -147,7 +147,7 @@ public class LoginActivity extends BaseActivity {
         alertDialog.show();
     }
 
-    private void authenticate(User user) {
+    private void authenticate(UserEntity user) {
         Log.d(TAG, "authenticate()");
         ServerRequests serverRequests = new ServerRequests(this);
         serverRequests.fetchUserDataInBackground(user, returnedUser -> {
@@ -160,7 +160,7 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private void logUserIn(User returnedUser) {
+    private void logUserIn(UserEntity returnedUser) {
         Log.d(TAG, "logUserIn()");
         //store loggedIn user data in the class file
         userLocalStore.saveUser(returnedUser);
@@ -179,9 +179,9 @@ public class LoginActivity extends BaseActivity {
 
     private void getFacebookUserData() {
         GraphRequest graphRequest = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), (object, response) -> {
-            User userLogging = null;
+            UserEntity userLogging = null;
             try {
-                userLogging = new User(object.getString("name"), object.getString("email"), "");
+                userLogging = new UserEntity(object.getString("name"), object.getString("email"), "");
                 userLocalStore.setFacebookId(object.getLong("id"));
 
                 if (object.has("picture")) {

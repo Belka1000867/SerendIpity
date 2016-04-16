@@ -113,7 +113,7 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
             Log.d(RECORD_TAG, "uploadRecordingToServer for owner " + owner);
 
             //Change fragment to map in order to get the location
-            switchFragment(new MapFragment());
+            switchFragment(MapFragment_.builder().build());
             uploadFile(outputFile, owner);
         }
     }

@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.example.bel.softwarefactory.R;
 import com.example.bel.softwarefactory.utils.ServerRequests;
-import com.example.bel.softwarefactory.entities.User;
+import com.example.bel.softwarefactory.entities.UserEntity;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -17,7 +17,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_register)
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
 
     @ViewById
     protected EditText username_editText;
@@ -48,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
             // Check Password and Confirmed Password
             // if not matched show toast
             if (password.equals(passwordConf)) {
-                User newUser = new User(username, email, password);
+                UserEntity newUser = new UserEntity(username, email, password);
                 signUpUser(newUser);
             } else {
                 showToast("Passwords does not match. Please, try again.");
@@ -80,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
         toast.show();
     }
 
-    private void signUpUser(User user) {
+    private void signUpUser(UserEntity user) {
         ServerRequests serverRequests = new ServerRequests(this);
         serverRequests.storeUserDataInBackground(user, returnedUser -> {
             LoginActivity_.intent(RegisterActivity.this).start();

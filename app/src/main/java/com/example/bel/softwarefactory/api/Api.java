@@ -1,5 +1,6 @@
 package com.example.bel.softwarefactory.api;
 
+import com.example.bel.softwarefactory.entities.AudioRecordEntity;
 import com.example.bel.softwarefactory.utils.AppConstants;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
@@ -9,6 +10,7 @@ import com.google.gson.JsonSerializer;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.Date;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -56,4 +58,8 @@ public class Api {
     public Observable<ResponseBody> upload(RequestBody file) {
         return restApi.upload(file);
     }
+
+    public Observable<List<AudioRecordEntity>> getAudioRecordsList() {
+        return restApi.getAudioRecordsList();
+    };
 }

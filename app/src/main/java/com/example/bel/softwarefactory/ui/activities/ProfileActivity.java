@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.example.bel.softwarefactory.utils.GetUserCallback;
 import com.example.bel.softwarefactory.R;
 import com.example.bel.softwarefactory.utils.ServerRequests;
-import com.example.bel.softwarefactory.entities.User;
+import com.example.bel.softwarefactory.entities.UserEntity;
 import com.example.bel.softwarefactory.preferences.UserLocalStore;
 import com.example.bel.softwarefactory.utils.AlertDialogHelper_;
 
@@ -26,7 +26,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_profile)
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends BaseActivity {
 
     @ViewById
     protected TextView userName_textView;
@@ -111,12 +111,12 @@ public class ProfileActivity extends AppCompatActivity {
                         ServerRequests serverRequests = new ServerRequests(ProfileActivity.this);
                         serverRequests.changeUserData(usernameToChange, emailToChange, previousEmail, new GetUserCallback() {
                             @Override
-                            public void done(User returnedUser) {
+                            public void done(UserEntity returnedUser) {
                                 if (returnedUser.getEmail().equals(previousEmail) && !emailToChange.equals(previousEmail)) {
                                     showErrorMessage("Such Email already exist");
                                 } else {
                                     showErrorMessage("Data was successfully changed!");
-                                    userLocalStore.saveUser(new User(returnedUser.getUsername(), returnedUser.getEmail()));
+                                    userLocalStore.saveUser(new UserEntity(returnedUser.getUsername(), returnedUser.getEmail()));
                                     Log.d("DEBUG", "username" + usernameToChange + " email " + emailToChange);
                                     Log.d("DEBUG", "username" + userLocalStore.getUsername() + " email " + userLocalStore.getEmail());
                                 }

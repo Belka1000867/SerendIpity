@@ -21,4 +21,18 @@ public abstract class BaseFragment extends RxFragment {
             ((BaseActivity) activity).switchFragment(fragment);
         }
     }
+
+    protected void showProgress(String message) {
+        Activity activity = getActivity();
+        if (activity != null) {
+            ((BaseActivity) activity).showProgress(message);
+        }
+    }
+
+    protected void hideProgress() {
+        Activity activity = getActivity();
+        if (activity != null) {
+            ((BaseActivity) activity).hideProgress();
+        }
+    }
 }

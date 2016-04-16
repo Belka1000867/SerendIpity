@@ -52,4 +52,7 @@
     <string name="start_as_visitor">START AS VISITOR</string>
     <string name="or">OR</string>
     <string name="Attention">Attention!</string>
+    <string name="downloading">Downloading... please wait</string>
+    <string name="play_item">play_item</string>
+    <string name="profile_photo">profilePhoto</string>
 </resources>

@@ -1,6 +1,6 @@
 package com.example.bel.softwarefactory.entities;
 
-public class User {
+public class UserEntity {
 
     private String username;
     private String email;
@@ -9,12 +9,12 @@ public class User {
     //private String city;
     //private String country;
 
-    public User(String username, String email) {
+    public UserEntity(String username, String email) {
         setUsername(username);
         setEmail(email);
     }
 
-    public User(String username, String email, String password) {
+    public UserEntity(String username, String email, String password) {
         setUsername(username);
         setEmail(email);
         setPassword(password);

@@ -7,7 +7,7 @@ import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 
-import com.example.bel.softwarefactory.entities.User;
+import com.example.bel.softwarefactory.entities.UserEntity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,12 +47,12 @@ public class ServerRequests {
         progressDialog.setMessage("Please wait...");
     }
 
-    public void storeUserDataInBackground(User user, GetUserCallback userCallback) {
+    public void storeUserDataInBackground(UserEntity user, GetUserCallback userCallback) {
         progressDialog.show();
         new StoreUserDataAsyncTask(user, userCallback).execute();
     }
 
-    public void fetchUserDataInBackground(User user, GetUserCallback userCallback) {
+    public void fetchUserDataInBackground(UserEntity user, GetUserCallback userCallback) {
         progressDialog.show();
         new FetchUserDataAsyncTask(user, userCallback).execute();
     }
@@ -79,10 +79,10 @@ public class ServerRequests {
 
     public class StoreUserDataAsyncTask extends AsyncTask<Void, Void, Void> {
 
-        User user;
+        UserEntity user;
         GetUserCallback userCallback;
 
-        public StoreUserDataAsyncTask(User user, GetUserCallback userCallback) {
+        public StoreUserDataAsyncTask(UserEntity user, GetUserCallback userCallback) {
             this.user = user;
             this.userCallback = userCallback;
         }
@@ -137,18 +137,18 @@ public class ServerRequests {
         }
     }
 
-    public class FetchUserDataAsyncTask extends AsyncTask<Void, Void, User> {
+    public class FetchUserDataAsyncTask extends AsyncTask<Void, Void, UserEntity> {
 
-        private User user;
+        private UserEntity user;
         private GetUserCallback userCallback;
 
-        public FetchUserDataAsyncTask(User user, GetUserCallback userCallback) {
+        public FetchUserDataAsyncTask(UserEntity user, GetUserCallback userCallback) {
             this.user = user;
             this.userCallback = userCallback;
         }
 
         @Override
-        protected User doInBackground(Void... params) {
+        protected UserEntity doInBackground(Void... params) {
 
             try {
                 URL url = new URL(AppConstants.SERVER_ADDRESS + "FetchUserData.php");
@@ -184,7 +184,7 @@ public class ServerRequests {
 
                 //decode JsonArray got from response
                 //JSONArray jsonArray = new JSONArray(response);
-                User returnedUser;
+                UserEntity returnedUser;
                 JSONObject jsonObject = new JSONObject(response);
 
                 if (jsonObject.length() == 0) {
@@ -198,7 +198,7 @@ public class ServerRequests {
                     //String city = jsonObject.getString("city");
                     //String country = jsonObject.getString("country");
 
-                    returnedUser = new User(username, email, password);
+                    returnedUser = new UserEntity(username, email, password);
                 }
 
                 bufferedReader.close();
@@ -214,7 +214,7 @@ public class ServerRequests {
         }
 
         @Override
-        protected void onPostExecute(User user) {
+        protected void onPostExecute(UserEntity user) {
             progressDialog.dismiss();
             userCallback.done(user);
             super.onPostExecute(user);
@@ -410,7 +410,7 @@ public class ServerRequests {
         }
     }
 
-    public class ChangeUserDataAsyncTask extends AsyncTask<Void, Void, User> {
+    public class ChangeUserDataAsyncTask extends AsyncTask<Void, Void, UserEntity> {
         String username, email, prevEmail;
         GetUserCallback userCallback;
 
@@ -422,7 +422,7 @@ public class ServerRequests {
         }
 
         @Override
-        protected User doInBackground(Void... params) {
+        protected UserEntity doInBackground(Void... params) {
 
             Log.d("DEBUG:", "doInBackground is running");
 
@@ -463,7 +463,7 @@ public class ServerRequests {
                 Log.d("DEBUG:", "Getting data from server : response = " + response);
 
                 //decode JsonArray got from response
-                User returnedUser;
+                UserEntity returnedUser;
                 //JSONArray jsonArray = new JSONArray(response);
 
                 JSONObject jsonObject = new JSONObject(response);
@@ -476,7 +476,7 @@ public class ServerRequests {
 
                     Log.d("DEBUG", "username " + username + " email " + email);
 
-                    returnedUser = new User(username, email);
+                    returnedUser = new UserEntity(username, email);
                     Log.d("DEBUG", "username " + returnedUser.getUsername() + " email " + returnedUser.getEmail());
                 }
 
@@ -496,7 +496,7 @@ public class ServerRequests {
         }
 
         @Override
-        protected void onPostExecute(User user) {
+        protected void onPostExecute(UserEntity user) {
             progressDialog.dismiss();
             userCallback.done(user);
             super.onPostExecute(user);

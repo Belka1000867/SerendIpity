@@ -16,7 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,6 +37,7 @@ import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ViewById;
@@ -54,7 +57,14 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
     protected ListView listViewMenu;
 
     @ViewById
-    protected RelativeLayout rlMainMenu;
+    protected LinearLayout leftMenu_layout;
+
+    @ViewById
+    protected View profile_layout;
+    @ViewById
+    protected TextView userName_textView;
+    @ViewById
+    protected ImageView userPhoto_imageView;
 
     private ActionBar actionBar;
     private ActionBarDrawerToggle drawerToggle;
@@ -84,6 +94,15 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        if (userLocalStore.isUserLoggedIn()) {
+            profile_layout.setVisibility(View.VISIBLE);
+            userName_textView.setText(userLocalStore.getUsername());
+            Picasso.with(MenuActivity.this)
+                    .load(userLocalStore.getProfilePictureUrl())
+                    .error(R.mipmap.ic_user)
+                    .into(userPhoto_imageView);
+        }
+
         fillMenu();
     }
 
@@ -109,11 +128,6 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
             MenuItem item = menu.findItem(R.id.overflowItemLogOut);
             item.setVisible(true);
         }
-
-        if (userLocalStore.isUserLoggedIn()) {
-            createUserProfileLayout();
-        }
-
         return true;
     }
 
@@ -150,71 +164,11 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
         drawerLayoutMenu.addDrawerListener(drawerToggle);
     }
 
-    private void createUserProfileLayout() {
-        RelativeLayout relativeLayout = new RelativeLayout(this);
-        ImageView ivUserPhoto = new ImageView(this);
-        TextView tvUserName = new TextView(this);
-
-        //SET PARAMS TO LinearLayout WHERE USER PROFILE INFO is situated
-        //set width and height
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        //set id to Header in the menu
-        relativeLayout.setId(R.id.layoutProfileHeader);
-        relativeLayout.setBackgroundColor(Color.BLACK);
-        relativeLayout.setGravity(Gravity.CENTER_VERTICAL);
-        relativeLayout.setLayoutParams(layoutParams);
-
-        //add profile activity where user can change data if user is not logged in from facebook
+    @Click(R.id.profile_layout)
+    protected void profile_layout_click() {
         if (!userLocalStore.isFacebookLoggedIn()) {
-            relativeLayout.setOnClickListener(v -> {
-                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                startActivity(intent);
-            });
+            ProfileActivity_.intent(MenuActivity.this).start();
         }
-
-        //PUSH List View below created layout
-        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        p.addRule(RelativeLayout.BELOW, R.id.layoutProfileHeader);
-        listViewMenu.setLayoutParams(p);
-
-        //SET PARAMS FOR TEXT VIEW with USER PROFILE INFO
-        tvUserName.setText(userLocalStore.getUsername());
-        tvUserName.setEms(10);
-        tvUserName.setTextSize(20);
-        tvUserName.setTextColor(Color.WHITE);
-        tvUserName.setHeight(150);
-        tvUserName.setGravity(Gravity.CENTER);
-        RelativeLayout.LayoutParams paramsUserText = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        //paramsUserText.addRule(RelativeLayout.CENTER_IN_PARENT,RelativeLayout.TRUE);
-        paramsUserText.setMarginStart(50);
-        tvUserName.setLayoutParams(paramsUserText);
-        relativeLayout.addView(tvUserName);
-
-        //SET PARAMS for IMAGE VIEW with USER PROFILE INFO
-
-        if (userLocalStore.isFacebookLoggedIn()) {
-            Picasso.with(MenuActivity.this)
-                    .load(userLocalStore.getProfilePictureUrl())
-                    .error(R.mipmap.ic_user)
-                    .into(ivUserPhoto);
-        } else {
-            ivUserPhoto.setImageResource(R.mipmap.ic_user);
-        }
-
-        ivUserPhoto.setContentDescription("Profile photo");
-        ivUserPhoto.setBackgroundColor(Color.TRANSPARENT);
-        RelativeLayout.LayoutParams paramsUserPhoto = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        paramsUserPhoto.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        paramsUserPhoto.addRule(RelativeLayout.CENTER_VERTICAL);
-        paramsUserPhoto.setMarginEnd(20);
-        ivUserPhoto.setLayoutParams(paramsUserPhoto);
-        relativeLayout.addView(ivUserPhoto);
-        //setting params finished
-
-        //Add layout to the header
-        rlMainMenu.addView(relativeLayout);
     }
 
     @Override
@@ -247,7 +201,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
                     //clean local store with user information
                     userLocalStore.clearUserData();
                     //delete profile header with user name from left side menu
-                    rlMainMenu.removeView(findViewById(R.id.layoutProfileHeader));
+                    leftMenu_layout.removeView(findViewById(R.id.layoutProfileHeader));
 
                     /*
                     * Check if user logout in record fragment, then go to map fragment
@@ -313,7 +267,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
                 .positiveText("Go to Login")
                 .negativeText("Cancel")
                 .onPositive((dialog, which) -> LoginActivity_.intent(MenuActivity.this).start())
-        .show();
+                .show();
     }
 
     //facebook methods

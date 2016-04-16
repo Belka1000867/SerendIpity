@@ -2,9 +2,6 @@ package com.example.bel.softwarefactory.utils;
 
 import android.media.MediaRecorder;
 
-/**
- * Created by bel on 24.03.16.
- */
 public class AppConstants {
     public static final String MIME_TYPE = "audio/*";
     public static final String SERVER_ADDRESS = "http://serendipity.netne.net/";

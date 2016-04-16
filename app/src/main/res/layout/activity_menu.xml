@@ -8,23 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <RelativeLayout
-        android:id="@+id/rlMainMenu"
+    <LinearLayout
+        android:id="@+id/leftMenu_layout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:minWidth="240dp">
 
-        <ListView
-            android:id="@+id/listViewMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="@android:color/white"
-            android:divider="@android:color/black"
-            android:dividerHeight="1dp"
-            android:minWidth="240dp" />
+        <include layout="@layout/left_menu_layout"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>
