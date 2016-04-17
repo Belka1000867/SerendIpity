@@ -1,6 +1,9 @@
 package com.example.bel.softwarefactory.api;
 
 import com.example.bel.softwarefactory.entities.AudioRecordEntity;
+import com.example.bel.softwarefactory.entities.ChangePasswordRequest;
+import com.example.bel.softwarefactory.entities.ChangeUserData;
+import com.example.bel.softwarefactory.entities.PasswordRequest;
 import com.example.bel.softwarefactory.entities.RegisterRequest;
 import com.example.bel.softwarefactory.entities.ResultEntity;
 import com.example.bel.softwarefactory.entities.UserEntity;
@@ -27,5 +30,14 @@ public interface RestApi {
 
     @POST("FetchUserData.php")
     Observable<UserEntity> logInUser (@Body UserEntity userEntity);
+
+    @POST("ChangePassword.php")
+    Observable<ResultEntity> changePassword (@Body ChangePasswordRequest changePasswordRequest);
+
+    @POST("RequestPassword.php")
+    Observable<ResultEntity> requestPassword (@Body PasswordRequest passwordRequest);
+
+    @POST("ChangeUserData.php")
+    Observable<ResultEntity> changeUserData (@Body ChangeUserData changeUserData);
 
 }

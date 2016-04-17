@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.bel.softwarefactory.R;
 import com.example.bel.softwarefactory.api.Api;
-import com.example.bel.softwarefactory.utils.ServerRequests;
+import com.example.bel.softwarefactory.entities.PasswordRequest;
 import com.example.bel.softwarefactory.preferences.UserLocalStore;
 import com.example.bel.softwarefactory.entities.UserEntity;
 import com.facebook.AccessToken;
@@ -131,8 +131,16 @@ public class LoginActivity extends BaseActivity {
             String email = input.getText().toString();
             if (isEmailValid(email)) {
                 Log.d("DEBUG", "requesting password reset");
-                ServerRequests serverRequests = new ServerRequests(LoginActivity.this);
-                serverRequests.requestPassword(email);
+                Api api = new Api();
+                showProgress(getString(R.string.sending_email_with_your_password));
+                api.requestPassword(new PasswordRequest(email))
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .compose(bindToLifecycle())
+                        .subscribe(resultEntity -> {
+                            hideProgress();
+                            showToast(resultEntity.getResult());
+                        }, this::handleError);
                 showAlert("Password Reset Request sent to email");
             } else {
                 showAlert("Incorrect input");

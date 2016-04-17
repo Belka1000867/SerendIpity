@@ -57,4 +57,6 @@
     <string name="profile_photo">profilePhoto</string>
     <string name="registering">Please wait, we registering you ;)</string>
     <string name="logging_in">Please wait we logging you in ;)</string>
+    <string name="sending_email_with_your_password">Sending email with you password</string>
+    <string name="changing_user_info">"Changing user info... "</string>
 </resources>

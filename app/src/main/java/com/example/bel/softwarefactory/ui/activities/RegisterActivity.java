@@ -2,15 +2,11 @@ package com.example.bel.softwarefactory.ui.activities;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.bel.softwarefactory.R;
 import com.example.bel.softwarefactory.api.Api;
 import com.example.bel.softwarefactory.entities.RegisterRequest;
-import com.example.bel.softwarefactory.utils.ServerRequests;
 import com.example.bel.softwarefactory.entities.UserEntity;
 
 import org.androidannotations.annotations.AfterViews;

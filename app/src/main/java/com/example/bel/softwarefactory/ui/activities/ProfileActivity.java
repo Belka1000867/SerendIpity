@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -12,8 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.bel.softwarefactory.R;
-import com.example.bel.softwarefactory.utils.ServerRequests;
-import com.example.bel.softwarefactory.entities.UserEntity;
+import com.example.bel.softwarefactory.api.Api;
+import com.example.bel.softwarefactory.entities.ChangePasswordRequest;
+import com.example.bel.softwarefactory.entities.ChangeUserData;
 import com.example.bel.softwarefactory.preferences.UserLocalStore;
 import com.example.bel.softwarefactory.utils.AlertDialogHelper_;
 
@@ -22,6 +22,9 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 @EActivity(R.layout.activity_profile)
 public class ProfileActivity extends BaseActivity {
@@ -103,18 +106,16 @@ public class ProfileActivity extends BaseActivity {
 
                 dialogBuilder.setPositiveButton("OK", (dialog, which) -> {
                     if (input.getText().toString().equals(userLocalStore.getUser().getPassword())) {
-
-                        ServerRequests serverRequests = new ServerRequests(ProfileActivity.this);
-                        serverRequests.changeUserData(usernameToChange, emailToChange, previousEmail, returnedUser -> {
-                            if (returnedUser.getEmail().equals(previousEmail) && !emailToChange.equals(previousEmail)) {
-                                showErrorMessage("Such Email already exist");
-                            } else {
-                                showErrorMessage("Data was successfully changed!");
-                                userLocalStore.saveUser(new UserEntity(returnedUser.getUsername(), returnedUser.getEmail()));
-                                Log.d("DEBUG", "username" + usernameToChange + " email " + emailToChange);
-                                Log.d("DEBUG", "username" + userLocalStore.getUser().getUsername() + " email " + userLocalStore.getUser().getEmail());
-                            }
-                        });
+                        Api api = new Api();
+                        showProgress(getString(R.string.changing_user_info));
+                        api.changeUserData(new ChangeUserData(usernameToChange, emailToChange, previousEmail))
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .compose(bindToLifecycle())
+                                .subscribe(resultEntity -> {
+                                    hideProgress();
+                                    showToast(resultEntity.getResult());
+                                }, this::handleError);
                     } else
                         showErrorMessage("Incorrect password");
                 });
@@ -150,9 +151,16 @@ public class ProfileActivity extends BaseActivity {
 
             dialogBuilder.setPositiveButton("OK", (dialog, which) -> {
                 if (input.getText().toString().equals(userLocalStore.getUser().getPassword())) {
-
-                    ServerRequests serverRequests = new ServerRequests(ProfileActivity.this);
-                    serverRequests.changePassword(userLocalStore.getUser().getEmail(), password);
+                    ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest(userLocalStore.getUser().getEmail(), userLocalStore.getUser().getPassword(), password);
+                    Api api = new Api();
+                    api.changePassword(changePasswordRequest)
+                            .subscribeOn(Schedulers.newThread())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .compose(bindToLifecycle())
+                            .subscribe(resultEntity -> {
+                                hideProgress();
+                                showToast(resultEntity.getResult());
+                            }, this::handleError);
                 } else
                     showErrorMessage("Incorrect password");
             });

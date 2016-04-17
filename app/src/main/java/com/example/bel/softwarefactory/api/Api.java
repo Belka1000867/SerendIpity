@@ -1,6 +1,9 @@
 package com.example.bel.softwarefactory.api;
 
 import com.example.bel.softwarefactory.entities.AudioRecordEntity;
+import com.example.bel.softwarefactory.entities.ChangePasswordRequest;
+import com.example.bel.softwarefactory.entities.ChangeUserData;
+import com.example.bel.softwarefactory.entities.PasswordRequest;
 import com.example.bel.softwarefactory.entities.RegisterRequest;
 import com.example.bel.softwarefactory.entities.ResultEntity;
 import com.example.bel.softwarefactory.entities.UserEntity;
@@ -75,4 +78,15 @@ public class Api {
         return restApi.logInUser(userEntity);
     }
 
+    public Observable<ResultEntity> changePassword (ChangePasswordRequest changePasswordRequest) {
+        return restApi.changePassword(changePasswordRequest);
+    }
+
+    public Observable<ResultEntity> requestPassword (PasswordRequest passwordRequest) {
+        return restApi.requestPassword(passwordRequest);
+    }
+
+    public Observable<ResultEntity> changeUserData (ChangeUserData changeUserData) {
+        return restApi.changeUserData(changeUserData);
+    };
 }
