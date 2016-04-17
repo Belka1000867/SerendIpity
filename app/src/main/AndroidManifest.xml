@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.activities.FirstActivity_"
+        <activity android:name=".ui.activities.SplashScreenActivity_"
             android:label="Serendipity"
             android:theme="@style/TranslucentActivity">
             <intent-filter>
@@ -25,6 +25,11 @@
         </activity>
 
         <activity android:name=".ui.activities.LoginActivity_"
+            android:label="Login"
+            android:theme="@style/AppTheme">
+        </activity>
+
+        <activity android:name=".ui.activities.FirstActivity_"
             android:label="Login"
             android:theme="@style/AppTheme">
         </activity>

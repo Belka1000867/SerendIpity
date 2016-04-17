@@ -59,4 +59,6 @@
     <string name="logging_in">Please wait we logging you in ;)</string>
     <string name="sending_email_with_your_password">Sending email with you password</string>
     <string name="changing_user_info">"Changing user info... "</string>
+    <string name="all_rights_reserved">SamNapisal (c) Serendipity 2016</string>
+    <string name="something_wrong_cant_start">Something wrong with connection to the server! Try again later</string>
 </resources>

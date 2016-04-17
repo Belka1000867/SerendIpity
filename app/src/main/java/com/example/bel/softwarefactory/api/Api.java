@@ -17,6 +17,7 @@ import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -50,6 +51,7 @@ public class Api {
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.connectTimeout(60, TimeUnit.SECONDS);
 
         httpClient.addInterceptor(logging);
         Retrofit retrofit = new Retrofit.Builder()
@@ -88,5 +90,5 @@ public class Api {
 
     public Observable<ResultEntity> changeUserData (ChangeUserData changeUserData) {
         return restApi.changeUserData(changeUserData);
-    };
+    }
 }

@@ -1,7 +1,6 @@
 package com.example.bel.softwarefactory.ui.activities;
 
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 
 import com.example.bel.softwarefactory.R;
 import com.example.bel.softwarefactory.preferences.UserLocalStore;
@@ -23,25 +22,11 @@ public class FirstActivity extends BaseActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
-
-        boolean serendipityUser = userLocalStore.isUserLoggedIn() && userLocalStore.isRememberMe();
-        //skip this page if user is logged in as facebook user or serendipity
-        if (serendipityUser || userLocalStore.isFacebookLoggedIn()) {
-            MenuActivity_.intent(FirstActivity.this).start();
-            finish();
-        }
-        Log.d("DEBUG", "Serendipity : " + serendipityUser);
-        Log.d("DEBUG", "Facebook: " + userLocalStore.isFacebookLoggedIn());
     }
 
     @Click(R.id.login_button)
     protected void login_button_click() {
-        if (userLocalStore.isFacebookLoggedIn() || userLocalStore.isUserLoggedIn()) {
-            MenuActivity_.intent(FirstActivity.this).start();
-            finish();
-        } else {
-            LoginActivity_.intent(FirstActivity.this).start();
-        }
+        LoginActivity_.intent(FirstActivity.this).start();
     }
 
     @Click(R.id.register_button)

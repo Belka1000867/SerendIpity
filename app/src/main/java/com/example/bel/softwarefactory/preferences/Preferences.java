@@ -19,4 +19,6 @@ public interface Preferences {
 
     String lastPosition();
 
+    String audioRecordsList();
+
 }

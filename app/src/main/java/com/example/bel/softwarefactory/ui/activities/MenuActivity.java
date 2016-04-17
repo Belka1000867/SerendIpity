@@ -200,16 +200,8 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
                     }
                     //clean local store with user information
                     userLocalStore.clearUserData();
-                    //delete profile header with user name from left side menu
-                    leftMenu_layout.removeView(findViewById(R.id.layoutProfileHeader));
-
-                    /*
-                    * Check if user logout in record fragment, then go to map fragment
-                    * */
-                    RecordFragment recordFragment = (RecordFragment) getSupportFragmentManager().findFragmentByTag("RecordFragment_");
-                    if (recordFragment != null && recordFragment.isVisible()) {
-                        selectItem(0);
-                    }
+                    FirstActivity_.intent(MenuActivity.this).start();
+                    finish();
                 }
                 break;
             default:
