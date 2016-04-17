@@ -55,4 +55,6 @@
     <string name="downloading">Downloading... please wait</string>
     <string name="play_item">play_item</string>
     <string name="profile_photo">profilePhoto</string>
+    <string name="registering">Please wait, we registering you ;)</string>
+    <string name="logging_in">Please wait we logging you in ;)</string>
 </resources>

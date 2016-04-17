@@ -96,7 +96,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
 
         if (userLocalStore.isUserLoggedIn()) {
             profile_layout.setVisibility(View.VISIBLE);
-            userName_textView.setText(userLocalStore.getUsername());
+            userName_textView.setText(userLocalStore.getUser().getUsername());
             Picasso.with(MenuActivity.this)
                     .load(userLocalStore.getProfilePictureUrl())
                     .error(R.mipmap.ic_user)

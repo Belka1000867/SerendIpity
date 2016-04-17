@@ -1,135 +1,135 @@
 package com.example.bel.softwarefactory.preferences;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.example.bel.softwarefactory.entities.UserEntity;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 
 import org.androidannotations.annotations.EBean;
-import org.androidannotations.annotations.RootContext;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 @EBean
 public class UserLocalStore {
-    private static final String LOCAL_STORE_NAME = "userData";
-    private SharedPreferences userLocalDatabase;
-    private SharedPreferences.Editor spEditor;
 
-    @RootContext
-    void setContext(Context context){
-        userLocalDatabase = context.getSharedPreferences(LOCAL_STORE_NAME, Context.MODE_PRIVATE);
+    @Pref
+    protected Preferences_ preferences;
+
+    public void saveUser(UserEntity user) {
+        Gson gson = new Gson();
+        String userString = gson.toJson(user);
+
+        preferences.edit()
+                .user()
+                .put(userString)
+                .apply();
     }
 
-    public void saveUser(UserEntity user){
-        spEditor = userLocalDatabase.edit();
-        spEditor.putString("username", user.getUsername());
-        spEditor.putString("email", user.getEmail());
-        spEditor.putString("password", user.getPassword());
-        spEditor.apply();
+    public UserEntity getUser() {
+        Gson gson = new Gson();
+        return gson.fromJson(preferences.user().get(), UserEntity.class);
     }
 
-    public UserEntity getLoggedInUserData(){
-        String password = userLocalDatabase.getString("password","");
-
-        return new UserEntity(getUsername(),getEmail(),password);
+    public void setUsername(String username) {
+        Gson gson = new Gson();
+        UserEntity userEntity = gson.fromJson(preferences.user().get(), UserEntity.class);
+        userEntity.setUsername(username);
+        saveUser(userEntity);
     }
 
-    //GET user data separately
-    public String getUsername(){
-        return userLocalDatabase.getString("username", "");
+    public void setEmail(String email) {
+        Gson gson = new Gson();
+        UserEntity userEntity = gson.fromJson(preferences.user().get(), UserEntity.class);
+        userEntity.setEmail(email);
+        saveUser(userEntity);
     }
 
-    public void setUsername(String username){
-        spEditor = userLocalDatabase.edit();
-        spEditor.putString("username", username);
-        spEditor.apply();
+    public void setPassword(String password) {
+        Gson gson = new Gson();
+        UserEntity userEntity = gson.fromJson(preferences.user().get(), UserEntity.class);
+        userEntity.setPassword(password);
+        saveUser(userEntity);
     }
 
-    public String getEmail(){
-        return userLocalDatabase.getString("email", "");
+    public void setUserLoggedIn(boolean loggedIn) {
+        preferences.edit()
+                .loggedIn()
+                .put(loggedIn)
+                .apply();
     }
 
-    public void setEmail(String email){
-        spEditor = userLocalDatabase.edit();
-        spEditor.putString("email", email);
-        spEditor.apply();
+
+    public boolean isUserLoggedIn() {
+        return preferences.loggedIn().getOr(false);
     }
 
-    public void setUserLoggedIn(boolean loggedIn){
-        spEditor = userLocalDatabase.edit();
-        spEditor.putBoolean("loggedIn", loggedIn);
-        spEditor.apply();
-    }
-
-    public String getPassword(){
-        return userLocalDatabase.getString("password", "");
-    }
-
-    public boolean isUserLoggedIn(){
-        return userLocalDatabase.getBoolean("loggedIn", false);
-    }
-
-    public void clearUserData(){
-        spEditor = userLocalDatabase.edit();
-        spEditor.clear();
-        spEditor.apply();
+    public void clearUserData() {
+        preferences.clear();
     }
 
     // set variable to remember user details if he want or don't want to be remembered (depends on the check box)
-    public void setRememberUser(boolean rememberUser){
-        spEditor = userLocalDatabase.edit();
-        spEditor.putBoolean("rememberUser", rememberUser);
-        spEditor.apply();
+    public void setRememberUser(boolean rememberUser) {
+        preferences.edit()
+                .rememberUser()
+                .put(rememberUser)
+                .apply();
     }
 
-    public boolean isRememberMe(){
-        return userLocalDatabase.getBoolean("rememberUser", false);
+    public boolean isRememberMe() {
+        return preferences.rememberUser().getOr(false);
     }
 
-
-    public void setFacebookLoggedIn(boolean facebookLogin){
-        spEditor = userLocalDatabase.edit();
-        spEditor.putBoolean("facebookLogin", facebookLogin);
-        spEditor.apply();
+    public void setFacebookLoggedIn(boolean facebookLogin) {
+        preferences.edit()
+                .facebookLogin()
+                .put(facebookLogin)
+                .apply();
     }
 
-    public boolean isFacebookLoggedIn(){
-        return userLocalDatabase.getBoolean("facebookLogin", false);
+    public boolean isFacebookLoggedIn() {
+        return preferences.facebookLogin().getOr(false);
     }
 
-    public void setFacebookId(long id){
-        spEditor = userLocalDatabase.edit();
-        spEditor.putLong("facebookId", id);
-        spEditor.apply();
+    public void setFacebookId(long id) {
+        preferences.edit()
+                .facebookId()
+                .put(id)
+                .apply();
     }
 
-    public long getFacebookId(){
-        return userLocalDatabase.getLong("facebookId", -1);
+    public long getFacebookId() {
+        return preferences.facebookId().getOr(-1L);
     }
 
-    public void setProfilePictureUrl(String url){
-        spEditor = userLocalDatabase.edit();
-        spEditor.putString("profilePictureUrl", url);
-        spEditor.apply();
+    public void setProfilePictureUrl(String profilePictureUrl) {
+        preferences.edit()
+                .profilePictureUrl()
+                .put(profilePictureUrl)
+                .apply();
     }
 
-    public String getProfilePictureUrl(){
-        return userLocalDatabase.getString("profilePictureUrl", null);
+    public String getProfilePictureUrl() {
+        return preferences.profilePictureUrl().getOr(null);
     }
 
-    public void setLastLatitude(LatLng latLng){
-        spEditor = userLocalDatabase.edit();
-        spEditor.putString("Latitude", Double.toString(latLng.latitude));
-        spEditor.putString("Longitude", Double.toString(latLng.longitude));
-        spEditor.apply();
+    public void setLastPosition(LatLng latLng) {
+        Gson gson = new Gson();
+        String latLonString = gson.toJson(latLng);
+
+        preferences.edit()
+                .lastPosition()
+                .put(latLonString)
+                .apply();
     }
 
-    public String getLastLatitude(){
-        return userLocalDatabase.getString("Latitude", null);
+    public double getLastLatitude() {
+        Gson gson = new Gson();
+        LatLng latLng = gson.fromJson(preferences.lastPosition().get(), LatLng.class);
+        return latLng.latitude;
     }
 
-    public String getLastLongitude(){
-        return userLocalDatabase.getString("Longitude", null);
+    public double getLastLongitude() {
+        Gson gson = new Gson();
+        LatLng latLng = gson.fromJson(preferences.lastPosition().get(), LatLng.class);
+        return latLng.longitude;
     }
 
 }

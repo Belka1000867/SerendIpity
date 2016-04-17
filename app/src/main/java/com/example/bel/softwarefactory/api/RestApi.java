@@ -25,4 +25,7 @@ public interface RestApi {
     @POST("Register.php")
     Observable<ResultEntity> registerUser(@Body RegisterRequest registerRequest);
 
+    @POST("FetchUserData.php")
+    Observable<UserEntity> logInUser (@Body UserEntity userEntity);
+
 }

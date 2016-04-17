@@ -70,7 +70,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Loc
             lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
             if (lastLocation != null) {
                 LatLng lastPosition = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-                userLocalStore.setLastLatitude(lastPosition);
+                userLocalStore.setLastPosition(lastPosition);
 
                 // Add a marker to current position
                 Log.d(TAG, "Setting user position");

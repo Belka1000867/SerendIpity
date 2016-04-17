@@ -44,7 +44,7 @@ public class Api {
         gsonBuilder.registerTypeAdapter(Date.class, (JsonSerializer<Date>) (src, typeOfSrc, context) -> src == null ? null : new JsonPrimitive(src.getTime()));
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
@@ -69,6 +69,10 @@ public class Api {
 
     public Observable<ResultEntity> registerUser(RegisterRequest registerRequest) {
         return restApi.registerUser(registerRequest);
+    }
+
+    public Observable<UserEntity> logInUser (UserEntity userEntity) {
+        return restApi.logInUser(userEntity);
     }
 
 }

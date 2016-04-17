@@ -109,7 +109,7 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
     protected void shareRecord_button_click() {
         File outputFile = new File(getRecordPath());
         if (outputFile.exists()) {
-            String owner = userLocalStore.isFacebookLoggedIn() ? userLocalStore.getFacebookId() + "" : userLocalStore.getEmail();
+            String owner = userLocalStore.isFacebookLoggedIn() ? userLocalStore.getFacebookId() + "" : userLocalStore.getUser().getEmail();
             Log.d(RECORD_TAG, "uploadRecordingToServer for owner " + owner);
 
             //Change fragment to map in order to get the location
@@ -520,10 +520,10 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
 
     private void uploadFile(File file, String owner) {
         Log.d(RECORD_TAG, "uploadRecordingToServer");
-        String latitude = userLocalStore.getLastLatitude();
-        String longitude = userLocalStore.getLastLongitude();
+        Double latitude = userLocalStore.getLastLatitude();
+        Double longitude = userLocalStore.getLastLongitude();
 
-        if (latitude.isEmpty() && longitude.isEmpty()) {
+        if (!latitude.equals(0D) && !longitude.equals(0D)) {
             Toast.makeText(getActivity(), "Impossible to save file. Possibly GPS is not enabled.", Toast.LENGTH_LONG).show();
             return;
         }
@@ -534,8 +534,8 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", file.getName(), requestFile)
                 .addFormDataPart("owner", owner)
-                .addFormDataPart("latitude", latitude)
-                .addFormDataPart("longitude", longitude)
+                .addFormDataPart("latitude", latitude.toString())
+                .addFormDataPart("longitude", longitude.toString())
                 .build();
 
         Log.d(TAG, "Owner : " + owner);

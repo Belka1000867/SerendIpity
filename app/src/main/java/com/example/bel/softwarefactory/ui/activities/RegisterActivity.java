@@ -79,11 +79,13 @@ public class RegisterActivity extends BaseActivity {
     private void signUpUser(UserEntity user) {
         Api api = new Api();
         RegisterRequest registerRequest = new RegisterRequest(user);
+        showProgress(getString(R.string.registering));
         api.registerUser(registerRequest)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(bindToLifecycle())
                 .subscribe(resultEntity -> {
+                    hideProgress();
                     LoginActivity_.intent(RegisterActivity.this).start();
                     showToast(resultEntity.getResult());
                     finish();

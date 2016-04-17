@@ -3,7 +3,6 @@ package com.example.bel.softwarefactory.ui.activities;
 import android.app.AlertDialog;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.Gravity;
@@ -12,7 +11,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.bel.softwarefactory.utils.GetUserCallback;
 import com.example.bel.softwarefactory.R;
 import com.example.bel.softwarefactory.utils.ServerRequests;
 import com.example.bel.softwarefactory.entities.UserEntity;
@@ -44,11 +42,9 @@ public class ProfileActivity extends BaseActivity {
 
     @AfterViews
     protected void afterViews() {
-//        userLocalStore = new UserLocalStore(this);
-
-        userName_textView.setText(userLocalStore.getUsername());
-        username_editText.setText(userLocalStore.getUsername());
-        email_editText.setText(userLocalStore.getEmail());
+        userName_textView.setText(userLocalStore.getUser().getUsername());
+        username_editText.setText(userLocalStore.getUser().getUsername());
+        email_editText.setText(userLocalStore.getUser().getEmail());
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -72,17 +68,17 @@ public class ProfileActivity extends BaseActivity {
         String userName = username_editText.getText().toString();
         String email = email_editText.getText().toString();
 
-        final String previousEmail = userLocalStore.getEmail();
+        final String previousEmail = userLocalStore.getUser().getEmail();
         boolean isNameChanging = true;
         boolean isEmailChanging = true;
 
-        if (userName.isEmpty() || userName.equals(userLocalStore.getUsername())) {
-            userName = userLocalStore.getUsername();
+        if (userName.isEmpty() || userName.equals(userLocalStore.getUser().getUsername())) {
+            userName = userLocalStore.getUser().getUsername();
             isNameChanging = false;
         }
 
         if (email.isEmpty() || email.equals(previousEmail)) {
-            email = userLocalStore.getEmail();
+            email = userLocalStore.getUser().getEmail();
             isEmailChanging = false;
         }
 
@@ -106,20 +102,17 @@ public class ProfileActivity extends BaseActivity {
                 final String emailToChange = email;
 
                 dialogBuilder.setPositiveButton("OK", (dialog, which) -> {
-                    if (input.getText().toString().equals(userLocalStore.getPassword())) {
+                    if (input.getText().toString().equals(userLocalStore.getUser().getPassword())) {
 
                         ServerRequests serverRequests = new ServerRequests(ProfileActivity.this);
-                        serverRequests.changeUserData(usernameToChange, emailToChange, previousEmail, new GetUserCallback() {
-                            @Override
-                            public void done(UserEntity returnedUser) {
-                                if (returnedUser.getEmail().equals(previousEmail) && !emailToChange.equals(previousEmail)) {
-                                    showErrorMessage("Such Email already exist");
-                                } else {
-                                    showErrorMessage("Data was successfully changed!");
-                                    userLocalStore.saveUser(new UserEntity(returnedUser.getUsername(), returnedUser.getEmail()));
-                                    Log.d("DEBUG", "username" + usernameToChange + " email " + emailToChange);
-                                    Log.d("DEBUG", "username" + userLocalStore.getUsername() + " email " + userLocalStore.getEmail());
-                                }
+                        serverRequests.changeUserData(usernameToChange, emailToChange, previousEmail, returnedUser -> {
+                            if (returnedUser.getEmail().equals(previousEmail) && !emailToChange.equals(previousEmail)) {
+                                showErrorMessage("Such Email already exist");
+                            } else {
+                                showErrorMessage("Data was successfully changed!");
+                                userLocalStore.saveUser(new UserEntity(returnedUser.getUsername(), returnedUser.getEmail()));
+                                Log.d("DEBUG", "username" + usernameToChange + " email " + emailToChange);
+                                Log.d("DEBUG", "username" + userLocalStore.getUser().getUsername() + " email " + userLocalStore.getUser().getEmail());
                             }
                         });
                     } else
@@ -156,10 +149,10 @@ public class ProfileActivity extends BaseActivity {
             dialogBuilder.setMessage("Verify password");
 
             dialogBuilder.setPositiveButton("OK", (dialog, which) -> {
-                if (input.getText().toString().equals(userLocalStore.getPassword())) {
+                if (input.getText().toString().equals(userLocalStore.getUser().getPassword())) {
 
                     ServerRequests serverRequests = new ServerRequests(ProfileActivity.this);
-                    serverRequests.changePassword(userLocalStore.getEmail(), password);
+                    serverRequests.changePassword(userLocalStore.getUser().getEmail(), password);
                 } else
                     showErrorMessage("Incorrect password");
             });

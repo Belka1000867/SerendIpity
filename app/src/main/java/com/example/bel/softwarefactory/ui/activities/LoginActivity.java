@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.bel.softwarefactory.R;
+import com.example.bel.softwarefactory.api.Api;
 import com.example.bel.softwarefactory.utils.ServerRequests;
 import com.example.bel.softwarefactory.preferences.UserLocalStore;
 import com.example.bel.softwarefactory.entities.UserEntity;
@@ -30,6 +31,9 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONException;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
@@ -146,15 +150,22 @@ public class LoginActivity extends BaseActivity {
 
     private void authenticate(UserEntity user) {
         Log.d(TAG, "authenticate()");
-        ServerRequests serverRequests = new ServerRequests(this);
-        serverRequests.fetchUserDataInBackground(user, returnedUser -> {
-            if (returnedUser == null) {
-                showAlert("Incorrect Email/Password Combination");
-            } else {
-                logUserIn(returnedUser);
-                MenuActivity_.intent(LoginActivity.this).start();
-            }
-        });
+        Api api = new Api();
+        showProgress(getString(R.string.logging_in));
+        api.logInUser(user)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(bindToLifecycle())
+                .subscribe(returnedUser -> {
+                    hideProgress();
+                    if (returnedUser == null) {
+                        showAlert("Incorrect Email/Password Combination");
+                    } else {
+                        logUserIn(returnedUser);
+                        MenuActivity_.intent(LoginActivity.this).start();
+                        finish();
+                    }
+                }, this::handleError);
     }
 
     private void logUserIn(UserEntity returnedUser) {
