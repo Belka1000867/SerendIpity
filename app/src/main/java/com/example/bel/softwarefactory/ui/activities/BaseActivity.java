@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import com.example.bel.softwarefactory.R;
 import com.example.bel.softwarefactory.utils.AlertDialogHelper;
@@ -93,5 +95,11 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
     protected Fragment getCurrentFragment() {
         return getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+    }
+
+    protected void showToast(String message) {
+        Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
 }

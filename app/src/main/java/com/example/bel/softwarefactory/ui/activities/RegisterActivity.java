@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.bel.softwarefactory.R;
+import com.example.bel.softwarefactory.api.Api;
+import com.example.bel.softwarefactory.entities.RegisterRequest;
 import com.example.bel.softwarefactory.utils.ServerRequests;
 import com.example.bel.softwarefactory.entities.UserEntity;
 
@@ -15,6 +17,9 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 @EActivity(R.layout.activity_register)
 public class RegisterActivity extends BaseActivity {
@@ -64,9 +69,6 @@ public class RegisterActivity extends BaseActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
-
-        //get reference to local store
-//        UserLocalStore userLocalStore = new UserLocalStore(this);
     }
 
     //code from http://stackoverflow.com/questions/6119722/how-to-check-edittexts-text-is-email-address-or-not
@@ -74,18 +76,18 @@ public class RegisterActivity extends BaseActivity {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    private void showToast(String errorText) {
-        Toast toast = Toast.makeText(getApplicationContext(), errorText, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
-    }
-
     private void signUpUser(UserEntity user) {
-        ServerRequests serverRequests = new ServerRequests(this);
-        serverRequests.storeUserDataInBackground(user, returnedUser -> {
-            LoginActivity_.intent(RegisterActivity.this).start();
-            showToast("Registration successful. Please, Login.");
-        });
-
+        Api api = new Api();
+        RegisterRequest registerRequest = new RegisterRequest(user);
+        api.registerUser(registerRequest)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(bindToLifecycle())
+                .subscribe(resultEntity -> {
+                    LoginActivity_.intent(RegisterActivity.this).start();
+                    showToast(resultEntity.getResult());
+                    finish();
+                }, this::handleError);
     }
+
 }

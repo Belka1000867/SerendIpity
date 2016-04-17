@@ -56,7 +56,6 @@ public class LoginActivity extends BaseActivity {
 
     @AfterViews
     protected void afterViews() {
-
         //facebook sdk callback instance
         facebookCallbackManager = CallbackManager.Factory.create();
 
@@ -93,12 +92,10 @@ public class LoginActivity extends BaseActivity {
 
     @Click(R.id.login_imageButton)
     protected void login_imageButton_click() {
-        Log.d(TAG, "LoginOnClick()");
         String email = login_editText.getText().toString();
         String password = password_editText.getText().toString();
-        String username = "";
 
-        UserEntity user = new UserEntity(username, email, password);
+        UserEntity user = new UserEntity(email, password);
         authenticate(user);
         userLocalStore.setRememberUser(rememberMe_checkBox.isChecked());
     }

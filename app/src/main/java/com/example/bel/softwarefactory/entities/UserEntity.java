@@ -1,13 +1,15 @@
 package com.example.bel.softwarefactory.entities;
 
 public class UserEntity {
-
+    private String userId;
     private String username;
     private String email;
     private String password;
-    //private Date birthday;
-    //private String city;
-    //private String country;
+    private String photo;
+    private String gender;
+    private String birthday;
+    private String city;
+    private String country;
 
     public UserEntity(String username, String email) {
         setUsername(username);
@@ -18,9 +20,6 @@ public class UserEntity {
         setUsername(username);
         setEmail(email);
         setPassword(password);
-//        this.birthday = null;
-//        this.city = null;
-//        this.country = null;
     }
 
     public void setUsername(String username) {

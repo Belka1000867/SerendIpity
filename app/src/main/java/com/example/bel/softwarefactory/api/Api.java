@@ -1,6 +1,9 @@
 package com.example.bel.softwarefactory.api;
 
 import com.example.bel.softwarefactory.entities.AudioRecordEntity;
+import com.example.bel.softwarefactory.entities.RegisterRequest;
+import com.example.bel.softwarefactory.entities.ResultEntity;
+import com.example.bel.softwarefactory.entities.UserEntity;
 import com.example.bel.softwarefactory.utils.AppConstants;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
@@ -19,6 +22,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import rx.Observable;
 
 public class Api {
@@ -61,5 +65,10 @@ public class Api {
 
     public Observable<List<AudioRecordEntity>> getAudioRecordsList() {
         return restApi.getAudioRecordsList();
-    };
+    }
+
+    public Observable<ResultEntity> registerUser(RegisterRequest registerRequest) {
+        return restApi.registerUser(registerRequest);
+    }
+
 }

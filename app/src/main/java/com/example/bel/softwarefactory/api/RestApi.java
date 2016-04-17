@@ -1,6 +1,9 @@
 package com.example.bel.softwarefactory.api;
 
 import com.example.bel.softwarefactory.entities.AudioRecordEntity;
+import com.example.bel.softwarefactory.entities.RegisterRequest;
+import com.example.bel.softwarefactory.entities.ResultEntity;
+import com.example.bel.softwarefactory.entities.UserEntity;
 
 import java.util.List;
 
@@ -18,5 +21,8 @@ public interface RestApi {
 
     @GET("get_all_audio_list.php")
     Observable<List<AudioRecordEntity>> getAudioRecordsList();
+
+    @POST("Register.php")
+    Observable<ResultEntity> registerUser(@Body RegisterRequest registerRequest);
 
 }
