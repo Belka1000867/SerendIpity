@@ -118,6 +118,7 @@
             android:layout_below="@+id/login_imageButton"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
+            android:checked="true"
             android:text="@string/rememberpass" />
     </RelativeLayout>
 

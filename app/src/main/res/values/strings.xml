@@ -34,7 +34,7 @@
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="upload">Upload recording</string>
-    <string name="no_account">"Don't have an account? Sign Up"</string>
+    <string name="no_account">"Don't have an account?\nSign Up"</string>
     <string name="changes_name_email">Change Username/Email</string>
     <string name="about_changes">Enter new information. Push Change buttons, if you want to Save your data.</string>
     <string name="new_password">New Password</string>
@@ -62,4 +62,5 @@
     <string name="all_rights_reserved">SamNapisal (c) Serendipity 2016</string>
     <string name="something_wrong_cant_start">Something wrong with connection to the server! Try again later</string>
     <string name="press_again_to_exit">Press again to exit</string>
+    <string name="error_log_in">Incorrect Email/Password Combination</string>
 </resources>

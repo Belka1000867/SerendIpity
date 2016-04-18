@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.bel.softwarefactory.R;
 import com.example.bel.softwarefactory.api.Api;
+import com.example.bel.softwarefactory.entities.LoginRequest;
 import com.example.bel.softwarefactory.entities.PasswordRequest;
 import com.example.bel.softwarefactory.preferences.SharedPreferencesManager;
 import com.example.bel.softwarefactory.entities.UserEntity;
@@ -99,8 +100,8 @@ public class LoginActivity extends BaseActivity {
         String email = login_editText.getText().toString();
         String password = password_editText.getText().toString();
 
-        UserEntity user = new UserEntity(email, password);
-        authenticate(user);
+        LoginRequest loginRequest = new LoginRequest(email, password);
+        authenticate(loginRequest);
         sharedPreferencesManager.setRememberUser(rememberMe_checkBox.isChecked());
     }
 
@@ -156,18 +157,18 @@ public class LoginActivity extends BaseActivity {
         alertDialog.show();
     }
 
-    private void authenticate(UserEntity user) {
+    private void authenticate(LoginRequest loginRequest) {
         Log.d(TAG, "authenticate()");
         Api api = new Api();
         showProgress(getString(R.string.logging_in));
-        api.logInUser(user)
+        api.logInUser(loginRequest)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(bindToLifecycle())
                 .subscribe(returnedUser -> {
                     hideProgress();
-                    if (returnedUser == null) {
-                        showAlert("Incorrect Email/Password Combination");
+                    if (!returnedUser.getError().equals(0)) {
+                        showAlert(getString(R.string.error_log_in));
                     } else {
                         logUserIn(returnedUser);
                         MenuActivity_.intent(LoginActivity.this).flags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK).start();

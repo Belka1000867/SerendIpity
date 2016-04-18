@@ -3,6 +3,7 @@ package com.example.bel.softwarefactory.api;
 import com.example.bel.softwarefactory.entities.AudioRecordEntity;
 import com.example.bel.softwarefactory.entities.ChangePasswordRequest;
 import com.example.bel.softwarefactory.entities.ChangeUserData;
+import com.example.bel.softwarefactory.entities.LoginRequest;
 import com.example.bel.softwarefactory.entities.PasswordRequest;
 import com.example.bel.softwarefactory.entities.RegisterRequest;
 import com.example.bel.softwarefactory.entities.ResultEntity;
@@ -29,7 +30,7 @@ public interface RestApi {
     Observable<ResultEntity> registerUser(@Body RegisterRequest registerRequest);
 
     @POST("FetchUserData.php")
-    Observable<UserEntity> logInUser (@Body UserEntity userEntity);
+    Observable<UserEntity> logInUser (@Body LoginRequest loginRequest);
 
     @POST("ChangePassword.php")
     Observable<ResultEntity> changePassword (@Body ChangePasswordRequest changePasswordRequest);
