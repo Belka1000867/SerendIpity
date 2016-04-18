@@ -67,11 +67,6 @@ public class RegisterActivity extends BaseActivity {
         }
     }
 
-    //code from http://stackoverflow.com/questions/6119722/how-to-check-edittexts-text-is-email-address-or-not
-    private boolean isEmailValid(CharSequence email) {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
     private void signUpUser(UserEntity user) {
         Api api = new Api();
         RegisterRequest registerRequest = new RegisterRequest(user);

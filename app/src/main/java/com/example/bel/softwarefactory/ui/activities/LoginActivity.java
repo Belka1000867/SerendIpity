@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.example.bel.softwarefactory.R;
 import com.example.bel.softwarefactory.api.Api;
 import com.example.bel.softwarefactory.entities.PasswordRequest;
-import com.example.bel.softwarefactory.preferences.UserLocalStore;
+import com.example.bel.softwarefactory.preferences.SharedPreferencesManager;
 import com.example.bel.softwarefactory.entities.UserEntity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -56,7 +56,7 @@ public class LoginActivity extends BaseActivity {
     private CallbackManager facebookCallbackManager ;
 
     @Bean
-    protected UserLocalStore userLocalStore;
+    protected SharedPreferencesManager sharedPreferencesManager;
 
     @AfterViews
     protected void afterViews() {
@@ -77,7 +77,7 @@ public class LoginActivity extends BaseActivity {
                 public void onSuccess(LoginResult loginResult) {
                     Log.d(TAG, "Facebook_OnSuccess()");
                     getFacebookUserData();
-                    userLocalStore.setFacebookLoggedIn(true);
+                    sharedPreferencesManager.setFacebookLoggedIn(true);
                     MenuActivity_.intent(LoginActivity.this).start();
                 }
 
@@ -101,7 +101,7 @@ public class LoginActivity extends BaseActivity {
 
         UserEntity user = new UserEntity(email, password);
         authenticate(user);
-        userLocalStore.setRememberUser(rememberMe_checkBox.isChecked());
+        sharedPreferencesManager.setRememberUser(rememberMe_checkBox.isChecked());
     }
 
     @Click(R.id.registration_textView)
@@ -179,12 +179,8 @@ public class LoginActivity extends BaseActivity {
     private void logUserIn(UserEntity returnedUser) {
         Log.d(TAG, "logUserIn()");
         //store loggedIn user data in the class file
-        userLocalStore.saveUser(returnedUser);
-        userLocalStore.setUserLoggedIn(true);
-    }
-
-    private boolean isEmailValid(CharSequence email) {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        sharedPreferencesManager.saveUser(returnedUser);
+        sharedPreferencesManager.setUserLoggedIn(true);
     }
 
     //facebook for login start
@@ -198,14 +194,14 @@ public class LoginActivity extends BaseActivity {
             UserEntity userLogging = null;
             try {
                 userLogging = new UserEntity(object.getString("name"), object.getString("email"), "");
-                userLocalStore.setFacebookId(object.getLong("id"));
+                sharedPreferencesManager.setFacebookId(object.getLong("id"));
 
                 if (object.has("picture")) {
                     String profilePicUrl = object.getJSONObject("picture").getJSONObject("data").getString("url");
-                    userLocalStore.setProfilePictureUrl(profilePicUrl);
-                    Log.d(TAG, "Profile picture url :  " + userLocalStore.getProfilePictureUrl());
+                    sharedPreferencesManager.setProfilePictureUrl(profilePicUrl);
+                    Log.d(TAG, "Profile picture url :  " + sharedPreferencesManager.getProfilePictureUrl());
                 }
-                Log.d(TAG, "facebook id " + userLocalStore.getFacebookId());
+                Log.d(TAG, "facebook id " + sharedPreferencesManager.getFacebookId());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -214,7 +210,7 @@ public class LoginActivity extends BaseActivity {
                 logUserIn(userLogging);
             }
 
-            Log.d(TAG, "getFacebookUserData()" + userLocalStore.isUserLoggedIn());
+            Log.d(TAG, "getFacebookUserData()" + sharedPreferencesManager.isUserLoggedIn());
         });
         /*
         * 1. Put the string of variables into request

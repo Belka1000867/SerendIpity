@@ -13,16 +13,19 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 @EBean
-public class UserLocalStore {
+public class SharedPreferencesManager {
 
     @Pref
-    protected Preferences_ preferences;
+    protected UserLocalData_ userLocalData;
+
+    @Pref
+    protected ProgramData_ programData;
 
     public void saveUser(UserEntity user) {
         Gson gson = new Gson();
         String userString = gson.toJson(user);
 
-        preferences.edit()
+        userLocalData.edit()
                 .user()
                 .put(userString)
                 .apply();
@@ -30,32 +33,32 @@ public class UserLocalStore {
 
     public UserEntity getUser() {
         Gson gson = new Gson();
-        return gson.fromJson(preferences.user().get(), UserEntity.class);
+        return gson.fromJson(userLocalData.user().get(), UserEntity.class);
     }
 
     public void setUsername(String username) {
         Gson gson = new Gson();
-        UserEntity userEntity = gson.fromJson(preferences.user().get(), UserEntity.class);
+        UserEntity userEntity = gson.fromJson(userLocalData.user().get(), UserEntity.class);
         userEntity.setUsername(username);
         saveUser(userEntity);
     }
 
     public void setEmail(String email) {
         Gson gson = new Gson();
-        UserEntity userEntity = gson.fromJson(preferences.user().get(), UserEntity.class);
+        UserEntity userEntity = gson.fromJson(userLocalData.user().get(), UserEntity.class);
         userEntity.setEmail(email);
         saveUser(userEntity);
     }
 
     public void setPassword(String password) {
         Gson gson = new Gson();
-        UserEntity userEntity = gson.fromJson(preferences.user().get(), UserEntity.class);
+        UserEntity userEntity = gson.fromJson(userLocalData.user().get(), UserEntity.class);
         userEntity.setPassword(password);
         saveUser(userEntity);
     }
 
     public void setUserLoggedIn(boolean loggedIn) {
-        preferences.edit()
+        userLocalData.edit()
                 .loggedIn()
                 .put(loggedIn)
                 .apply();
@@ -63,63 +66,63 @@ public class UserLocalStore {
 
 
     public boolean isUserLoggedIn() {
-        return preferences.loggedIn().getOr(false);
+        return userLocalData.loggedIn().getOr(false);
     }
 
     public void clearUserData() {
-        preferences.clear();
+        userLocalData.clear();
     }
 
     // set variable to remember user details if he want or don't want to be remembered (depends on the check box)
     public void setRememberUser(boolean rememberUser) {
-        preferences.edit()
+        userLocalData.edit()
                 .rememberUser()
                 .put(rememberUser)
                 .apply();
     }
 
     public boolean isRememberMe() {
-        return preferences.rememberUser().getOr(false);
+        return userLocalData.rememberUser().getOr(false);
     }
 
     public void setFacebookLoggedIn(boolean facebookLogin) {
-        preferences.edit()
+        userLocalData.edit()
                 .facebookLogin()
                 .put(facebookLogin)
                 .apply();
     }
 
     public boolean isFacebookLoggedIn() {
-        return preferences.facebookLogin().getOr(false);
+        return userLocalData.facebookLogin().getOr(false);
     }
 
     public void setFacebookId(long id) {
-        preferences.edit()
+        userLocalData.edit()
                 .facebookId()
                 .put(id)
                 .apply();
     }
 
     public long getFacebookId() {
-        return preferences.facebookId().getOr(-1L);
+        return userLocalData.facebookId().getOr(-1L);
     }
 
     public void setProfilePictureUrl(String profilePictureUrl) {
-        preferences.edit()
+        userLocalData.edit()
                 .profilePictureUrl()
                 .put(profilePictureUrl)
                 .apply();
     }
 
     public String getProfilePictureUrl() {
-        return preferences.profilePictureUrl().getOr(null);
+        return userLocalData.profilePictureUrl().getOr(null);
     }
 
     public void setLastPosition(LatLng latLng) {
         Gson gson = new Gson();
         String latLonString = gson.toJson(latLng);
 
-        preferences.edit()
+        userLocalData.edit()
                 .lastPosition()
                 .put(latLonString)
                 .apply();
@@ -127,13 +130,13 @@ public class UserLocalStore {
 
     public double getLastLatitude() {
         Gson gson = new Gson();
-        LatLng latLng = gson.fromJson(preferences.lastPosition().get(), LatLng.class);
+        LatLng latLng = gson.fromJson(userLocalData.lastPosition().get(), LatLng.class);
         return latLng.latitude;
     }
 
     public double getLastLongitude() {
         Gson gson = new Gson();
-        LatLng latLng = gson.fromJson(preferences.lastPosition().get(), LatLng.class);
+        LatLng latLng = gson.fromJson(userLocalData.lastPosition().get(), LatLng.class);
         return latLng.longitude;
     }
 
@@ -141,7 +144,7 @@ public class UserLocalStore {
         Gson gson = new Gson();
         String saveAudioRecordsListString = gson.toJson(audioRecordEntities);
 
-        preferences.edit()
+        programData.edit()
                 .audioRecordsList()
                 .put(saveAudioRecordsListString)
                 .apply();
@@ -151,7 +154,7 @@ public class UserLocalStore {
         Gson gson = new Gson();
         Type listType = new TypeToken<List<AudioRecordEntity>>() {
         }.getType();
-        return gson.fromJson(preferences.audioRecordsList().get(), listType);
+        return gson.fromJson(programData.audioRecordsList().get(), listType);
     }
 
 }

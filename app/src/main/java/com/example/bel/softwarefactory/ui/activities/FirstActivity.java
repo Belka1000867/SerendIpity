@@ -3,7 +3,7 @@ package com.example.bel.softwarefactory.ui.activities;
 import android.support.v7.app.ActionBar;
 
 import com.example.bel.softwarefactory.R;
-import com.example.bel.softwarefactory.preferences.UserLocalStore;
+import com.example.bel.softwarefactory.preferences.SharedPreferencesManager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -14,7 +14,7 @@ import org.androidannotations.annotations.EActivity;
 public class FirstActivity extends BaseActivity {
 
     @Bean
-    protected UserLocalStore userLocalStore;
+    protected SharedPreferencesManager sharedPreferencesManager;
 
     @AfterViews
     protected void afterViews() {
@@ -36,7 +36,7 @@ public class FirstActivity extends BaseActivity {
 
     @Click(R.id.startAsVisitor_button)
     protected void startAsVisitor_button_click() {
-        userLocalStore.setUserLoggedIn(false);
+        sharedPreferencesManager.setUserLoggedIn(false);
         MenuActivity_.intent(FirstActivity.this).start();
         finish();
     }

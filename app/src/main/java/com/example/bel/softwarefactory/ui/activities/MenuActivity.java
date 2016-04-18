@@ -2,33 +2,28 @@ package com.example.bel.softwarefactory.ui.activities;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
-
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.bel.softwarefactory.entities.LeftMenuItem;
 import com.example.bel.softwarefactory.R;
-import com.example.bel.softwarefactory.preferences.UserLocalStore;
+import com.example.bel.softwarefactory.entities.LeftMenuItem;
+import com.example.bel.softwarefactory.preferences.SharedPreferencesManager;
 import com.example.bel.softwarefactory.ui.adapters.DrawerListAdapter;
 import com.example.bel.softwarefactory.ui.fragments.MapFragment_;
-import com.example.bel.softwarefactory.ui.fragments.RecordFragment;
 import com.example.bel.softwarefactory.ui.fragments.RecordFragment_;
 import com.example.bel.softwarefactory.ui.fragments.RecordingListFragment_;
 import com.facebook.CallbackManager;
@@ -44,6 +39,9 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
+
+import rx.Observable;
 
 @EActivity(R.layout.activity_menu)
 public class MenuActivity extends BaseActivity implements AdapterView.OnItemClickListener {
@@ -74,10 +72,10 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
     @InstanceState
     protected ArrayList<String> descriptions;
     @InstanceState
-    protected int prevItem = 0;
+    protected boolean proceedToExit = false;
 
     @Bean
-    protected UserLocalStore userLocalStore;
+    protected SharedPreferencesManager sharedPreferencesManager;
 
     //facebook call back manager
     private CallbackManager facebookCallbackManager;
@@ -94,13 +92,15 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        if (userLocalStore.isUserLoggedIn()) {
+        if (sharedPreferencesManager.isUserLoggedIn()) {
             profile_layout.setVisibility(View.VISIBLE);
-            userName_textView.setText(userLocalStore.getUser().getUsername());
+            userName_textView.setText(sharedPreferencesManager.getUser().getUsername());
             Picasso.with(MenuActivity.this)
-                    .load(userLocalStore.getProfilePictureUrl())
+                    .load(sharedPreferencesManager.getProfilePictureUrl())
                     .error(R.mipmap.ic_user)
                     .into(userPhoto_imageView);
+        } else {
+            profile_layout.setVisibility(View.GONE);
         }
 
         fillMenu();
@@ -111,7 +111,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
         Log.d(TAG, "onPrepareOptionsMenu()");
         MenuItem logOut = menu.findItem(R.id.overflowItemLogOut);
 
-        if (!userLocalStore.isUserLoggedIn()) {
+        if (!sharedPreferencesManager.isUserLoggedIn()) {
             logOut.setVisible(false);
         }
 
@@ -124,7 +124,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_overflow, menu);
 
-        if (userLocalStore.isUserLoggedIn()) {
+        if (sharedPreferencesManager.isUserLoggedIn()) {
             MenuItem item = menu.findItem(R.id.overflowItemLogOut);
             item.setVisible(true);
         }
@@ -145,7 +145,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
         DrawerListAdapter adapter = new DrawerListAdapter(this, leftMenuItems);
         listViewMenu.setAdapter(adapter);
 
-        Log.d(TAG, "Before Menu Header initialization isLoggedIn: " + userLocalStore.isUserLoggedIn());
+        Log.d(TAG, "Before Menu Header initialization isLoggedIn: " + sharedPreferencesManager.isUserLoggedIn());
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayoutMenu, R.string.drawer_open, R.string.drawer_close) {
             @Override
@@ -166,7 +166,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
 
     @Click(R.id.profile_layout)
     protected void profile_layout_click() {
-        if (!userLocalStore.isFacebookLoggedIn()) {
+        if (!sharedPreferencesManager.isFacebookLoggedIn()) {
             ProfileActivity_.intent(MenuActivity.this).start();
         }
     }
@@ -192,14 +192,14 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
                 //about item in overflow menu
                 break;*/
             case R.id.overflowItemLogOut:
-                if (userLocalStore.isUserLoggedIn()) {
+                if (sharedPreferencesManager.isUserLoggedIn()) {
                     //if logged in with facebook - log out
-                    if (userLocalStore.isFacebookLoggedIn()) {
+                    if (sharedPreferencesManager.isFacebookLoggedIn()) {
                         LoginManager.getInstance().logOut();
                         Log.d("DEBUG", "Log OUT FROM FACEBOOK" + LoginManager.getInstance());
                     }
                     //clean local store with user information
-                    userLocalStore.clearUserData();
+                    sharedPreferencesManager.clearUserData();
                     FirstActivity_.intent(MenuActivity.this).start();
                     finish();
                 }
@@ -225,30 +225,21 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
     }
 
     public void selectItem(int position) {
-        LeftMenuItem currentItem;
         listViewMenu.setItemChecked(position, true);
-        currentItem = (LeftMenuItem) listViewMenu.getItemAtPosition(position);
-
-        if (prevItem != currentItem.getId()) {
-            switch (currentItem.getId()) {
-                case 0:
-                    switchFragment(MapFragment_.builder().build());
-                    prevItem = 0;
-                    break;
-                case 1:
-                    if (userLocalStore.isUserLoggedIn()) {
-                        switchFragment(RecordFragment_.builder().build());
-                        prevItem = 1;
-                    } else {
-                        showLoginRequestDialog();
-                    }
-
-                    break;
-                case 2:
-                    switchFragment(RecordingListFragment_.builder().build());
-                    prevItem = 2;
-                    break;
-            }
+        switch (position) {
+            case 0:
+                switchFragment(MapFragment_.builder().build());
+                break;
+            case 1:
+                if (sharedPreferencesManager.isUserLoggedIn()) {
+                    switchFragment(RecordFragment_.builder().build());
+                } else {
+                    showLoginRequestDialog();
+                }
+                break;
+            case 2:
+                switchFragment(RecordingListFragment_.builder().build());
+                break;
         }
         drawerLayoutMenu.closeDrawers();
     }
@@ -269,4 +260,20 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
         facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (drawerLayoutMenu.isDrawerVisible(GravityCompat.START) && drawerLayoutMenu.isDrawerOpen(GravityCompat.START)) {
+            drawerLayoutMenu.closeDrawer(GravityCompat.START);
+        } else {
+            if (proceedToExit) {
+                finish();
+            } else {
+                Toast.makeText(MenuActivity.this, getString(R.string.press_again_to_exit), Toast.LENGTH_LONG).show();
+                proceedToExit = true;
+                Observable.timer(3500, TimeUnit.MILLISECONDS)
+                        .compose(bindToLifecycle())
+                        .subscribe(ignored -> proceedToExit = false);
+            }
+        }
+    }
 }

@@ -12,5 +12,6 @@
     <dimen name="media_item_text_margin_start">60dp</dimen>
     <dimen name="profile_text_size">20sp</dimen>
     <dimen name="profile_layout_height">150dp</dimen>
+    <dimen name="copyright_text">20sp</dimen>
 
 </resources>

@@ -14,8 +14,7 @@ import com.example.bel.softwarefactory.R;
 import com.example.bel.softwarefactory.api.Api;
 import com.example.bel.softwarefactory.entities.ChangePasswordRequest;
 import com.example.bel.softwarefactory.entities.ChangeUserData;
-import com.example.bel.softwarefactory.preferences.UserLocalStore;
-import com.example.bel.softwarefactory.utils.AlertDialogHelper_;
+import com.example.bel.softwarefactory.preferences.SharedPreferencesManager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -41,13 +40,13 @@ public class ProfileActivity extends BaseActivity {
     protected EditText passwordConfirmation_editText;
 
     @Bean
-    protected UserLocalStore userLocalStore;
+    protected SharedPreferencesManager sharedPreferencesManager;
 
     @AfterViews
     protected void afterViews() {
-        userName_textView.setText(userLocalStore.getUser().getUsername());
-        username_editText.setText(userLocalStore.getUser().getUsername());
-        email_editText.setText(userLocalStore.getUser().getEmail());
+        userName_textView.setText(sharedPreferencesManager.getUser().getUsername());
+        username_editText.setText(sharedPreferencesManager.getUser().getUsername());
+        email_editText.setText(sharedPreferencesManager.getUser().getEmail());
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -71,17 +70,17 @@ public class ProfileActivity extends BaseActivity {
         String userName = username_editText.getText().toString();
         String email = email_editText.getText().toString();
 
-        final String previousEmail = userLocalStore.getUser().getEmail();
+        final String previousEmail = sharedPreferencesManager.getUser().getEmail();
         boolean isNameChanging = true;
         boolean isEmailChanging = true;
 
-        if (userName.isEmpty() || userName.equals(userLocalStore.getUser().getUsername())) {
-            userName = userLocalStore.getUser().getUsername();
+        if (userName.isEmpty() || userName.equals(sharedPreferencesManager.getUser().getUsername())) {
+            userName = sharedPreferencesManager.getUser().getUsername();
             isNameChanging = false;
         }
 
         if (email.isEmpty() || email.equals(previousEmail)) {
-            email = userLocalStore.getUser().getEmail();
+            email = sharedPreferencesManager.getUser().getEmail();
             isEmailChanging = false;
         }
 
@@ -105,7 +104,7 @@ public class ProfileActivity extends BaseActivity {
                 final String emailToChange = email;
 
                 dialogBuilder.setPositiveButton("OK", (dialog, which) -> {
-                    if (input.getText().toString().equals(userLocalStore.getUser().getPassword())) {
+                    if (input.getText().toString().equals(sharedPreferencesManager.getUser().getPassword())) {
                         Api api = new Api();
                         showProgress(getString(R.string.changing_user_info));
                         api.changeUserData(new ChangeUserData(usernameToChange, emailToChange, previousEmail))
@@ -117,14 +116,14 @@ public class ProfileActivity extends BaseActivity {
                                     showToast(resultEntity.getResult());
                                 }, this::handleError);
                     } else
-                        showErrorMessage("Incorrect password");
+                        showAlert("Incorrect password");
                 });
                 dialogBuilder.setNegativeButton("Cancel", null);
                 dialogBuilder.show();
             } else
-                showErrorMessage("Email incorrect");
+                showAlert("Email incorrect");
         } else
-            showErrorMessage("Nothing to change");
+            showAlert("Nothing to change");
     }
 
     @Click(R.id.changePass_button)
@@ -150,8 +149,8 @@ public class ProfileActivity extends BaseActivity {
             dialogBuilder.setMessage("Verify password");
 
             dialogBuilder.setPositiveButton("OK", (dialog, which) -> {
-                if (input.getText().toString().equals(userLocalStore.getUser().getPassword())) {
-                    ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest(userLocalStore.getUser().getEmail(), userLocalStore.getUser().getPassword(), password);
+                if (input.getText().toString().equals(sharedPreferencesManager.getUser().getPassword())) {
+                    ChangePasswordRequest changePasswordRequest = new ChangePasswordRequest(sharedPreferencesManager.getUser().getEmail(), sharedPreferencesManager.getUser().getPassword(), password);
                     Api api = new Api();
                     api.changePassword(changePasswordRequest)
                             .subscribeOn(Schedulers.newThread())
@@ -162,22 +161,13 @@ public class ProfileActivity extends BaseActivity {
                                 showToast(resultEntity.getResult());
                             }, this::handleError);
                 } else
-                    showErrorMessage("Incorrect password");
+                    showAlert("Incorrect password");
             });
             dialogBuilder.setNegativeButton("Cancel", null);
             dialogBuilder.show();
         } else {
-            showErrorMessage("Passwords does not match. Please, try again.");
+            showAlert("Passwords does not match. Please, try again.");
         }
-    }
-
-
-    private void showErrorMessage(String error) {
-        AlertDialogHelper_.getInstance_(ProfileActivity.this).showError(error);
-    }
-
-    private boolean isEmailValid(CharSequence email) {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
 }

@@ -26,7 +26,7 @@ import android.widget.Toast;
 import com.example.bel.softwarefactory.R;
 import com.example.bel.softwarefactory.api.Api;
 import com.example.bel.softwarefactory.api.ProgressRequestBody;
-import com.example.bel.softwarefactory.preferences.UserLocalStore;
+import com.example.bel.softwarefactory.preferences.SharedPreferencesManager;
 import com.example.bel.softwarefactory.utils.AppConstants;
 
 import org.androidannotations.annotations.AfterViews;
@@ -69,7 +69,7 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
     private PlayRecordingButton sfPlayButton;
 
     @Bean
-    protected UserLocalStore userLocalStore;
+    protected SharedPreferencesManager sharedPreferencesManager;
 
     private final File EXTERNAL_STORAGE_PATH = Environment.getExternalStorageDirectory();
 
@@ -79,7 +79,7 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
 
     @AfterViews
     protected void afterViews() {
-//        userLocalStore = new UserLocalStore(getActivity());
+//        sharedPreferencesManager = new SharedPreferencesManager(getActivity());
         ActionBar actionBar = getActivity().getActionBar();
         if (actionBar != null) {
             actionBar.setTitle("Record ambient sounds");
@@ -109,7 +109,7 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
     protected void shareRecord_button_click() {
         File outputFile = new File(getRecordPath());
         if (outputFile.exists()) {
-            String owner = userLocalStore.isFacebookLoggedIn() ? userLocalStore.getFacebookId() + "" : userLocalStore.getUser().getEmail();
+            String owner = sharedPreferencesManager.isFacebookLoggedIn() ? sharedPreferencesManager.getFacebookId() + "" : sharedPreferencesManager.getUser().getEmail();
             Log.d(RECORD_TAG, "uploadRecordingToServer for owner " + owner);
 
             //Change fragment to map in order to get the location
@@ -520,8 +520,8 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
 
     private void uploadFile(File file, String owner) {
         Log.d(RECORD_TAG, "uploadRecordingToServer");
-        Double latitude = userLocalStore.getLastLatitude();
-        Double longitude = userLocalStore.getLastLongitude();
+        Double latitude = sharedPreferencesManager.getLastLatitude();
+        Double longitude = sharedPreferencesManager.getLastLongitude();
 
         if (!latitude.equals(0D) && !longitude.equals(0D)) {
             Toast.makeText(getActivity(), "Impossible to save file. Possibly GPS is not enabled.", Toast.LENGTH_LONG).show();

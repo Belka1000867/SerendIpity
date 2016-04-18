@@ -3,7 +3,7 @@ package com.example.bel.softwarefactory.preferences;
 import org.androidannotations.annotations.sharedpreferences.SharedPref;
 
 @SharedPref(SharedPref.Scope.APPLICATION_DEFAULT)
-public interface Preferences {
+public interface UserLocalData {
 
     String user();
 
@@ -18,7 +18,5 @@ public interface Preferences {
     String profilePictureUrl();
 
     String lastPosition();
-
-    String audioRecordsList();
 
 }

@@ -12,7 +12,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.bel.softwarefactory.R;
-import com.example.bel.softwarefactory.preferences.UserLocalStore;
+import com.example.bel.softwarefactory.preferences.SharedPreferencesManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -41,7 +41,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Loc
     private LocationRequest locationRequest;
 
     @Bean
-    protected UserLocalStore userLocalStore;
+    protected SharedPreferencesManager sharedPreferencesManager;
 
     @AfterViews
     public void afterViews() {
@@ -70,7 +70,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Loc
             lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
             if (lastLocation != null) {
                 LatLng lastPosition = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
-                userLocalStore.setLastPosition(lastPosition);
+                sharedPreferencesManager.setLastPosition(lastPosition);
 
                 // Add a marker to current position
                 Log.d(TAG, "Setting user position");

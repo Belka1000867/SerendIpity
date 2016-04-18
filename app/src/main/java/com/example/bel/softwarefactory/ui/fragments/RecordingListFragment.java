@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.example.bel.softwarefactory.R;
 
-import com.example.bel.softwarefactory.preferences.UserLocalStore;
+import com.example.bel.softwarefactory.preferences.SharedPreferencesManager;
 import com.example.bel.softwarefactory.ui.adapters.AudioRecordsRecyclerViewAdapter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -22,7 +22,7 @@ public class RecordingListFragment extends BaseFragment {
     protected RecyclerView audioRecords_recyclerView;
 
     @Bean
-    protected UserLocalStore userLocalStore;
+    protected SharedPreferencesManager sharedPreferencesManager;
 
     @AfterViews
     protected void afterViews() {
@@ -32,7 +32,7 @@ public class RecordingListFragment extends BaseFragment {
         }
 
         final LinearLayoutManager audioRecordsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        AudioRecordsRecyclerViewAdapter audioRecordsRecyclerViewAdapter = new AudioRecordsRecyclerViewAdapter(getActivity(), userLocalStore.getAudioRecordsList());
+        AudioRecordsRecyclerViewAdapter audioRecordsRecyclerViewAdapter = new AudioRecordsRecyclerViewAdapter(getActivity(), sharedPreferencesManager.getAudioRecordsList());
         audioRecords_recyclerView.setLayoutManager(audioRecordsLayoutManager);
         audioRecords_recyclerView.setAdapter(audioRecordsRecyclerViewAdapter);
     }

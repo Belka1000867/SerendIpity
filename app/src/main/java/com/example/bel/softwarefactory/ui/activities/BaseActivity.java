@@ -75,13 +75,15 @@ public abstract class BaseActivity extends RxAppCompatActivity {
 
 
     protected void switchFragmentInternal(Fragment fragment, boolean addToBackStack) {
+        if (getCurrentFragment() == null || !getCurrentFragment().getTag().equals(fragment.getTag())) {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, fragment, FRAGMENT_TAG);
-        if (addToBackStack)
-            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.replace(R.id.content_frame, fragment, FRAGMENT_TAG);
+            if (addToBackStack)
+                fragmentTransaction.addToBackStack(null);
 
-        fragmentTransaction.commit();
+            fragmentTransaction.commit();
+        }
     }
 
     protected void switchFragmentRemovingTop(Fragment fragment) {
@@ -101,5 +103,10 @@ public abstract class BaseActivity extends RxAppCompatActivity {
         Toast toast = Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
+    }
+
+    //code from http://stackoverflow.com/questions/6119722/how-to-check-edittexts-text-is-email-address-or-not
+    protected boolean isEmailValid(CharSequence email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }

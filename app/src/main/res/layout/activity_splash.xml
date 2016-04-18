@@ -17,9 +17,13 @@
         android:src="@drawable/logo" />
 
     <TextView
+        android:id="@+id/copyright_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:textStyle="bold"
+        android:textSize="@dimen/copyright_text"
+        android:layout_marginBottom="@dimen/offset_normal"
         android:textColor="@android:color/black"
         android:textAlignment="center"
         android:text="@string/all_rights_reserved"/>
