@@ -46,26 +46,25 @@ import rx.Observable;
 @EActivity(R.layout.activity_menu)
 public class MenuActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
-    private static final String TAG = "MenuActivity";
+    private final String TAG = this.getClass().getSimpleName();
+
+    private ActionBar actionBar;
+    private ActionBarDrawerToggle drawerToggle;
+    //facebook call back manager
+    private CallbackManager facebookCallbackManager = CallbackManager.Factory.create();
 
     @ViewById
     protected DrawerLayout drawerLayoutMenu;
-
     @ViewById
     protected ListView listViewMenu;
-
     @ViewById
     protected LinearLayout leftMenu_layout;
-
     @ViewById
     protected View profile_layout;
     @ViewById
     protected TextView userName_textView;
     @ViewById
     protected ImageView userPhoto_imageView;
-
-    private ActionBar actionBar;
-    private ActionBarDrawerToggle drawerToggle;
 
     @InstanceState
     protected ArrayList<String> titles;
@@ -77,13 +76,9 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
     @Bean
     protected SharedPreferencesManager sharedPreferencesManager;
 
-    //facebook call back manager
-    private CallbackManager facebookCallbackManager;
-
     @AfterViews
     protected void afterViews() {
-        facebookCallbackManager = CallbackManager.Factory.create();
-
+        //при старте активити всегда будет первой стартовать карта
         switchFragment(MapFragment_.builder().build());
 
         actionBar = getSupportActionBar();
@@ -92,13 +87,19 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        //здесь в зависимости от того залогинен ли юзер мы будем скрывать или показывать
+        //layout с фото и именем пользователя
         if (sharedPreferencesManager.isUserLoggedIn()) {
             profile_layout.setVisibility(View.VISIBLE);
             userName_textView.setText(sharedPreferencesManager.getUser().getUsername());
-            Picasso.with(MenuActivity.this)
-                    .load(sharedPreferencesManager.getProfilePictureUrl())
-                    .error(R.mipmap.ic_user)
-                    .into(userPhoto_imageView);
+
+            //c помощью пикассо мы асинхронно загружаем фото, сохраняя в кеш, и отображаем
+            //в userPhoto_imageView
+            if (sharedPreferencesManager.getProfilePictureUrl() != null) {
+                Picasso.with(MenuActivity.this)
+                        .load(sharedPreferencesManager.getProfilePictureUrl())
+                        .into(userPhoto_imageView);
+            }
         } else {
             profile_layout.setVisibility(View.GONE);
         }
@@ -200,8 +201,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
                     }
                     //clean local store with user information
                     sharedPreferencesManager.clearUserData();
-                    FirstActivity_.intent(MenuActivity.this).start();
-                    finish();
+                    FirstActivity_.intent(MenuActivity.this).flags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK).start();
                 }
                 break;
             default:
@@ -270,7 +270,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
             } else {
                 Toast.makeText(MenuActivity.this, getString(R.string.press_again_to_exit), Toast.LENGTH_LONG).show();
                 proceedToExit = true;
-                Observable.timer(3500, TimeUnit.MILLISECONDS)
+                Observable.timer(2500, TimeUnit.MILLISECONDS)
                         .compose(bindToLifecycle())
                         .subscribe(ignored -> proceedToExit = false);
             }

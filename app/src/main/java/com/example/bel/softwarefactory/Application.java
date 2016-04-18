@@ -12,6 +12,6 @@ public class Application extends android.app.Application {
     public void onCreate() {
         super.onCreate();
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
+        FacebookSdk.sdkInitialize(this);
     }
 }

@@ -47,7 +47,6 @@ public class AudioRecordsRecyclerViewAdapter extends RecyclerView.Adapter<AudioR
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         });
     }
 

@@ -1,5 +1,6 @@
 package com.example.bel.softwarefactory.ui.activities;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -30,7 +31,6 @@ public class SplashScreenActivity extends BaseActivity {
 
     @ViewById
     protected ImageView logo_imageView;
-
     @ViewById
     protected TextView copyright_textView;
 
@@ -44,7 +44,7 @@ public class SplashScreenActivity extends BaseActivity {
             actionBar.hide();
         }
 
-        //стартуем анимацию появления лого
+        //стартуем анимацию появления лого и копирайта
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         logo_imageView.startAnimation(animation);
         copyright_textView.startAnimation(animation);
@@ -93,10 +93,9 @@ public class SplashScreenActivity extends BaseActivity {
     private void proceedToNextActivity() {
         boolean serendipityUser = sharedPreferencesManager.isUserLoggedIn() && sharedPreferencesManager.isRememberMe();
         if (serendipityUser || sharedPreferencesManager.isFacebookLoggedIn()) {
-            MenuActivity_.intent(SplashScreenActivity.this).start();
+            MenuActivity_.intent(SplashScreenActivity.this).flags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK).start();
         } else {
-            FirstActivity_.intent(SplashScreenActivity.this).start();
+            FirstActivity_.intent(SplashScreenActivity.this).flags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK).start();
         }
-        finish();
     }
 }

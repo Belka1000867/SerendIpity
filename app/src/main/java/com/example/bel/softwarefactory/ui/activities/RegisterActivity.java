@@ -77,9 +77,11 @@ public class RegisterActivity extends BaseActivity {
                 .compose(bindToLifecycle())
                 .subscribe(resultEntity -> {
                     hideProgress();
-                    LoginActivity_.intent(RegisterActivity.this).start();
-                    showToast(resultEntity.getResult());
-                    finish();
+                    if (resultEntity.isOk()) {
+                        LoginActivity_.intent(RegisterActivity.this).flags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK).start();
+                    } else {
+                        showToast(resultEntity.getResult());
+                    }
                 }, this::handleError);
     }
 

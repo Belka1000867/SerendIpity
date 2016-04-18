@@ -1,5 +1,6 @@
 package com.example.bel.softwarefactory.ui.activities;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 
 import com.example.bel.softwarefactory.R;
@@ -37,8 +38,7 @@ public class FirstActivity extends BaseActivity {
     @Click(R.id.startAsVisitor_button)
     protected void startAsVisitor_button_click() {
         sharedPreferencesManager.setUserLoggedIn(false);
-        MenuActivity_.intent(FirstActivity.this).start();
-        finish();
+        MenuActivity_.intent(FirstActivity.this).flags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK).start();
     }
 
 }

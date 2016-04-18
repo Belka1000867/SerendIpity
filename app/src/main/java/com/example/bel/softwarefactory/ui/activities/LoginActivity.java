@@ -78,7 +78,7 @@ public class LoginActivity extends BaseActivity {
                     Log.d(TAG, "Facebook_OnSuccess()");
                     getFacebookUserData();
                     sharedPreferencesManager.setFacebookLoggedIn(true);
-                    MenuActivity_.intent(LoginActivity.this).start();
+                    MenuActivity_.intent(LoginActivity.this).flags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK).start();
                 }
 
                 @Override
@@ -170,8 +170,7 @@ public class LoginActivity extends BaseActivity {
                         showAlert("Incorrect Email/Password Combination");
                     } else {
                         logUserIn(returnedUser);
-                        MenuActivity_.intent(LoginActivity.this).start();
-                        finish();
+                        MenuActivity_.intent(LoginActivity.this).flags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK).start();
                     }
                 }, this::handleError);
     }
