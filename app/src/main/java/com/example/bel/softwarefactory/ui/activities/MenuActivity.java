@@ -3,10 +3,12 @@ package com.example.bel.softwarefactory.ui.activities;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -58,7 +60,9 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
     @ViewById
     protected ListView listViewMenu;
     @ViewById
-    protected LinearLayout leftMenu_layout;
+    protected NavigationView navigationView;
+    @ViewById
+    protected Toolbar toolbar;
     @ViewById
     protected View profile_layout;
     @ViewById
@@ -76,15 +80,21 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
     @Bean
     protected SharedPreferencesManager sharedPreferencesManager;
 
-    @AfterViews
-    protected void afterViews() {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         //при старте активити всегда будет первой стартовать карта
         switchFragment(MapFragment_.builder().build());
+    }
 
+    @AfterViews
+    protected void afterViews() {
+        setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setHomeButtonEnabled(true);
         }
 
         //здесь в зависимости от того залогинен ли юзер мы будем скрывать или показывать

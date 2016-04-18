@@ -41,7 +41,7 @@
 
         <activity android:name=".ui.activities.MenuActivity_"
             android:label="Map"
-            android:theme="@style/AppTheme">
+            android:theme="@style/TranslucentActivity">
 
         </activity>
 

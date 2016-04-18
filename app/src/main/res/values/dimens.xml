@@ -6,6 +6,8 @@
 
     <dimen name="title_margin">100dp</dimen>
 
+    <dimen name="left_drawer_header_height">180dp</dimen>
+
     <!-- audio records list -->
     <dimen name="media_item_height">72dp</dimen>
     <dimen name="media_item_icon_margin_start">12dp</dimen>
@@ -13,5 +15,6 @@
     <dimen name="profile_text_size">20sp</dimen>
     <dimen name="profile_layout_height">150dp</dimen>
     <dimen name="copyright_text">20sp</dimen>
+    <dimen name="toolbar_elevation">4dp</dimen>
 
 </resources>
