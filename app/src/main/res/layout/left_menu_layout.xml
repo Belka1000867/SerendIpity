@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/profile_photo"
-            tools:src="@mipmap/ic_user" />
+            android:src="@mipmap/ic_user" />
 
     </LinearLayout>
 

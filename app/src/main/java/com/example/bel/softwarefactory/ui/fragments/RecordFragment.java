@@ -79,7 +79,6 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
 
     @AfterViews
     protected void afterViews() {
-//        sharedPreferencesManager = new SharedPreferencesManager(getActivity());
         ActionBar actionBar = getActivity().getActionBar();
         if (actionBar != null) {
             actionBar.setTitle("Record ambient sounds");
@@ -164,24 +163,15 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
         sfRecordButton.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.transparent));
 
         // set layout parameters for button
-        RelativeLayout.LayoutParams paramsRecord = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams paramsRecord = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         //add button BELOW + centralizing last button with name Stop Play audio
         paramsRecord.addRule(RelativeLayout.CENTER_IN_PARENT);
         paramsRecord.addRule(RelativeLayout.BELOW, R.id.Timer);
         //add button for Recording to the layout + parameters
         parent_layout.addView(sfRecordButton, paramsRecord);
 
-//        //create button with changeable images
-//        sfStopButton = new StopButton(getContext());
-//        //set ID defined in ids.xml file
-//        sfStopButton.setId(R.id.StopButton);
-//        //set picture background to transparent
-//        sfStopButton.setBackgroundColor(getResources().getColor(android.R.color.transparent));
-
         // set layout parameters for button
-        RelativeLayout.LayoutParams paramsStop = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams paramsStop = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         //add button BELOW + centralizing last button with name Stop Play audio
         paramsStop.addRule(RelativeLayout.LEFT_OF, sfRecordButton.getId());
         paramsStop.addRule(RelativeLayout.BELOW, R.id.Timer);
@@ -195,8 +185,7 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
         sfPlayButton.setBackgroundColor(ContextCompat.getColor(getActivity(), android.R.color.transparent));
 
         // set layout parameters for button
-        RelativeLayout.LayoutParams paramsPlay = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams paramsPlay = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         //add button BELOW + centralizing last button with name Stop Play audio
         paramsPlay.addRule(RelativeLayout.RIGHT_OF, sfRecordButton.getId());
         paramsPlay.addRule(RelativeLayout.BELOW, R.id.Timer);
@@ -371,10 +360,6 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
                 try {
                     PlayRecord();
                     sfRecordButton.disable();
-                    //sfStopButton.enable();
-//                        Toast toast = Toast.makeText(getContext(), "Playing the audio...", Toast.LENGTH_LONG);
-//                        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-//                        toast.show();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -411,71 +396,15 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
             if (mediaPlayer != null) mediaPlayer.pause();
         }
 
-        public void StopPlay() {
-            if (mediaPlayer != null) mediaPlayer.stop();
-        }
-
         public void enable() {
             setVisibility(View.VISIBLE);
-            //setEnabled(true);
-            //setAlpha(1f);
         }
 
         public void disable() {
             setVisibility(View.GONE);
-            //setEnabled(false);
-            //setAlpha(0.5f);
         }
 
     }
-
-//    class StopButton extends ImageButton {
-//        //boolean sfStartRecording = true;
-//        int whatToStop;
-//
-//        public StopButton(Context ctx) {
-//            super(ctx);
-//            setImageResource(R.mipmap.ic_rec_stop);
-//            setOnClickListener(clicker);
-//            disable();
-//        }
-//
-//        OnClickListener clicker = new OnClickListener() {
-//            public void onClick(View v) {
-//                if (getWhatToStop() == 1)
-//                    StopRecord();
-//                else if (getWhatToStop() == 2)
-//                    StopPlay();
-//            }
-//        };
-//
-//        public void enable() {
-//            setEnabled(true);
-//            setAlpha(1f);
-//        }
-//
-//        public void disable() {
-//            setEnabled(false);
-//            setAlpha(0.5f);
-//        }
-//
-//        public void setWhatToStop(int whatToStop) {
-//            this.whatToStop = whatToStop;
-//            enable();
-//        }
-//
-//        public int getWhatToStop() {
-//            return whatToStop;
-//        }
-//    }
-
-    // functions for MEDIA RECORDING
-
-    //finish of MEDIA RECORDING functions
-
-    // functions for MEDIA PLAYER
-
-    //Start timer functions
 
     public void fillTimer(String h, String m, String s) {
         seconds_textView.setText(s.length() == 1 ? "0" + s : s);

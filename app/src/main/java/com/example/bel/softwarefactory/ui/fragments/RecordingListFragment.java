@@ -1,7 +1,5 @@
 package com.example.bel.softwarefactory.ui.fragments;
 
-import android.app.ActionBar;
-
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.example.bel.softwarefactory.R;
@@ -26,11 +24,6 @@ public class RecordingListFragment extends BaseFragment {
 
     @AfterViews
     protected void afterViews() {
-        ActionBar actionBar = getActivity().getActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle("Recording list");
-        }
-
         final LinearLayoutManager audioRecordsLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         AudioRecordsRecyclerViewAdapter audioRecordsRecyclerViewAdapter = new AudioRecordsRecyclerViewAdapter(getActivity(), sharedPreferencesManager.getAudioRecordsList());
         audioRecords_recyclerView.setLayoutManager(audioRecordsLayoutManager);

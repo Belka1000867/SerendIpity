@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +37,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.StringArrayRes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,12 +49,12 @@ import rx.Observable;
 public class MenuActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
     private final String TAG = this.getClass().getSimpleName();
-
-    private ActionBar actionBar;
     private ActionBarDrawerToggle drawerToggle;
     //facebook call back manager
     private CallbackManager facebookCallbackManager = CallbackManager.Factory.create();
 
+    @ViewById
+    protected TextView title_textView;
     @ViewById
     protected DrawerLayout drawerLayoutMenu;
     @ViewById
@@ -70,10 +70,10 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
     @ViewById
     protected ImageView userPhoto_imageView;
 
-    @InstanceState
-    protected ArrayList<String> titles;
-    @InstanceState
-    protected ArrayList<String> descriptions;
+    @StringArrayRes
+    protected String[] itemTitles;
+    @StringArrayRes
+    protected String[] itemDescriptions;
     @InstanceState
     protected boolean proceedToExit = false;
 
@@ -90,12 +90,13 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
     @AfterViews
     protected void afterViews() {
         setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setHomeButtonEnabled(true);
         }
+        title_textView.setText(itemTitles[0]);
 
         //здесь в зависимости от того залогинен ли юзер мы будем скрывать или показывать
         //layout с фото и именем пользователя
@@ -144,13 +145,11 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
 
     public void fillMenu() {
         Log.d(TAG, "fillMenu()");
-        titles = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.itemTitles)));
-        descriptions = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.itemDescriptions)));
 
         ArrayList<LeftMenuItem> leftMenuItems = new ArrayList<>();
-        leftMenuItems.add(new LeftMenuItem(titles.get(0), descriptions.get(0), R.mipmap.ic_map_marker, 0));
-        leftMenuItems.add(new LeftMenuItem(titles.get(1), descriptions.get(1), R.mipmap.ic_microphone, 1));
-        leftMenuItems.add(new LeftMenuItem(titles.get(2), descriptions.get(2), R.mipmap.ic_note, 2));
+        leftMenuItems.add(new LeftMenuItem(itemTitles[0], itemDescriptions[0], R.mipmap.ic_map_marker, 0));
+        leftMenuItems.add(new LeftMenuItem(itemTitles[1], itemDescriptions[1], R.mipmap.ic_microphone, 1));
+        leftMenuItems.add(new LeftMenuItem(itemTitles[2], itemDescriptions[2], R.mipmap.ic_note, 2));
 
         listViewMenu.setOnItemClickListener(this);
         DrawerListAdapter adapter = new DrawerListAdapter(this, leftMenuItems);
@@ -228,9 +227,7 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (actionBar != null) {
-            actionBar.setTitle(titles.get(position));
-        }
+        title_textView.setText(itemTitles[position]);
         selectItem(position);
     }
 

@@ -143,8 +143,7 @@ public class SharedPreferencesManager {
 
     public List<AudioRecordEntity> getAudioRecordsList() {
         Gson gson = new Gson();
-        Type listType = new TypeToken<List<AudioRecordEntity>>() {
-        }.getType();
+        Type listType = new TypeToken<List<AudioRecordEntity>>() {}.getType();
         return gson.fromJson(programData.audioRecordsList().get(), listType);
     }
 

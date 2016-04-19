@@ -34,8 +34,7 @@ public class SplashScreenActivity extends BaseActivity {
     @ViewById
     protected TextView copyright_textView;
 
-    @InstanceState
-    boolean weCanGoToNextActivity;
+    private boolean weCanGoToNextActivity = false;
 
     @AfterViews
     protected void afterView() {
@@ -79,8 +78,8 @@ public class SplashScreenActivity extends BaseActivity {
                     }
                 })
                 .subscribe(audioRecordEntities -> {
+                    sharedPreferencesManager.saveAudioRecordsList(audioRecordEntities);
                     if (weCanGoToNextActivity) {
-                        sharedPreferencesManager.saveAudioRecordsList(audioRecordEntities);
                         proceedToNextActivity();
                     } else {
                         weCanGoToNextActivity = true;
