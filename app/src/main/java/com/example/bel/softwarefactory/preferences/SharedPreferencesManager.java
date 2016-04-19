@@ -119,25 +119,16 @@ public class SharedPreferencesManager {
     }
 
     public void setLastPosition(LatLng latLng) {
-        Gson gson = new Gson();
-        String latLonString = gson.toJson(latLng);
-
-        userLocalData.edit()
-                .lastPosition()
-                .put(latLonString)
+        programData.edit()
+                .lastLatitude()
+                .put((float) latLng.latitude)
+                .lastLongitude()
+                .put((float) latLng.longitude)
                 .apply();
     }
 
-    public double getLastLatitude() {
-        Gson gson = new Gson();
-        LatLng latLng = gson.fromJson(userLocalData.lastPosition().get(), LatLng.class);
-        return latLng.latitude;
-    }
-
-    public double getLastLongitude() {
-        Gson gson = new Gson();
-        LatLng latLng = gson.fromJson(userLocalData.lastPosition().get(), LatLng.class);
-        return latLng.longitude;
+    public LatLng getLastLocation() {
+        return new LatLng(programData.lastLatitude().get(), programData.lastLongitude().get());
     }
 
     public void saveAudioRecordsList(List<AudioRecordEntity> audioRecordEntities) {

@@ -12,7 +12,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
-
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,7 @@ import com.example.bel.softwarefactory.api.Api;
 import com.example.bel.softwarefactory.api.ProgressRequestBody;
 import com.example.bel.softwarefactory.preferences.SharedPreferencesManager;
 import com.example.bel.softwarefactory.utils.AppConstants;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -113,7 +113,6 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
             Log.d(RECORD_TAG, "uploadRecordingToServer for owner " + owner);
 
             //Change fragment to map in order to get the location
-            switchFragment(MapFragment_.builder().build());
             uploadFile(outputFile, owner);
         }
     }
@@ -520,10 +519,9 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
 
     private void uploadFile(File file, String owner) {
         Log.d(RECORD_TAG, "uploadRecordingToServer");
-        Double latitude = sharedPreferencesManager.getLastLatitude();
-        Double longitude = sharedPreferencesManager.getLastLongitude();
+        LatLng latLng = sharedPreferencesManager.getLastLocation();
 
-        if (!latitude.equals(0D) && !longitude.equals(0D)) {
+        if (latLng == null) {
             Toast.makeText(getActivity(), "Impossible to save file. Possibly GPS is not enabled.", Toast.LENGTH_LONG).show();
             return;
         }
@@ -534,13 +532,9 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", file.getName(), requestFile)
                 .addFormDataPart("owner", owner)
-                .addFormDataPart("latitude", latitude.toString())
-                .addFormDataPart("longitude", longitude.toString())
+                .addFormDataPart("latitude", "" + latLng.latitude)
+                .addFormDataPart("longitude", "" + latLng.longitude)
                 .build();
-
-        Log.d(TAG, "Owner : " + owner);
-        Log.d(TAG, "Latitude : " + latitude);
-        Log.d(TAG, "Longitude : " + longitude);
 
         Api api = new Api();
         api.upload(requestBody)
@@ -548,16 +542,17 @@ public class RecordFragment extends BaseFragment implements ProgressRequestBody.
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(bindToLifecycle())
                 .doOnError(this::handleError)
-                .subscribe(this::uploadFinished, this::handleError);
+                .doOnCompleted(this::uploadFinished)
+                .subscribe();
     }
 
-    private void uploadFinished(ResponseBody responseBody) {
+    private void uploadFinished() {
         Log.d(TAG, "uploadFinished()");
         if (progressDialog != null) {
             progressDialog.dismiss();
             progressDialog = null;
         }
-        Log.d(TAG, responseBody.toString());
+        switchFragment(MapFragment_.builder().build());
     }
 
     @Override

@@ -17,6 +17,4 @@ public interface UserLocalData {
 
     String profilePictureUrl();
 
-    String lastPosition();
-
 }
