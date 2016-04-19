@@ -86,4 +86,10 @@ dependencies {
 
     //Picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    //Lightweight-Stream-API
+    compile 'com.annimon:stream:1.0.9'
+
+    //Google Maps Android API utility library
+    compile 'com.google.maps.android:android-maps-utils:0.4.3'
 }

@@ -14,7 +14,6 @@ import com.example.bel.softwarefactory.preferences.SharedPreferencesManager;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.concurrent.TimeUnit;

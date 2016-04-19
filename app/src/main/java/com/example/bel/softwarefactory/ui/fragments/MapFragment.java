@@ -11,7 +11,9 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.annimon.stream.Stream;
 import com.example.bel.softwarefactory.R;
+import com.example.bel.softwarefactory.entities.AudioRecordEntity;
 import com.example.bel.softwarefactory.preferences.SharedPreferencesManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -25,10 +27,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.SphericalUtil;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @EFragment(R.layout.fragment_map)
 public class MapFragment extends BaseFragment implements OnMapReadyCallback, LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -153,9 +159,15 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Loc
             Log.d(TAG, "PERMISSION_GRANTED");
 
             this.googleMap.setMyLocationEnabled(true);
-            this.googleMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(-65, 25))
-                    .title("Lovely place on the lake"));
+
+            List<AudioRecordEntity> audioRecordEntities = sharedPreferencesManager.getAudioRecordsList();
+            Stream.of(audioRecordEntities).forEach((audioItem) -> {
+                if (!audioItem.getLatitude().isEmpty() && !audioItem.getLongitude().isEmpty()) {
+                    this.googleMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(Double.parseDouble(audioItem.getLatitude()), Double.parseDouble(audioItem.getLongitude())))
+                            .title(audioItem.getFile_name()));
+                }
+            });
         } else {
             Log.d(TAG, "PERMISSION_NOT_GRANTED");
             Toast.makeText(getActivity(), "Permissions to get the location are not granted. Please setup the permissions.", Toast.LENGTH_LONG).show();
@@ -166,6 +178,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Loc
     @Override
     public void onLocationChanged(Location location) {
         Log.d(TAG, "onLocationChanged()");
+
 
         lastLocation = location;
     }

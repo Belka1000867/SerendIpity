@@ -245,7 +245,11 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
                 }
                 break;
             case 2:
-                switchFragment(RecordingListFragment_.builder().build());
+                if (sharedPreferencesManager.getAudioRecordsList() != null) {
+                    switchFragment(RecordingListFragment_.builder().build());
+                } else {
+                    showToast(getString(R.string.no_audio_here));
+                }
                 break;
         }
         drawerLayoutMenu.closeDrawers();
@@ -253,9 +257,9 @@ public class MenuActivity extends BaseActivity implements AdapterView.OnItemClic
 
     private void showLoginRequestDialog() {
         new MaterialDialog.Builder(this)
-                .title("To use this function you need to Login")
-                .positiveText("Go to Login")
-                .negativeText("Cancel")
+                .title(R.string.you_should_login)
+                .positiveText(R.string.goto_login)
+                .negativeText(R.string.cancel)
                 .onPositive((dialog, which) -> LoginActivity_.intent(MenuActivity.this).start())
                 .show();
     }

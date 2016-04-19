@@ -63,4 +63,7 @@
     <string name="something_wrong_cant_start">Something wrong with connection to the server! Try again later</string>
     <string name="press_again_to_exit">Press again to exit</string>
     <string name="error_log_in">Incorrect Email/Password Combination</string>
+    <string name="no_audio_here">There are no available audio records at this place</string>
+    <string name="you_should_login">To use this function you need to Login</string>
+    <string name="goto_login">Go to Login</string>
 </resources>
