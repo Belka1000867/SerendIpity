@@ -66,4 +66,5 @@
     <string name="no_audio_here">There are no available audio records at this place</string>
     <string name="you_should_login">To use this function you need to Login</string>
     <string name="goto_login">Go to Login</string>
+    <string name="permission_not_granted">Permissions to get the location are not granted. Please setup the permissions.</string>
 </resources>

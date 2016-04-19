@@ -42,8 +42,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Loc
 
     private GoogleMap googleMap;
     private GoogleApiClient googleApiClient;
-    private Location lastLocation;
-
     private LocationRequest locationRequest;
 
     @Bean
@@ -51,11 +49,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Loc
 
     @AfterViews
     public void afterViews() {
-        ActionBar actionBar = getActivity().getActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle("Map");
-        }
-
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -73,15 +66,10 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Loc
         startLocationUpdates();
 
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+            Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
             if (lastLocation != null) {
                 LatLng lastPosition = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
                 sharedPreferencesManager.setLastPosition(lastPosition);
-
-                // Add a marker to current position
-                Log.d(TAG, "Setting user position");
-                Log.d(TAG, "Location Latitude " + lastLocation.getLatitude());
-                Log.d(TAG, "Location Longitude " + lastLocation.getLongitude());
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastPosition, 15));
             }
         }
@@ -103,7 +91,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Loc
 
         Log.d(TAG, "onConnected()");
         if (googleApiClient != null && googleApiClient.isConnected()) {
-            stopLocationUpdates();
+            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, MapFragment.this);
         }
     }
 
@@ -127,10 +115,6 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Loc
             locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, MapFragment.this);
         }
-    }
-
-    protected void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, MapFragment.this);
     }
 
     @Override
@@ -170,7 +154,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Loc
             });
         } else {
             Log.d(TAG, "PERMISSION_NOT_GRANTED");
-            Toast.makeText(getActivity(), "Permissions to get the location are not granted. Please setup the permissions.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.permission_not_granted, Toast.LENGTH_LONG).show();
         }
 
     }
@@ -179,8 +163,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Loc
     public void onLocationChanged(Location location) {
         Log.d(TAG, "onLocationChanged()");
 
-
-        lastLocation = location;
+        LatLng lastPosition = new LatLng(location.getLatitude(), location.getLongitude());
+        sharedPreferencesManager.setLastPosition(lastPosition);
     }
 
 }
